@@ -6,6 +6,8 @@
 #include "RenderEngine.h"
 #include "D3DPreDec.h"
 
+#pragma comment(lib, "dxgi.lib") //may fix in the future
+
 namespace MocapGE
 {
 	class D3DRenderEngine :	public RenderEngine

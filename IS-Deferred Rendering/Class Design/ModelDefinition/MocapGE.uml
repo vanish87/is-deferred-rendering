@@ -1285,6 +1285,45 @@
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
+          <association
+            Id="a1dc01cd-c3ae-4a69-9251-cef3c2da0d20"
+            isDerived="false"
+            sourceEndRoleName="FrameBuffer"
+            targetEndRoleName="RenderView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="64a1462f-d114-4aaa-baa1-fd14e33ed4ad"
+              LastKnownName="RenderView"
+              LastKnownLocation="MocapGE.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7bd1389a-cefb-4d7f-a45c-b18bcbd34183"
+                  name="FrameBuffer"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6b986233-0350-47a5-9d38-63dac050e484"
+                  name="RenderView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property
@@ -1561,47 +1600,6 @@
         isLeaf="false"
         isActiveClass="false">
         <description>all element that gpu/cpu write to</description>
-        <targetEnds>
-          <association
-            Id="017e9bf0-18c3-4371-a638-ff4ab2b05b7c"
-            isDerived="false"
-            sourceEndRoleName="RenderView"
-            targetEndRoleName="FrameBuffer"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="537c835a-5bd0-4950-bda7-2b2ad87e3105"
-              LastKnownName="FrameBuffer"
-              LastKnownLocation="MocapGE.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="696fb660-0783-4ce5-9763-2667d756e40f"
-                  name="RenderView"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="Composite"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="cf5e712e-ca31-406e-b11b-4ddff879cab1"
-                  name="FrameBuffer"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="true" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
         <ownedAttributesInternal>
           <property
             Id="b027b215-6771-407d-bf5e-cc566159f52c"

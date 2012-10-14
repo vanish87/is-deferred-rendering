@@ -5,7 +5,7 @@ namespace MocapGE
 	D3DRenderEngine::D3DRenderEngine(void)
 	{
 		HRESULT result;
-		result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&gi_factory_);
+		result = ::CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&gi_factory_);
 		if(FAILED(result))
 		{
 			PRINT("CreateDXGIFactory Failed");

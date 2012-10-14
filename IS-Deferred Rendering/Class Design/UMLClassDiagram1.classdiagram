@@ -711,6 +711,22 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="501394a1-bf5f-49b6-8f25-c732ca954464" />
           </association>
+          <association Id="e70b9d18-edf6-44e8-ba07-e847a066ec48" isDerived="false" sourceEndRoleName="FrameBuffer" targetEndRoleName="RenderView" isLeaf="false" isAbstract="false">
+            <classMoniker Id="7ab166f6-761b-43dd-b80c-7630a11e3136" LastKnownName="RenderView" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="66799dee-f767-4a8d-a117-022c38a1465d" name="FrameBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7bd1389a-cefb-4d7f-a45c-b18bcbd34183" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c6118a77-6cc6-4902-b394-db731265bdf7" name="RenderView" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="6b986233-0350-47a5-9d38-63dac050e484" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="a1dc01cd-c3ae-4a69-9251-cef3c2da0d20" />
+          </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property Id="7ba17a10-90c2-4064-8a5a-f080dbbc5f7f" name="render_view_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -857,24 +873,6 @@
       <class Id="7ab166f6-761b-43dd-b80c-7630a11e3136" name="RenderView" isAbstract="false" isLeaf="false" isActiveClass="false">
         <description>all element that gpu/cpu write to</description>
         <elementDefinition Id="64a1462f-d114-4aaa-baa1-fd14e33ed4ad" />
-        <targetEnds>
-          <association Id="38df0178-fe1d-4827-ac61-58219dca2a24" isDerived="false" sourceEndRoleName="RenderView" targetEndRoleName="FrameBuffer" isLeaf="false" isAbstract="false">
-            <classMoniker Id="a689508a-4f21-4f73-8d47-3f9193195820" LastKnownName="FrameBuffer" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="569c8c99-1aa5-42c8-b1b0-78432c2aee94" name="RenderView" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="696fb660-0783-4ce5-9763-2667d756e40f" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="7a4dd145-38a6-4d00-a715-061a84ed6b81" name="FrameBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <elementDefinition Id="cf5e712e-ca31-406e-b11b-4ddff879cab1" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="017e9bf0-18c3-4371-a638-ff4ab2b05b7c" />
-          </association>
-        </targetEnds>
         <ownedAttributesInternal>
           <property Id="cc424ca8-18cc-4302-b0b4-97b62ae35466" name="width_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="b027b215-6771-407d-bf5e-cc566159f52c" />

@@ -1,11 +1,14 @@
 #include "Frustum.h"
 
-
-Frustum::Frustum(void)
+namespace MocapGE
 {
-}
+	Frustum::Frustum(void)
+	{
+	}
 
 
-Frustum::~Frustum(void)
-{
+	Frustum::~Frustum(void)
+	{
+	}
+
 }
