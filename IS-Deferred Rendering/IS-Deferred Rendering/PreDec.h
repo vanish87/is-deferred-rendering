@@ -43,6 +43,8 @@ namespace MocapGE
 	template <typename T>
 	class Matrix;
 	typedef Matrix<float> float4x4;
+
+	class Context;
 	
 
 }

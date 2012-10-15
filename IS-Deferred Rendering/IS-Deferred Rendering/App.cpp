@@ -36,7 +36,32 @@ namespace MocapGE
 
 	void App::Run()
 	{
+		MSG msg = {0};
+		DWORD next_game_tick;
+		int loops;
+		next_game_tick = GetTickCount();
 
+		while( WM_QUIT != msg.message )
+		{
+			if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+			{
+				TranslateMessage( &msg );
+				DispatchMessage( &msg );
+			}
+			else
+			{
+				loops = 0;
+				while( GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) 
+				{
+					//update();
+
+					next_game_tick += SKIP_TICKS;
+					loops++;
+				}
+				Context::Instance().GetRenderFactory().GetRenderEngine().Render();
+
+			}
+		}
 	}
 
 	Window* App::InitializeWindow( std::string app_name, RenderSetting render_setting )

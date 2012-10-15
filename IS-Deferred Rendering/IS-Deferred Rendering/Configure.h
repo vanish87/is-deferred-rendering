@@ -15,7 +15,7 @@ namespace MocapGE
 		int		width;
 		int		height;
 
-		bool	hdr;
+		bool	msaa4x;
 		bool	gamma;
 
 		bool deferred_rendering;

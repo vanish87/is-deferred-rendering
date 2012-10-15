@@ -32,6 +32,11 @@ namespace MocapGE
 			app_ = &app;
 		}
 
+		App& AppInstance()
+		{
+			return *app_;
+		}
+
 	private:
 		ContextConfig context_config_;
 

@@ -5,19 +5,28 @@
 
 #include "PreDec.h"
 
+#include "Camera.h"
+
 namespace MocapGE
 {
 	class Viewport
 	{
 	public:
 		Viewport(void);
+		Viewport(uint32_t left, uint32_t top, uint32_t width, uint32_t height);
 		~Viewport(void);
 
+		int Top(){return top_;};
+		int Left(){return left_;};
+		int Width(){return width_;};
+		int Height(){return height_;};
+
+
 	protected:
-		int left;
-		int top;
-		int width;
-		int height;
+		int left_;
+		int top_;
+		int width_;
+		int height_;
 
 		Camera* camera_;
 	};

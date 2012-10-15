@@ -5,8 +5,9 @@
 
 #include "RenderEngine.h"
 #include "D3DPreDec.h"
+#include "TypeAndFormat.h"
 
-#pragma comment(lib, "dxgi.lib") //may fix in the future
+#pragma comment(lib, "d3d11.lib") //may fix in the future
 
 namespace MocapGE
 {
@@ -22,12 +23,22 @@ namespace MocapGE
 
 		virtual void SwapBuffers();
 
+		virtual void OnResize();
+
+		ID3D11Device* const D3DDevice() const{return d3d_device_;};
+		ID3D11DeviceContext* const & D3DDeviceImmContext() const{return d3d_imm_ctx_;};
+
+		DXGI_FORMAT MapFormat(Format format);
+
+		virtual void BindFrameBuffer( FrameBuffer* const & fb );
+
 	private:
-		IDXGIFactory1*	gi_factory_;
 		ID3D11Device*		d3d_device_;
 		ID3D11DeviceContext* d3d_imm_ctx_;
 		D3D_FEATURE_LEVEL d3d_feature_level_;
+		IDXGISwapChain* d3d_swap_chain;
 
+		
 
 
 	};

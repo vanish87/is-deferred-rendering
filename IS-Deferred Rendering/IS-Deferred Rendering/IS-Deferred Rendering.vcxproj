@@ -80,9 +80,12 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
+    <ClCompile Include="D3DFreamBuffer.cpp" />
     <ClCompile Include="D3DRenderEngine.cpp" />
     <ClCompile Include="D3DRenderFactory.cpp" />
+    <ClCompile Include="D3DRenderView.cpp" />
     <ClCompile Include="D3DRenderWindow.cpp" />
+    <ClCompile Include="D3DTexture.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -90,6 +93,7 @@
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="RenderFactory.cpp" />
     <ClCompile Include="RenderView.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XMLParser.cpp" />
@@ -99,10 +103,13 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Configure.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="D3DFreamBuffer.h" />
     <ClInclude Include="D3DPreDec.h" />
     <ClInclude Include="D3DRenderEngine.h" />
     <ClInclude Include="D3DRenderFactory.h" />
+    <ClInclude Include="D3DRenderView.h" />
     <ClInclude Include="D3DRenderWindow.h" />
+    <ClInclude Include="D3DTexture.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Math.h" />
@@ -112,6 +119,8 @@
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="RenderFactory.h" />
     <ClInclude Include="RenderView.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TypeAndFormat.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="Window.h" />

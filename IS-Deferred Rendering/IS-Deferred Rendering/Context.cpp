@@ -33,8 +33,8 @@ namespace MocapGE
 		int height = atoi(frame->GetAttri("height")->GetValue().c_str());
 		short full_screen = atoi(frame->GetAttri("fullscreen")->GetValue().c_str());
 
-		XMLNodePtr hdr_ptr = configure->GetChild("render")->GetChild("hdr");
-		short hdr = atoi(hdr_ptr->GetAttri("value")->GetValue().c_str());
+		XMLNodePtr hdr_ptr = configure->GetChild("render")->GetChild("msaa4x");
+		short msaa4x = atoi(hdr_ptr->GetAttri("value")->GetValue().c_str());
 
 		XMLNodePtr gamma_ptr = configure->GetChild("render")->GetChild("gamma");
 		short gamma = atoi(gamma_ptr->GetAttri("value")->GetValue().c_str());
@@ -49,7 +49,7 @@ namespace MocapGE
 		context_config_.render_setting.left=0;
 		context_config_.render_setting.top=0;
 		context_config_.render_setting.full_screen=full_screen;
-		context_config_.render_setting.hdr=hdr;
+		context_config_.render_setting.msaa4x=msaa4x;
 		context_config_.render_setting.gamma=gamma;
 		context_config_.render_setting.deferred_rendering=deferred_rendering;
 	}

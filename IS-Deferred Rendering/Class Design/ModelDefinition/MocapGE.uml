@@ -1227,6 +1227,40 @@
             isAbstract="false"
             concurrency="Sequential"
             isQuery="false" />
+          <operation
+            Id="75b53f22-cc05-456a-ac73-1a0e2d4d6f1d"
+            name="OnRisize"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="99b9a178-e85b-4261-bd95-a998f974d799"
+            name="SwapBuffers"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="5eaf642f-3c73-41c2-bc2a-c020574e90f0"
+            name="BindFrameBuffer"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="08a68e3a-1c9a-41ce-8392-5ed32a70131c"
+                  name="FrameBuffer"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -1336,8 +1370,87 @@
             isDerived="false"
             isDerivedUnion="false"
             aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="64a1462f-d114-4aaa-baa1-fd14e33ed4ad"
+                LastKnownName="RenderView"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="7efe201a-5206-4ef2-bb1d-34b5623089f1"
+            name="left_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
             isComposite="false" />
+          <property
+            Id="f098d4ae-d614-4c46-b3e3-cf510e7237a7"
+            name="top_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="59fea35a-bab1-46a2-837e-6d9dc9aebabb"
+            name="width_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="9268fb96-eeef-42c6-aa06-8c1fbbc385b4"
+            name="height_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="7493586b-7d35-4a24-8c7f-0710d32b4ab7"
+            name="viewport_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="7e465595-239b-49e5-88dd-a45e543cc3ef"
+                LastKnownName="ViewPort"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="b7cfcc70-57db-4ae8-96ec-98d9dd0b63ad"
+            name="OnBind"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1600,6 +1713,15 @@
         isLeaf="false"
         isActiveClass="false">
         <description>all element that gpu/cpu write to</description>
+        <suppliersInternal>
+          <dependency
+            Id="dfc57da4-ed17-46f2-adc5-f5cf6b64b315">
+            <enumerationMoniker
+              Id="f0e83f75-a538-4487-8112-e26f331273ec"
+              LastKnownName="Format"
+              LastKnownLocation="MocapGE.uml" />
+          </dependency>
+        </suppliersInternal>
         <ownedAttributesInternal>
           <property
             Id="b027b215-6771-407d-bf5e-cc566159f52c"
@@ -1655,6 +1777,17 @@
                 LastKnownLocation="MocapGE.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="3a63ec5a-f260-4b79-8779-0ddad0731848"
+            name="dimesion_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
         </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
@@ -2161,6 +2294,159 @@
             isQuery="false" />
         </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8e0607e2-7fea-4bb0-ba24-881d704626a0"
+        name="D3DRenderEngine"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="33d8c456-89d9-4d9a-ab73-532bc92c450b"
+            isSubstitutable="false">
+            <classMoniker
+              Id="3c6a5a84-59f7-40f8-87c9-8a17ab0333b6"
+              LastKnownName="RenderEngine"
+              LastKnownLocation="MocapGE.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="9e836f38-0785-4666-90ea-ab13c51a78cd"
+            name="d3d_device_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="6345b5cb-f0d2-4033-b4cc-743d41f1d86d"
+            name="d3d_imm_ctx_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="66ebb5f5-3dfe-42bc-a65e-c8f3b22f8e52"
+            name="d3d_feature_level_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="7a6c05db-e96e-430b-a2ea-8775f0dc33a1"
+            name="d3d_swap_chain"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="7b67d3a3-e8e7-4096-8e83-973f4d5ebc57"
+            name="MapFormat"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="a5d819f9-0d38-4475-a4da-6c72cd564ae7"
+                  name="Format"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ee9b7584-656c-470f-b559-5dc63107c795"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c4832194-90fb-4a8a-93d9-95c696502b09"
+                      LastKnownName="DXGI_FORMAT"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="3226b47a-9339-413b-afd4-03ef1c667e07"
+        name="D3DRenderTargetView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="bb2ffbdb-57a2-418e-8efe-91798ee57929"
+            isSubstitutable="false">
+            <classMoniker
+              Id="64a1462f-d114-4aaa-baa1-fd14e33ed4ad"
+              LastKnownName="RenderView"
+              LastKnownLocation="MocapGE.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="d65616f6-71e6-4ff2-b2b5-d981913cfa62"
+            name="render_target_view_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="436aa494-7c01-43eb-bbc2-815fae1b1e05"
+        name="D3DTexture"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="a8ba0ac8-07cb-4c75-9f07-236d55b6c751"
+            isSubstitutable="false">
+            <classMoniker
+              Id="cd32bc59-ebc3-49fc-a416-d23b8d93bd34"
+              LastKnownName="Texture"
+              LastKnownLocation="MocapGE.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c4832194-90fb-4a8a-93d9-95c696502b09"
+        name="DXGI_FORMAT" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

@@ -18,6 +18,11 @@ namespace MocapGE
 		Window(std::string app_name, RenderSetting render_setting);
 		~Window(void);
 
+		HWND GetWnd()
+		{
+			return wnd_;
+		}
+
 	private:
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 		LRESULT CALLBACK MsgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );

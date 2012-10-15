@@ -19,10 +19,18 @@ namespace MocapGE
 		void Run();
 
 		Window* InitializeWindow( std::string app_name, RenderSetting render_setting );
+		Window& GetWindow()
+		{
+			return *win_;
+		}
 
 	private:
 		std::string app_name_;
 		Window* win_;
+
+		static const int TICKS_PER_SECOND = 50;
+		static const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+		static const int MAX_FRAMESKIP = 2;
 
 	protected:
 		virtual void InitObjects()

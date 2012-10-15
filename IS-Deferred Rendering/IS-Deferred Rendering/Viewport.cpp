@@ -6,6 +6,13 @@ namespace MocapGE
 	{
 	}
 
+	Viewport::Viewport( uint32_t left, uint32_t top, uint32_t width, uint32_t height )
+		:left_(left),top_(top),width_(width),height_(height),
+		camera_(new Camera())
+	{
+		
+	}
+
 
 	Viewport::~Viewport(void)
 	{

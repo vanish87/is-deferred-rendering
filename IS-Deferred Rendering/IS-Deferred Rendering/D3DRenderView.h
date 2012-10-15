@@ -1,0 +1,44 @@
+#ifndef D3DRENDERVIEW_H_
+#define D3DRENDERVIEW_H_
+
+#pragma once
+
+#include "RenderView.h"
+
+#include "D3DPreDec.h"
+#include "D3DTexture.h"
+
+namespace MocapGE
+{
+	class D3DRenderTargetView :		public RenderView
+	{
+	public:
+		D3DRenderTargetView(void);
+		~D3DRenderTargetView(void);
+
+		D3DRenderTargetView(Texture& texture, int array_size, int mip_level );
+
+		ID3D11RenderTargetView* const &D3DRTV() const{return render_target_view_;};
+		void SetD3DRTV( ID3D11RenderTargetView* render_target_view );
+
+	private:
+		ID3D11RenderTargetView* render_target_view_;
+	};
+
+	class D3D11DepthStencilRenderView : public RenderView
+	{
+	public:
+		D3D11DepthStencilRenderView(void);
+		~D3D11DepthStencilRenderView(void);
+
+		ID3D11DepthStencilView* const &D3DDSV(){return depth_stencil_view_;};
+		void SetD3DDSV( ID3D11DepthStencilView* depth_stencil_view );
+	private:
+		ID3D11DepthStencilView* depth_stencil_view_;
+	};
+
+
+}
+
+#endif
+

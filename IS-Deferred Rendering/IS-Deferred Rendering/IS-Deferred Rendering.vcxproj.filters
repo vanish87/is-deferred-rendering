@@ -75,6 +75,18 @@
     <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D3DRenderView.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DTexture.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DFreamBuffer.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -139,6 +151,21 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DRenderView.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeAndFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DTexture.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DFreamBuffer.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

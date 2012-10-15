@@ -5,6 +5,7 @@
 
 #include "PreDec.h"
 #include "RenderView.h"
+#include "Viewport.h"
 
 namespace MocapGE
 {
@@ -13,6 +14,8 @@ namespace MocapGE
 	public:
 		FrameBuffer(void);
 		~FrameBuffer(void);
+
+		virtual void OnBind() = 0;
 
 
 	protected:
@@ -23,7 +26,7 @@ namespace MocapGE
 
 		Viewport* viewport_;
 
-		RenderView render_view_;
+		RenderView* render_view_;
 	};
 }
 
