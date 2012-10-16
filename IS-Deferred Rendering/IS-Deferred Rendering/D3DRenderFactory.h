@@ -6,7 +6,7 @@
 #include "PreDec.h"
 #include "RenderFactory.h"
 #include "D3DPreDec.h"
-#include "D3DFreamBuffer.h"
+#include "D3DFrameBuffer.h"
 #include "D3DRenderEngine.h"
 
 namespace MocapGE
@@ -15,14 +15,13 @@ namespace MocapGE
 	{
 	public:
 		D3DRenderFactory(void);
-		~D3DRenderFactory(void);
-
-		virtual RenderEngine* CreateRenderEngine();
+		~D3DRenderFactory(void);		
 		
 		virtual FrameBuffer* MakeFrameBuffer( RenderSetting& render_setting );
 
 	private:
 
+		virtual RenderEngine* CreateRenderEngine();
 	};
 
 }

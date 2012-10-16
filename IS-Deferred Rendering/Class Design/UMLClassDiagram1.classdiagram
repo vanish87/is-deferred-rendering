@@ -292,10 +292,10 @@
               <referencedTypeMoniker Id="8c1e4c92-39c5-41e1-a604-e2384b60ebd8" LastKnownName="Integer" />
             </type_NamedElement>
           </property>
-          <property Id="abb25f1e-ccf9-4035-8a3d-ee896a8798c5" name="hdr" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+          <property Id="abb25f1e-ccf9-4035-8a3d-ee896a8798c5" name="msaa4x" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="8e1c6c40-162d-40a3-9980-020c46032446" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="159a44cc-c217-49ff-a453-86f94cf61e08" LastKnownName="Boolean" />
+              <referencedTypeMoniker Id="f76a9d22-8c5e-453e-98b9-0accea990677" LastKnownName="Boolean" />
             </type_NamedElement>
           </property>
           <property Id="9121b6ac-9d22-44a3-94d0-8b431bfa3684" name="gamma" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -325,11 +325,6 @@
     </packageHasNamedElement>
     <packageHasNamedElement>
       <referencedType Id="a55d1fda-aed2-4bd5-98d0-2dd46e890554" name="Boolean" isAbstract="false" isLeaf="false" cachedFullName="Boolean">
-        <elementDefinition Id="8943dc84-709e-4f62-b15a-a3273aa6f165" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="159a44cc-c217-49ff-a453-86f94cf61e08" name="Boolean" isAbstract="false" isLeaf="false" cachedFullName="Boolean">
         <elementDefinition Id="8943dc84-709e-4f62-b15a-a3273aa6f165" />
       </referencedType>
     </packageHasNamedElement>
@@ -616,6 +611,9 @@
                 </parameter>
               </operationHasOwnedParameters>
             </ownedParameters>
+          </operation>
+          <operation Id="5edff5f6-c47e-44c3-a3eb-3968f67e4f87" name="MakeFrameBuffer" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="cf320697-09da-40c6-9ffa-fc6a22cf368a" />
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -1303,14 +1301,14 @@
           </generalization>
         </generalsInternal>
         <ownedAttributesInternal>
-          <property Id="af4d1a8b-6c08-4d6a-b947-da1e1caf862e" name="render_target_view_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+          <property Id="af4d1a8b-6c08-4d6a-b947-da1e1caf862e" name="render_target_view_" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="d65616f6-71e6-4ff2-b2b5-d981913cfa62" />
           </property>
         </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
-      <class Id="57582119-ab6c-470d-b8b0-733f525cfad1" name="D3DTexture" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="57582119-ab6c-470d-b8b0-733f525cfad1" name="D3DTexture2D" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="436aa494-7c01-43eb-bbc2-815fae1b1e05" />
         <generalsInternal>
           <generalization Id="5ae812f3-2f7d-457e-b99b-e396b3610082" isSubstitutable="false">
@@ -1318,6 +1316,26 @@
             <elementDefinition Id="a8ba0ac8-07cb-4c75-9f07-236d55b6c751" />
           </generalization>
         </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="2d59b928-6b02-4d3c-87da-29620c01dff9" name="desc_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1a343b58-dc56-4278-9966-c35f70874a94" />
+          </property>
+          <property Id="f1f215cf-5790-4d84-b5fc-ea025bfe3a32" name="d3dTexture2D_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="38488816-ec3f-46f7-a9fb-5f2ea6cc575a" />
+          </property>
+          <property Id="77bb92b8-4e92-430a-ae69-15446ca76a2a" name="d3d_rt_view_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="21f216a5-3123-4178-9e9e-59ae052d57bb" />
+          </property>
+          <property Id="55d722aa-422e-471b-b6e9-f3216a05cbb9" name="d3d_ds_view_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6ad50aeb-6f5d-445d-b76b-095a2a0424f2" />
+          </property>
+          <property Id="f4ace0ed-355b-4c9e-9fab-1155dab19c50" name="width_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="77581320-4c76-45ce-9c25-50d148bfbf04" />
+          </property>
+          <property Id="7bf7eb1f-2296-4a26-bbc3-f49b43a9c3c5" name="height_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="35603686-55f5-4d73-95ec-1e7bfbde3e5e" />
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <packageHasNamedElement>
@@ -1335,6 +1353,91 @@
         <elementDefinition Id="7e465595-239b-49e5-88dd-a45e543cc3ef" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f8fa81ce-97af-450a-a792-29a44c52117e" name="D3DFrameBuffer" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="42fec30d-b190-4dcc-bbc2-692c0b37f5b5" />
+        <generalsInternal>
+          <generalization Id="c5dc7752-82f8-45de-9ba8-d87142380baf" isSubstitutable="false">
+            <classMoniker Id="a689508a-4f21-4f73-8d47-3f9193195820" LastKnownName="FrameBuffer" />
+            <elementDefinition Id="05d7e820-a58b-4c0c-ac09-1550068741d0" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association Id="155dda62-ad6f-4a58-a79e-9959ad065b6d" isDerived="false" sourceEndRoleName="D3DFrameBuffer" targetEndRoleName="D3DDepthStencilRenderView" isLeaf="false" isAbstract="false">
+            <classMoniker Id="a54e14c2-073c-4fd5-a29a-ef0d790a690a" LastKnownName="D3DDepthStencilRenderView" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bd1f839b-4fb3-4cc7-b306-6e6b4c29c8f2" name="D3DFrameBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5086bab2-48f5-4154-8ee5-393cf3d7a834" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8da0ff50-a126-48f2-9bff-b0686886d7c4" name="D3DDepthStencilRenderView" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="f95e5c0d-b22b-40fc-a7a4-930f94c5a5bb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="7ad11542-0654-4268-994a-67b9321d47b6" />
+          </association>
+          <association Id="eed0812d-4965-4482-be3c-f58312f82d0f" isDerived="false" sourceEndRoleName="D3DFrameBuffer" targetEndRoleName="D3DTexture" isLeaf="false" isAbstract="false">
+            <classMoniker Id="57582119-ab6c-470d-b8b0-733f525cfad1" LastKnownName="D3DTexture2D" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="642f94c6-74a9-4f18-a415-b59f2e7699db" name="D3DFrameBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="fc718868-dbca-4ba0-8f12-ffe2217fdf6f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d6d6501e-c1da-4d44-aecd-3a38a0e41698" name="D3DTexture" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="8babf4a0-1e43-455b-83b2-4d5e09e86d59" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8e246554-86b5-49f5-a907-2cd811c4e3d3" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="3078081c-3c5e-4a5f-a8f4-ceff0480e3fc" name="depth_stencil_buffer_" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4b3b8087-63ac-48cb-aa1d-6ca7d8f6a06b" />
+          </property>
+          <property Id="896b2f6e-2952-47b0-85fb-11a65f9660ed" name="depth_stencil_view_" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="14a04818-4d3f-4ef3-9c69-921bc77a32f2" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a54e14c2-073c-4fd5-a29a-ef0d790a690a" name="D3DDepthStencilRenderView" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="33e41ffc-51f0-40ec-897d-edd79580fc9a" />
+        <generalsInternal>
+          <generalization Id="d22712d8-3acd-46f9-a38e-40fcfb872f65" isSubstitutable="false">
+            <classMoniker Id="7ab166f6-761b-43dd-b80c-7630a11e3136" LastKnownName="RenderView" />
+            <elementDefinition Id="343418c7-482c-410b-85fd-f95f0a755acb" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="13990160-2a9a-4f3c-823d-ff59ff728c64" name="depth_stencil_view_" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5dd737cc-d9af-429c-9992-225e8afb20f1" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="f76a9d22-8c5e-453e-98b9-0accea990677" name="Boolean" isAbstract="false" isLeaf="false" cachedFullName="Boolean">
+        <elementDefinition Id="8943dc84-709e-4f62-b15a-a3273aa6f165" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a6dd411d-aba8-4193-ad7b-cdd2a1679ce4" name="D3DRenderFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="f7011c21-b64e-47f7-a9bd-3f8474e9c6ce" />
+        <generalsInternal>
+          <generalization Id="a186f512-b028-422b-b1c8-89fc1a9ca167" isSubstitutable="false">
+            <classMoniker Id="286605e9-67b4-4d86-89d0-43d80df52c36" LastKnownName="RenderFactory" />
+            <elementDefinition Id="35a20fd5-5893-43a8-9585-5e42daaa4416" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="dd7a0302-7a78-47be-9485-41109ff69847" name="MocapGE">
     <elementDefinition Id="d0bbf3ca-4bd9-4edb-bdbd-bb73c74d45f2" />

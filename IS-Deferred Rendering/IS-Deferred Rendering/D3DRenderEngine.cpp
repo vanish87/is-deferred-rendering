@@ -2,7 +2,7 @@
 #include "Context.h"
 #include "App.h"
 #include "Window.h"
-#include "D3DFreamBuffer.h"
+#include "D3DFrameBuffer.h"
 
 namespace MocapGE
 {

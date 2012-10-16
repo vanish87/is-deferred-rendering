@@ -83,7 +83,7 @@ namespace MocapGE
 		{
 			return data_[index];
 		}
-		Vec4<T> &			operator[]( int index ) //get row
+		Vec4<T> &		operator[]( int index ) //get row
 		{
 			return data_[index];
 		}

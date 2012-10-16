@@ -29,13 +29,13 @@ namespace MocapGE
 		this->render_target_view_ = render_target_view;
 	}
 
-	D3D11DepthStencilRenderView::D3D11DepthStencilRenderView( void )
+	D3DDepthStencilRenderView::D3DDepthStencilRenderView( void )
 		:depth_stencil_view_(nullptr)
 	{
 
 	}
 
-	void D3D11DepthStencilRenderView::SetD3DDSV( ID3D11DepthStencilView* depth_stencil_view )
+	void D3DDepthStencilRenderView::SetD3DDSV( ID3D11DepthStencilView* depth_stencil_view )
 	{
 		this->depth_stencil_view_=depth_stencil_view;
 	}

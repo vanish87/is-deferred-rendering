@@ -1,20 +1,20 @@
-#include "D3DFreamBuffer.h"
+#include "D3DFrameBuffer.h"
 
 namespace MocapGE
 {
 	D3DFreamBuffer::D3DFreamBuffer(void)
-		:render_target_view_(new D3DRenderTargetView()),
-		depth_stencil_buffer_(new D3DTexture2D),
-		depth_stencil_view_(new D3D11DepthStencilRenderView)
+		: depth_stencil_buffer_(new D3DTexture2D),
+		  depth_stencil_view_(new D3DDepthStencilRenderView)
 	{
+		render_view_ = new D3DRenderTargetView();
 	}
 
 	D3DFreamBuffer::D3DFreamBuffer( RenderSetting& render_setting )
-		:render_target_view_(new D3DRenderTargetView()),
-		depth_stencil_buffer_(new D3DTexture2D),
-		depth_stencil_view_(new D3D11DepthStencilRenderView)		
+		: depth_stencil_buffer_(new D3DTexture2D),
+		  depth_stencil_view_(new D3DDepthStencilRenderView)		
 	{
 		viewport_ = new Viewport(0 , 0,render_setting.width,render_setting.height);
+		render_view_ = new D3DRenderTargetView();
 	}
 
 
@@ -25,7 +25,7 @@ namespace MocapGE
 	void D3DFreamBuffer::OnBind()
 	{
 		D3DRenderEngine* render_engine = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
-		ID3D11RenderTargetView* rtv = this->render_target_view_->D3DRTV();
+		ID3D11RenderTargetView* rtv = static_cast<D3DRenderTargetView*>(this->render_view_)->D3DRTV();
 		ID3D11DepthStencilView* dsv = this->depth_stencil_view_->D3DDSV();
 		render_engine->D3DDeviceImmContext()->OMSetRenderTargets(1, &rtv , dsv);
 

@@ -36,8 +36,8 @@ namespace MocapGE
 		ID3D11RenderTargetView* d3d_rt_view_;
 		ID3D11DepthStencilView* d3d_ds_view_;
 
-		uint32_t	width_;
-		uint32_t	height_;
+		size_t	width_;
+		size_t	height_;
 	};
 
 }

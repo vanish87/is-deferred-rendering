@@ -25,11 +25,11 @@ namespace MocapGE
 		ID3D11RenderTargetView* render_target_view_;
 	};
 
-	class D3D11DepthStencilRenderView : public RenderView
+	class D3DDepthStencilRenderView : public RenderView
 	{
 	public:
-		D3D11DepthStencilRenderView(void);
-		~D3D11DepthStencilRenderView(void);
+		D3DDepthStencilRenderView(void);
+		~D3DDepthStencilRenderView(void);
 
 		ID3D11DepthStencilView* const &D3DDSV(){return depth_stencil_view_;};
 		void SetD3DDSV( ID3D11DepthStencilView* depth_stencil_view );
