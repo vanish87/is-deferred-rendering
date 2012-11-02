@@ -17,6 +17,7 @@ namespace MocapGE
 		~D3DRenderTargetView(void);
 
 		D3DRenderTargetView(Texture& texture, int array_size, int mip_level );
+		D3DRenderTargetView(D3DRenderTargetView* render_target_view);
 
 		ID3D11RenderTargetView* const &D3DRTV() const{return render_target_view_;};
 		void SetD3DRTV( ID3D11RenderTargetView* render_target_view );

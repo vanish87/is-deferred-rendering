@@ -1,7 +1,5 @@
 #include "MyApp.h"
 #include "Context.h"
-#include "Vector.h"
-#include "Matrix.h"
 
 using namespace MocapGE;
 MyApp::MyApp(void) : App("test")
@@ -35,3 +33,4 @@ int main()
 
 	return 0;
 }
+

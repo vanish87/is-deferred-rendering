@@ -19,8 +19,7 @@ namespace MocapGE
 		D3DFreamBuffer(RenderSetting& render_setting);
 		~D3DFreamBuffer(void);
 
-		//need fix
-		D3DRenderTargetView* const &D3DRTView() const {return static_cast<D3DRenderTargetView*>(render_view_);};
+		D3DRenderTargetView* const D3DRTView() const {return static_cast<D3DRenderTargetView*>(render_view_);};
 		D3DDepthStencilRenderView* const &D3DDSView() const {return depth_stencil_view_;};
 		D3DTexture2D* const &D3DDSBuffer() const {return depth_stencil_buffer_;};
 

@@ -19,6 +19,9 @@ namespace MocapGE
 		template <typename T>
 		Vec4<T> Transform(const Vec4<T> & lhs, const Matrix<T> & rhs);
 	}
+
+
+
 }
 
 #endif

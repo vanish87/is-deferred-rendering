@@ -67,6 +67,8 @@ namespace MocapGE
 			render_factory_= new D3DRenderFactory();
 		}
 
+		scene_manager_ = new SceneManager();
+
 		context_config_ = cfg;
 	}
 
@@ -74,6 +76,12 @@ namespace MocapGE
 	{
 		if(render_factory_ == nullptr)std::cout<< "no Render Factory"<<std::endl;
 		return *render_factory_;
+	}
+
+	SceneManager& Context::GetSceneManager()
+	{
+		if(scene_manager_ == nullptr)std::cout<< "no Scene Manager"<<std::endl;
+		return *scene_manager_;
 	}
 
 }

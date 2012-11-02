@@ -9,6 +9,7 @@
 #include "Configure.h"
 #include "XMLParser.h"
 #include "RenderFactory.h"
+#include "SceneManager.h"
 
 namespace MocapGE
 {
@@ -26,6 +27,7 @@ namespace MocapGE
 		ContextConfig const & GetConfigure() const;
 
 		RenderFactory& GetRenderFactory();
+		SceneManager& GetSceneManager();
 
 		void SetAppInstance(App &app)
 		{
@@ -36,13 +38,13 @@ namespace MocapGE
 		{
 			return *app_;
 		}
-
 	private:
 		ContextConfig context_config_;
 
 		App*		app_;
 
 		RenderFactory*	render_factory_;
+		SceneManager* scene_manager_;
 	};
 }
 

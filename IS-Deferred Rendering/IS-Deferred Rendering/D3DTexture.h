@@ -28,7 +28,7 @@ namespace MocapGE
 		size_t GetWidth();
 		size_t GetHeight();
 		Format GetFormat();
-		void SetD3DTexture( ID3D11Texture2D* depth_stencil_buffer );
+		void SetD3DTexture( ID3D11Texture2D* texture );
 	private:
 		D3D11_TEXTURE2D_DESC desc_;
 		ID3D11Texture2D* d3dTexture2D_;

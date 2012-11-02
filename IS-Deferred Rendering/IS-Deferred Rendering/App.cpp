@@ -31,6 +31,7 @@ namespace MocapGE
 
 		//init deferred rendering here
 
+		this->InitObjects();
 
 	}
 
@@ -53,12 +54,12 @@ namespace MocapGE
 				loops = 0;
 				while( GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) 
 				{
-					//update();
+					Context::Instance().GetSceneManager().Update();
 
 					next_game_tick += SKIP_TICKS;
 					loops++;
 				}
-				Context::Instance().GetRenderFactory().GetRenderEngine().Render();
+				Context::Instance().GetSceneManager().Flush();
 
 			}
 		}

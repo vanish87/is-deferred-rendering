@@ -20,7 +20,13 @@ namespace MocapGE
 	class RenderFactory;
 	class RenderEngine;
 	class RenderView;
+	class RenderLayout;
+	class RenderElement;
+	class RenderBuffer;
 	class FrameBuffer;
+
+	class SceneObject;
+	class SceneManager;
 
 	class Viewport;
 	class Camera;
