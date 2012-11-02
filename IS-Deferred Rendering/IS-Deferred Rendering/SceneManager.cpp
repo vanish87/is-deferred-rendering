@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "Context.h"
 
 namespace MocapGE
 {
@@ -17,6 +18,8 @@ namespace MocapGE
 		std::vector<RenderElement*>::iterator re;
 		for(re = render_list_.begin() ; re < render_list_.end(); re++)
 			(*re)->Render();
+
+		Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
 	}
 
 	void SceneManager::Update()

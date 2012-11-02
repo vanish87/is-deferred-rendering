@@ -25,6 +25,12 @@ namespace MocapGE
 
 		virtual void Render();
 
+		virtual void SetRenderParameters();
+
+		virtual void EndRender();
+
+		virtual void LoadFile(std::string file_name);
+
 
 
 	protected:

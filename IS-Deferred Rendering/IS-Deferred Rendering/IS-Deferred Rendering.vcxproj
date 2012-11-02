@@ -81,6 +81,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="D3DFrameBuffer.cpp" />
+    <ClCompile Include="D3DModel.cpp" />
+    <ClCompile Include="D3DRenderBuffer.cpp" />
     <ClCompile Include="D3DRenderEngine.cpp" />
     <ClCompile Include="D3DRenderFactory.cpp" />
     <ClCompile Include="D3DRenderLayout.cpp" />
@@ -111,7 +113,9 @@
     <ClInclude Include="Configure.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="D3DFrameBuffer.h" />
+    <ClInclude Include="D3DModel.h" />
     <ClInclude Include="D3DPreDec.h" />
+    <ClInclude Include="D3DRenderBuffer.h" />
     <ClInclude Include="D3DRenderEngine.h" />
     <ClInclude Include="D3DRenderFactory.h" />
     <ClInclude Include="D3DRenderLayout.h" />

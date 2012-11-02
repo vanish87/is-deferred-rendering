@@ -120,18 +120,19 @@ namespace MocapGE
 
 	void D3DRenderEngine::Render()
 	{
+		
+
+		
+	}
+
+	void D3DRenderEngine::SwapBuffers()
+	{
 		float color[4] = {0.0f,0.0f,1.0f,1.0f};
 		D3DFreamBuffer* d3d_frame_buffer;
 		d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
 		d3d_imm_ctx_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
 		d3d_imm_ctx_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);
-
 		d3d_swap_chain->Present(0, 0);
-	}
-
-	void D3DRenderEngine::SwapBuffers()
-	{
-		throw std::exception("The method or operation is not implemented.");
 	}
 
 	void D3DRenderEngine::OnResize()

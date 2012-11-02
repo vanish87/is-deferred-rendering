@@ -3,13 +3,26 @@
 
 #pragma once
 
+#include "PreDec.h"
+#include "RenderElement.h"
+
 namespace MocapGE
 {
-	class Mesh
+	class Mesh :public RenderElement
 	{
 	public:
 		Mesh(void);
 		~Mesh(void);
+
+		virtual void AddToScene();
+
+		virtual RenderLayout* GetRenderLayout();
+
+		virtual void SetRenderParameters();
+
+		virtual void Render();
+
+		virtual void EndRender();
 
 	protected:
 

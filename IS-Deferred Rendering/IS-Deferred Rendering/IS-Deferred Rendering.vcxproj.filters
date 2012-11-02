@@ -108,6 +108,12 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D3DModel.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DRenderBuffer.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -208,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DModel.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DRenderBuffer.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
