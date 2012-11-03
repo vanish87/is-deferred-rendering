@@ -83,6 +83,8 @@ namespace MocapGE
 			meshes.back()->geometry = geometry;
 		}
 
+		Model* model = new Model();
+
 		//Foreach mesh...
 		for(unsigned int i = 0; i < meshes.size(); i++)
 		{
@@ -103,78 +105,73 @@ namespace MocapGE
 			//Process the <triangles> child
 			processTriangles(meshes[i], triangles);
 
-			Model* model = new Model();
+			
 
-			//for each mesh
-			for(size_t i = 0; i < meshes.size(); i++)
+			//realign the index of vertex
+			uint32_t i_size = meshes[i]->GetNumIndex();
+			uint32_t v_size = meshes[i]->GetNumVertex();
+			VertexType* vb = new VertexType[v_size];
+			uint32_t* ib = new uint32_t[i_size];
+			for(size_t j = 0; j < i_size; j++)
 			{
-				//realign the index of vertex
-				uint32_t i_size = meshes[i]->GetNumIndex();
-				uint32_t v_size = meshes[i]->GetNumVertex();
-				VertexType* vb = new VertexType[v_size];
-				uint32_t* ib = new uint32_t[i_size];
-				for(size_t j = 0; j < i_size; j++)
+				float3 position=meshes[i]->positions[meshes[i]->indices[0][j]];			
+				float3 normal=meshes[i]->normals[meshes[i]->indices[1][j]];
+
+				float2 uv=float2(0,0);
+				float3 tangent=float3(0,0,0);
+				float3 bitangent=float3(0,0,0);
+				if(meshes[i]->indices.size() > 2 )
 				{
-					float3 position=meshes[i]->positions[meshes[i]->indices[0][j]];			
-					float3 normal=meshes[i]->normals[meshes[i]->indices[1][j]];
-
-					float2 uv=float2(0,0);
-					float3 tangent=float3(0,0,0);
-					float3 bitangent=float3(0,0,0);
-					if(meshes[i]->indices.size() > 2 )
-					{
-						uv=meshes[i]->uvs[meshes[i]->indices[2][j]];
-						tangent=meshes[i]->tangents[meshes[i]->indices[3][j]];
-						if(meshes[i]->indices.size() > 4 )
-							bitangent=meshes[i]->bitangents[meshes[i]->indices[4][j]];
-					}
-
-					vb[meshes[i]->indices[0][j]].position = position;
-					vb[meshes[i]->indices[0][j]].normal = normal;
-					vb[meshes[i]->indices[0][j]].uv = uv;
-					vb[meshes[i]->indices[0][j]].tangent = tangent;
-					vb[meshes[i]->indices[0][j]].bitangent = bitangent;
-					ib[j] = meshes[i]->indices[0][j];
+					uv=meshes[i]->uvs[meshes[i]->indices[2][j]];
+					tangent=meshes[i]->tangents[meshes[i]->indices[3][j]];
+					if(meshes[i]->indices.size() > 4 )
+						bitangent=meshes[i]->bitangents[meshes[i]->indices[4][j]];
 				}
-				//call MakeRenderLayout
-				RenderLayout* render_layout = Context::Instance().GetRenderFactory().MakeRenderLayout();
-				//call MakeRenderBuffer(Vertex)
-				InitData init_data;
-				init_data.data = vb;
-				init_data.row_pitch = 0;
-				init_data.slice_pitch = 0;
-				RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, BU_VERTEX, sizeof(VertexType)*v_size);
-				delete[] vb;
-				//call MakeRenderBuffer(Index)
-				init_data.data = ib;
-				init_data.row_pitch = 0;
-				init_data.slice_pitch = 0;
-				RenderBuffer* index_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data,BU_INDEX, sizeof(uint32_t)*i_size);
-				delete[] ib;
-				//add VertexBuffer to renderlayout;
-				render_layout->AddBuffer(vertex_buffer);
-				//add IndexBuffer to renderlayout;
-				render_layout->AddBuffer(index_buffer);
-				//set Primitivetype of renderlayout;
-				render_layout->SetPrimitive(PT_TRIANGLELIST);
-				//set Input layout Semi
-				std::vector<VertexUsage> inputlayout;
-				inputlayout.push_back(VU_POSITION);
-				inputlayout.push_back(VU_TEXCOORD);
-				inputlayout.push_back(VU_NORMAL);
-				inputlayout.push_back(VU_TANGENT);
-				inputlayout.push_back(VU_BINORMAL);
-				render_layout->SetInputLayout(inputlayout);
-				//add renderlayout to model;
-				model->AddMesh(new MocapGE::Mesh(render_layout));
-			}
 
-			dae.close(file_name);
+				vb[meshes[i]->indices[0][j]].position = position;
+				vb[meshes[i]->indices[0][j]].normal = normal;
+				vb[meshes[i]->indices[0][j]].uv = uv;
+				vb[meshes[i]->indices[0][j]].tangent = tangent;
+				vb[meshes[i]->indices[0][j]].bitangent = bitangent;
+				ib[j] = meshes[i]->indices[0][j];
+			}
+			//call MakeRenderLayout
+			RenderLayout* render_layout = Context::Instance().GetRenderFactory().MakeRenderLayout();
+			//call MakeRenderBuffer(Vertex)
+			InitData init_data;
+			init_data.data = vb;
+			init_data.row_pitch = 0;
+			init_data.slice_pitch = 0;
+			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, BU_VERTEX, sizeof(VertexType)*v_size);
+			delete[] vb;
+			//call MakeRenderBuffer(Index)
+			init_data.data = ib;
+			init_data.row_pitch = 0;
+			init_data.slice_pitch = 0;
+			RenderBuffer* index_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data,BU_INDEX, sizeof(uint32_t)*i_size);
+			delete[] ib;
+			//add VertexBuffer to renderlayout;
+			render_layout->AddBuffer(vertex_buffer);
+			//add IndexBuffer to renderlayout;
+			render_layout->AddBuffer(index_buffer);
+			//set Primitivetype of renderlayout;
+			render_layout->SetPrimitive(PT_TRIANGLELIST);
+			//set Input layout Semi
+			std::vector<VertexUsage> inputlayout;
+			inputlayout.push_back(VU_POSITION);
+			inputlayout.push_back(VU_TEXCOORD);
+			inputlayout.push_back(VU_NORMAL);
+			inputlayout.push_back(VU_TANGENT);
+			inputlayout.push_back(VU_BINORMAL);
+			render_layout->SetInputLayout(inputlayout);
+			//add renderlayout to model;
+			model->AddMesh(new MocapGE::Mesh(meshes[i]->name_, render_layout, meshes[i]->model_matrix_));	
 		}
 
+		dae.close(file_name);
 
 
-		return new Model();
+		return model;
 	}
 
 	float4x4 ResourceLoader::processMatrix(daeElement* mat_node)

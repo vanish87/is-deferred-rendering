@@ -11,4 +11,14 @@ namespace MocapGE
 	{
 	}
 
+	void SceneObject::Update()
+	{
+
+	}
+
+	RenderElement* & SceneObject::GetRenderElement()
+	{
+		return render_element_;
+	}
+
 }

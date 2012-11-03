@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include "Context.h"
 
 namespace MocapGE
 {
@@ -13,7 +14,7 @@ namespace MocapGE
 
 	void Mesh::AddToScene()
 	{
-		throw std::exception("The method or operation is not implemented.");
+		Context::Instance().GetSceneManager().AddSceneObject(new SceneObject(this));
 	}
 
 	RenderLayout* Mesh::GetRenderLayout()

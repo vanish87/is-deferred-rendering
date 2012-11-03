@@ -2698,6 +2698,14 @@
             isAbstract="false"
             concurrency="Sequential"
             isQuery="false" />
+          <operation
+            Id="435edd7f-55b6-4d00-bbec-dc305b057a18"
+            name="AddSceneObject"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -2825,6 +2833,17 @@
           <property
             Id="44074ed3-ccc8-4462-8c57-08fbcbe78731"
             name="render_element_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="5b9d5bcc-3a18-4455-ae81-4693da35fcc7"
+            name="model_matrix_"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"

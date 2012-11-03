@@ -1437,6 +1437,9 @@
           <operation Id="f3b4f0b7-4de1-421e-bdbe-63d848f221e9" name="Update" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="cc6d6b58-107c-4772-a35b-0442764efefa" />
           </operation>
+          <operation Id="685fe316-c8e4-46ad-849f-27f3afafadc0" name="AddSceneObject" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="435edd7f-55b6-4d00-bbec-dc305b057a18" />
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -1494,6 +1497,9 @@
         <ownedAttributesInternal>
           <property Id="d55e6a81-e8a8-4459-932e-d8c1a45ef737" name="render_element_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="44074ed3-ccc8-4462-8c57-08fbcbe78731" />
+          </property>
+          <property Id="8899c2e6-e7a8-4921-8c17-af2895dac012" name="model_matrix_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5b9d5bcc-3a18-4455-ae81-4693da35fcc7" />
           </property>
         </ownedAttributesInternal>
         <ownedOperationsInternal>

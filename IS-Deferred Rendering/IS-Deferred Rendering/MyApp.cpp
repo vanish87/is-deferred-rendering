@@ -13,12 +13,13 @@ MyApp::~MyApp(void)
 
 void MyApp::InitObjects()
 {
-	Context::Instance().GetResourceLoader().LoadModel("test.dae");
+	scene= Context::Instance().GetResourceLoader().LoadModel("test.dae");
+	scene->AddToScene();
 }
 
 void MyApp::ReleaseObjects()
 {
-
+	delete scene;
 }
 
 int main()

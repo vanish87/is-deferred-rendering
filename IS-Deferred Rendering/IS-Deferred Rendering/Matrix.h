@@ -79,6 +79,11 @@ namespace MocapGE
 			return data_[index]; 
 		}	
 
+		Vec4<T> & Row(size_t index)
+		{ 
+			return data_[index]; 
+		}
+
 		const Vec4<T> &	operator[]( int index ) const //get const row
 		{
 			return data_[index];

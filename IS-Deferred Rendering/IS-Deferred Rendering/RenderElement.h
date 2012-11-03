@@ -9,8 +9,14 @@ namespace MocapGE
 {
 	class RenderElement
 	{
+		friend class SceneObject;
 	public:
 		RenderElement(void);
+		RenderElement(float4x4 model_matrix)
+			:model_matrix_(model_matrix)
+		{
+		
+		};
 		~RenderElement(void);
 
 		virtual void AddToScene() = 0;

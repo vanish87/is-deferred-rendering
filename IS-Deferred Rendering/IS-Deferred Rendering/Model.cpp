@@ -13,7 +13,10 @@ namespace MocapGE
 
 	void Model::AddToScene()
 	{
-		throw std::exception("The method or operation is not implemented.");
+		for(size_t i = 0;i < meshes_.size(); i++)
+		{
+			meshes_[i]->AddToScene();
+		}
 	}
 
 	RenderLayout* Model::GetRenderLayout()

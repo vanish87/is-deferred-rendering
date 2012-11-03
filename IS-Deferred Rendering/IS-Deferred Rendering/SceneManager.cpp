@@ -24,9 +24,19 @@ namespace MocapGE
 
 	void SceneManager::Update()
 	{
+		render_list_.clear();
+
 		std::vector<SceneObject*>::iterator so;
 		for(so = scene_object_list.begin() ; so < scene_object_list.end(); so++)
+		{
 			(*so)->Update();
+			render_list_.push_back((*so)->GetRenderElement());
+		}
+	}
+
+	void SceneManager::AddSceneObject( SceneObject* scene_object )
+	{
+		scene_object_list.push_back(scene_object);
 	}
 
 }

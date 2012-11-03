@@ -30,6 +30,7 @@ namespace MocapGE
 		virtual void EndRender();
 
 		virtual void LoadFile(std::string file_name);
+
 		void AddMesh( Mesh* mesh );
 
 

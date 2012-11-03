@@ -18,6 +18,8 @@ namespace MocapGE
 		SceneManager(void);
 		~SceneManager(void);
 
+		void AddSceneObject(SceneObject* scene_object);
+
 		void Flush();
 		void Update();
 

@@ -14,8 +14,8 @@ namespace MocapGE
 		Mesh(void);
 		~Mesh(void);
 
-		Mesh(RenderLayout* render_layout)
-			:render_layout_(render_layout)
+		Mesh(std::string name, RenderLayout* render_layout, float4x4 model_matrix)
+			:RenderElement(model_matrix), name_(name), render_layout_(render_layout)
 		{};
 
 		virtual void AddToScene();

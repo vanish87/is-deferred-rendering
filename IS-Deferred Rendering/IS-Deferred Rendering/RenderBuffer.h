@@ -13,7 +13,7 @@ namespace MocapGE
 	public:
 		RenderBuffer(void);
 		RenderBuffer(BufferUsage usage, AccessType access_type)
-			:usage_(usage_), access_type_(access_type)
+			:usage_(usage), access_type_(access_type)
 		{
 		
 		};

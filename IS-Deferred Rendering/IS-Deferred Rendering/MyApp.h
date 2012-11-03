@@ -1,5 +1,7 @@
 #pragma once
 #include "App.h"
+#include "Model.h"
+
 class MyApp :
 	public MocapGE:: App
 {
@@ -8,5 +10,9 @@ public:
 	~MyApp(void);
 	void InitObjects();
 	void ReleaseObjects();
+
+private:
+
+	MocapGE::Model* scene;
 };
 

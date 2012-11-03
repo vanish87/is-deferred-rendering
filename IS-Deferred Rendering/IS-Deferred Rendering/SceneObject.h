@@ -3,6 +3,8 @@
 
 #pragma once
 #include "PreDec.h"
+#include "Matrix.h"
+#include "RenderElement.h"
 
 namespace MocapGE
 {
@@ -10,13 +12,20 @@ namespace MocapGE
 	{
 	public:
 		SceneObject(void);
+		SceneObject(RenderElement* render_element)
+			:render_element_(render_element),model_matrix_(render_element->model_matrix_)
+		{
+			
+		};
 		~SceneObject(void);
 
-		virtual void Update() = 0;
+		virtual void Update();
+		virtual RenderElement* & GetRenderElement();
 
 	protected:
 
 		RenderElement* render_element_;
+		float4x4 model_matrix_;
 	};
 
 }

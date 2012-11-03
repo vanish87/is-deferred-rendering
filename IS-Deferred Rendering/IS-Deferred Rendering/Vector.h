@@ -290,6 +290,12 @@ namespace MocapGE
 			return *this;
 		}
 
+		const T& operator[](size_t index) const
+		{
+			assert(index < 4);
+			return vec_[index];
+		}
+
 		T& operator[](size_t index)
 		{
 			assert(index < 4);

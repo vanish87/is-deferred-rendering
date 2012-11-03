@@ -14,22 +14,22 @@ namespace MocapGE
 
 	void RenderLayout::AddBuffer( RenderBuffer* render_buffer )
 	{
-		LayoutInstance li;
-		li.buffer = render_buffer;
+		LayoutInstance* li = new LayoutInstance();
+		li->buffer = render_buffer;
 		BufferUsage bu = render_buffer->GetUsage();
 		switch (bu)
 		{
 		case BU_VERTEX:
-			li.usage = VBU_VERTEX;
+			li->usage = VBU_VERTEX;
 			break;
 		case BU_INDEX:
-			li.usage = VBU_INDEX;
+			li->usage = VBU_INDEX;
 			break;
 			default:
 				NULL;
 				break;
 		}
-		data_.push_back(&li);
+		data_.push_back(li);
 	}
 
 	void RenderLayout::SetPrimitive( PrimitiveType primitive_type )
