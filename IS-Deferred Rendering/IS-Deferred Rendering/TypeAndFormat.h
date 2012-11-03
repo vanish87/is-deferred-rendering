@@ -24,8 +24,18 @@ namespace MocapGE
 
 	enum BufferUsage
 	{
-		BU_DYNAMIC,
-		BU_STATIC
+		BU_VERTEX,
+		BU_INDEX,
+		BU_SHADER_RES,
+		BU_SHADER_CONST
+	};
+
+	enum AccessType
+	{
+		AT_CPU_READ,
+		AT_CPU_WRITE,
+		AT_GPU_READ,
+		AT_GPU_WRITE
 	};
 	enum PrimitiveType
 	{
@@ -43,6 +53,12 @@ namespace MocapGE
 		VU_BINORMAL,
 		VU_BLENDINDEX,
 		VU_BLENDWEIGHT
+	};
+	enum VertexBufferUsage
+	{
+		VBU_ANIMATION,
+		VBU_INDEX,
+		VBU_VERTEX
 	};
 
 	struct InitData

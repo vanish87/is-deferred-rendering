@@ -11,5 +11,10 @@ namespace MocapGE
 	{
 	}
 
+	BufferUsage RenderBuffer::GetUsage()
+	{
+		return usage_;
+	}
+
 }
 

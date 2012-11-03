@@ -68,6 +68,7 @@ namespace MocapGE
 		}
 
 		scene_manager_ = new SceneManager();
+		resource_loader_ = new ResourceLoader();
 
 		context_config_ = cfg;
 	}
@@ -82,6 +83,12 @@ namespace MocapGE
 	{
 		if(scene_manager_ == nullptr)std::cout<< "no Scene Manager"<<std::endl;
 		return *scene_manager_;
+	}
+
+	ResourceLoader& Context::GetResourceLoader()
+	{
+		if(resource_loader_ == nullptr)std::cout<< "no Resource Loader"<<std::endl;
+		return *resource_loader_;
 	}
 
 }

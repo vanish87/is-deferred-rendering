@@ -143,6 +143,45 @@
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
+          <association
+            Id="ba82141f-d107-4e02-b411-58dfe24f1f99"
+            isDerived="false"
+            sourceEndRoleName="Context"
+            targetEndRoleName="ResourceLoader"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="32e2b104-8453-4da3-9a06-9fa2689255c5"
+              LastKnownName="ResourceLoader"
+              LastKnownLocation="MocapGE.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a12f8cef-f17a-4952-948b-3b9bc6d31584"
+                  name="Context"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8c8bf71d-6908-4658-b575-676580eb18a0"
+                  name="ResourceLoader"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property
@@ -199,6 +238,42 @@
               <classMoniker
                 Id="8388c914-d5c7-440d-9b1c-5ce5c3018f39"
                 LastKnownName="RenderFactory"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="7286dd5a-c9a0-4084-bf5b-f65c21695c75"
+            name="scene_manager_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="b4a7aec7-2099-4164-8b01-d3726010567c"
+                LastKnownName="SceneManager"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="b4b8d40d-47c6-4554-b19d-03dc9ecff3b6"
+            name="resource_loader_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="32e2b104-8453-4da3-9a06-9fa2689255c5"
+                LastKnownName="ResourceLoader"
                 LastKnownLocation="MocapGE.uml" />
             </type_NamedElement>
           </property>
@@ -373,6 +448,52 @@
                     <classMoniker
                       Id="a39d4175-c29d-44f3-b23e-d207f2a67012"
                       LastKnownName="App"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="1c8c5aa8-418a-470c-9698-18e69a098a34"
+            name="GetSceneManager"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="66e43a02-daa4-4237-9d99-2024bca4ecbb"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="b4a7aec7-2099-4164-8b01-d3726010567c"
+                      LastKnownName="SceneManager"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="bb1d435c-0399-47f2-883f-3f87eb9e2996"
+            name="GetResourceLoader"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="02e55bd8-a8f0-4180-8766-df2d175dadce"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="32e2b104-8453-4da3-9a06-9fa2689255c5"
+                      LastKnownName="ResourceLoader"
                       LastKnownLocation="MocapGE.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -1354,6 +1475,44 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation
+            Id="b96a3f1d-4566-46fd-b0c4-e2a963c24c52"
+            name="MakeRenderLayout"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="a3d2cece-7bce-4c35-8ab4-06b1ddb46145"
+            name="MakeRenderBuffer"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="1a7e6064-4c72-45ca-96e0-559407ea7cbd"
+                  name="init_data"
+                  direction="In" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="80e96ed4-030d-41e8-98f8-3cf11858cd3b"
+                  name="buffer_usage"
+                  direction="In">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="5cfcdb7c-e5d7-47a7-b774-eaf465b7a288"
+                      LastKnownName="BufferUsage"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -2189,6 +2348,24 @@
                 LastKnownLocation="MocapGE.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="52127158-8a87-4263-8cfa-78c6e30a334b"
+            name="access_type_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="26278ca9-2950-44dd-a0c0-49a46f067bea"
+                LastKnownName="AccessType"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
@@ -2201,10 +2378,16 @@
         <ownedLiterals>
           <enumerationLiteral
             Id="5bdd9ff3-567d-4c80-98db-c42124abe4bb"
-            name="BU_STATIC" />
+            name="BU_INDEX" />
           <enumerationLiteral
             Id="ae1ef256-aa44-4853-bce2-b7cbdf37054d"
-            name="BU_DYNAMIC" />
+            name="BU_VERTEX" />
+          <enumerationLiteral
+            Id="a947b141-5574-4d56-808b-40f78679a2c4"
+            name="BU_SHADER_RES" />
+          <enumerationLiteral
+            Id="84f7fc9f-de38-4993-9f0f-84b868a15360"
+            name="BU_SHADER_CONST" />
         </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
@@ -2217,13 +2400,16 @@
         <ownedLiterals>
           <enumerationLiteral
             Id="6c59abfa-0c41-42f4-aad4-cc8614fb8249"
-            name="AT_READ" />
+            name="AT_GPU_READ" />
           <enumerationLiteral
             Id="317b7838-cb0d-4d33-9bc1-61f05a99333a"
-            name="AT_WRITE" />
+            name="AT_GPU_WRITE" />
           <enumerationLiteral
             Id="6b947a8c-97a0-4c54-af01-86210ff107f4"
-            name="AT_READ_WRITE" />
+            name="AT_CPU_READ" />
+          <enumerationLiteral
+            Id="04b1de8a-b2ca-4468-82d9-aa70af788663"
+            name="AT_CPU_WRITE" />
         </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
@@ -3344,6 +3530,44 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation
+            Id="dedb103c-6b9f-4c82-ac82-b231ef7e336f"
+            name="MakeRenderLayout"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="e237ae6e-5dc0-4ea2-bf5d-bc0be64c1bb7"
+            name="MakeRenderBuffer"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d261daba-4a14-4fa5-a9d7-35772e88c60f"
+                  name="init_data"
+                  direction="In" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="aeba89e7-13a7-466a-993d-f39dbb9e138e"
+                  name="buffer_usage"
+                  direction="In">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="5cfcdb7c-e5d7-47a7-b774-eaf465b7a288"
+                      LastKnownName="BufferUsage"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -3555,51 +3779,44 @@
               LastKnownName="PrimitiveType"
               LastKnownLocation="MocapGE.uml" />
           </dependency>
-          <dependency
-            Id="62f655f0-0de3-44ba-a9fa-2836f30d814d">
-            <enumerationMoniker
-              Id="b527a066-8d86-4862-bf01-853602c7cdec"
-              LastKnownName="VertexUsage"
-              LastKnownLocation="MocapGE.uml" />
-          </dependency>
         </suppliersInternal>
         <targetEnds>
           <association
-            Id="5c05eb00-0c05-4abb-a804-fac55c60e1ab"
+            Id="afdf58af-50e3-44aa-995a-04afc774b198"
             isDerived="false"
             sourceEndRoleName="RenderLayout"
-            targetEndRoleName="RenderBuffer"
+            targetEndRoleName="LayoutInstance"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
-              Id="8df124f3-d978-403f-822f-c0f50179df24"
-              LastKnownName="RenderBuffer"
+              Id="163b0855-d06c-4f31-9fbd-90777c6cad67"
+              LastKnownName="LayoutInstance"
               LastKnownLocation="MocapGE.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="f986a63d-701c-4a06-a307-6ddf8ab616fa"
+                  Id="757ac5ec-4a5c-4bcd-b1f5-fd6ae7575bc0"
                   name="RenderLayout"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
-                  aggregation="None"
+                  aggregation="Composite"
                   isComposite="false"
                   isNavigableOwned="false" />
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="28b99e12-08f1-4d30-891b-5f2fb62ede63"
-                  name="RenderBuffer"
+                  Id="eb8f3fbd-c8de-4ee9-8333-b52d2a8fc89b"
+                  name="LayoutInstance"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
                   aggregation="None"
-                  isComposite="false" />
+                  isComposite="true" />
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
@@ -3619,8 +3836,8 @@
             isComposite="false">
             <type_NamedElement>
               <classMoniker
-                Id="8df124f3-d978-403f-822f-c0f50179df24"
-                LastKnownName="RenderBuffer"
+                Id="163b0855-d06c-4f31-9fbd-90777c6cad67"
+                LastKnownName="LayoutInstance"
                 LastKnownLocation="MocapGE.uml" />
             </type_NamedElement>
           </property>
@@ -3637,9 +3854,8 @@
             aggregation="None"
             isComposite="false" />
           <property
-            Id="55c2b32d-4ed7-46c4-97e2-d7baac6f4197"
-            name="usage_"
-            visibility="Protected"
+            Id="81659834-61ae-4059-ba53-2172dfc26dc8"
+            name="input_layout_"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -3656,6 +3872,46 @@
             isLeaf="false"
             isStatic="false"
             isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="d3820649-de0a-470e-b90f-9a77d3d052df"
+            name="AddBuffer"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="251bd8fa-10d5-4828-9a97-18f7fb58c718"
+                  name="buffer"
+                  direction="In">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="8df124f3-d978-403f-822f-c0f50179df24"
+                      LastKnownName="RenderBuffer"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="b9a91487-dbfa-4ee7-a7cf-779ab350e12a"
+            name="SetPrimitive"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="c3c6c5a9-9dec-4086-acb9-ed1d54f05c68"
+            name="SetInputLayout"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
             concurrency="Sequential"
             isQuery="false" />
         </ownedOperationsInternal>
@@ -4056,6 +4312,14 @@
             isAbstract="false"
             concurrency="Sequential"
             isQuery="false" />
+          <operation
+            Id="c1ec6296-9a1b-41f0-8016-05dd4bdb3015"
+            name="AddMesh"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -4095,6 +4359,210 @@
                     <primitiveTypeMoniker
                       Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
                       LastKnownName="String"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="163b0855-d06c-4f31-9fbd-90777c6cad67"
+        name="LayoutInstance"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="f7520900-7db2-48e6-9a56-f53f1ae3e5e3">
+            <enumerationMoniker
+              Id="fb4249d5-aa16-4848-b6b5-a4c76a6cf6d1"
+              LastKnownName="VertexBufferUsage"
+              LastKnownLocation="MocapGE.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="c4015e46-0ea3-4e0e-8513-c560c691cf1e"
+            isDerived="false"
+            sourceEndRoleName="LayoutInstance"
+            targetEndRoleName="RenderBuffer"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="8df124f3-d978-403f-822f-c0f50179df24"
+              LastKnownName="RenderBuffer"
+              LastKnownLocation="MocapGE.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="033f3b05-607d-40b3-b2cc-4ef80124d3ce"
+                  name="LayoutInstance"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0d35f4ef-0d78-4ceb-9178-ab86de006489"
+                  name="RenderBuffer"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="d7853c37-4857-4938-8208-55053c06cd76"
+            name="buffer"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="8df124f3-d978-403f-822f-c0f50179df24"
+                LastKnownName="RenderBuffer"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="44688a67-dab6-4392-9e32-1da57c92a8e7"
+            name="usage"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="fb4249d5-aa16-4848-b6b5-a4c76a6cf6d1"
+                LastKnownName="VertexBufferUsage"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="fb4249d5-aa16-4848-b6b5-a4c76a6cf6d1"
+        name="VertexBufferUsage"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="0a204109-a473-4b60-96ba-f9a1aa7a7f1c"
+            name="Vertex" />
+          <enumerationLiteral
+            Id="92aff83d-6443-4404-92d2-3b219fefcb60"
+            name="Animation" />
+          <enumerationLiteral
+            Id="94dbd8e6-cabd-4037-85d0-1e948b07645e"
+            name="Index" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="32e2b104-8453-4da3-9a06-9fa2689255c5"
+        name="ResourceLoader"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="13e3c73f-9db2-4e12-ad95-9dc75367034c"
+            isDerived="false"
+            sourceEndRoleName="ResourceLoader"
+            targetEndRoleName="Model"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="c8ff12b3-bcdd-45a1-8d05-56f977450f24"
+              LastKnownName="Model"
+              LastKnownLocation="MocapGE.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="75b0b46b-6f81-41c2-9f9b-7d9bfc9273d3"
+                  name="ResourceLoader"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="440a6ba8-d10f-4190-8b84-b3a8b08884c5"
+                  name="Model"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation
+            Id="9b1ebbac-b9f5-46bd-8339-1a8b367ad195"
+            name="LoadModel"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c4794032-24a7-4073-85d8-efdfbf0ecab8"
+                  name="file_name"
+                  direction="In">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c047ba0f-4e59-4999-8689-1f7c468aaf66"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="c8ff12b3-bcdd-45a1-8d05-56f977450f24"
+                      LastKnownName="Model"
                       LastKnownLocation="MocapGE.uml" />
                   </type_NamedElement>
                 </parameter>

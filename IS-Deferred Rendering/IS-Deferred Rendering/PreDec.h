@@ -5,10 +5,13 @@
 #include <assert.h>
 #include <boost/smart_ptr.hpp>
 
+#define PRINT(x) std::cout<<x<<std::endl;
 
 namespace MocapGE
 {
 	#define MOCAPGE_API __declspec(dllexport)
+	typedef __int32 int32_t;
+	typedef unsigned __int32 uint32_t;
 
 	class XMLParser;
 	typedef boost::shared_ptr<XMLParser> XMLParserPtr;

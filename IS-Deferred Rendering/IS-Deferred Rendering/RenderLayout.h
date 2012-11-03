@@ -2,9 +2,11 @@
 #define RENDERLAYOUT_H_
 
 #pragma once
+#include <vector>
 
 #include "PreDec.h"
 #include "TypeAndFormat.h"
+#include "RenderBuffer.h"
 
 namespace MocapGE
 {
@@ -15,12 +17,20 @@ namespace MocapGE
 		~RenderLayout(void);
 
 		virtual RenderLayout* GetLayout() = 0;
+		virtual void AddBuffer(RenderBuffer* render_buffer);
+		void SetPrimitive( PrimitiveType primitive_type );
+		void SetInputLayout( std::vector<VertexUsage> input_layout );
+
 
 	protected:
-
-		RenderBuffer* data_;
+		struct LayoutInstance
+		{
+			RenderBuffer* buffer;
+			VertexBufferUsage usage;
+		};
+		std::vector<LayoutInstance*> data_;
 		PrimitiveType type_;
-		VertexUsage usage_;
+		std::vector<VertexUsage> input_layout_;
 	};
 }
 

@@ -41,5 +41,10 @@ namespace MocapGE
 
 	}
 
+	void Model::AddMesh( Mesh* mesh )
+	{
+		meshes_.push_back(mesh);
+	}
+
 
 }

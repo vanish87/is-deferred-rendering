@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -59,8 +59,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\boost_1_51_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\boost_1_51_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\COLLADA\collada-dom\dom\include;C:\COLLADA\collada-dom\dom\include\1.4;C:\boost_1_51_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\COLLADA\collada-dom\dom\build\vc10-1.4-d;C:\COLLADA\collada-dom\dom\external-libs;C:\boost_1_51_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\boost_1_51_0;$(IncludePath)</IncludePath>
@@ -100,6 +100,7 @@
     <ClCompile Include="RenderFactory.cpp" />
     <ClCompile Include="RenderLayout.cpp" />
     <ClCompile Include="RenderView.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="RenderFactory.h" />
     <ClInclude Include="RenderLayout.h" />
     <ClInclude Include="RenderView.h" />
+    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Texture.h" />

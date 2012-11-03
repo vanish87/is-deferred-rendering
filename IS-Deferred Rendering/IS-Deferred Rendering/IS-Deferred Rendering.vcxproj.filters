@@ -114,6 +114,9 @@
     <ClCompile Include="D3DRenderBuffer.cpp">
       <Filter>D3DRenderingLayer\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="D3DRenderBuffer.h">
       <Filter>D3DRenderingLayer\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

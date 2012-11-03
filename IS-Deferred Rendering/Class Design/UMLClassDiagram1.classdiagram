@@ -53,6 +53,22 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="07702b6a-c6e9-4257-bf6b-e56d52394e46" />
           </association>
+          <association Id="3db46ca1-57ec-482c-a422-660de71516c7" isDerived="false" sourceEndRoleName="Context" targetEndRoleName="ResourceLoader" isLeaf="false" isAbstract="false">
+            <classMoniker Id="c50f4c4b-6b37-42bc-9236-6a97bf4c4e23" LastKnownName="ResourceLoader" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7c2e7896-411c-4145-a08b-513ad4902bb3" name="Context" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="a12f8cef-f17a-4952-948b-3b9bc6d31584" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e37626a4-cd3b-4c8e-9d48-737a4274cd66" name="ResourceLoader" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="8c8bf71d-6908-4658-b575-676580eb18a0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ba82141f-d107-4e02-b411-58dfe24f1f99" />
+          </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property Id="abe990be-0178-4531-b928-2c6b30f69305" name="app_" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -71,6 +87,18 @@
             <elementDefinition Id="4d32cd31-883a-4673-800b-47d717861d2a" />
             <type_NamedElement>
               <referencedTypeMoniker Id="1489e047-0f19-4206-b4e8-99c8a4b2f413" LastKnownName="RenderFactory" />
+            </type_NamedElement>
+          </property>
+          <property Id="ff285c10-0a6a-43a1-aed3-c8cd044dc18b" name="scene_manager_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7286dd5a-c9a0-4084-bf5b-f65c21695c75" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a24693aa-fc42-4f07-89d7-9b63edebbcdc" LastKnownName="SceneManager" />
+            </type_NamedElement>
+          </property>
+          <property Id="ad134229-0fdd-421c-9aa5-f99360de0c7d" name="resource_loader_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b4b8d40d-47c6-4554-b19d-03dc9ecff3b6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="f902d18f-0b2d-4696-8d9b-1755a8477224" LastKnownName="ResourceLoader" />
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
@@ -166,6 +194,32 @@
                   <elementDefinition Id="99a9f21a-f7b9-476a-a74a-d154d15b415b" />
                   <type_NamedElement>
                     <referencedTypeMoniker Id="19868f98-48a2-4bea-ac56-0fb71877e2e5" LastKnownName="App" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="38240ced-78b1-4a4a-8c91-c6a9a2d9e3ff" name="GetSceneManager" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="1c8c5aa8-418a-470c-9698-18e69a098a34" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="5acee4cd-7424-4c80-a729-f10ca144e1a7" direction="Return">
+                  <elementDefinition Id="66e43a02-daa4-4237-9d99-2024bca4ecbb" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="00f6f9d5-51ac-46e4-b781-b545f94a4ff6" LastKnownName="SceneManager" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="1057efc3-1b71-4f76-9434-8cdfe1ffec60" name="GetResourceLoader" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="bb1d435c-0399-47f2-883f-3f87eb9e2996" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="a754ce79-8997-4592-bd69-347ffc5326f6" direction="Return">
+                  <elementDefinition Id="02e55bd8-a8f0-4180-8766-df2d175dadce" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="26ab619a-22ea-4983-9206-bf7f4a7ca90b" LastKnownName="ResourceLoader" />
                   </type_NamedElement>
                 </parameter>
               </operationHasOwnedParameters>
@@ -698,6 +752,27 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation Id="39e622ac-0857-48e1-8632-c100a776c3a9" name="MakeRenderLayout" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="b96a3f1d-4566-46fd-b0c4-e2a963c24c52" />
+          </operation>
+          <operation Id="c34f372c-7a2c-41e8-a4a3-3c766dbf1807" name="MakeRenderBuffer" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="a3d2cece-7bce-4c35-8ab4-06b1ddb46145" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="cda7a3c1-d3bc-4e26-8c26-4aa69f4ae529" name="init_data" direction="In">
+                  <elementDefinition Id="1a7e6064-4c72-45ca-96e0-559407ea7cbd" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="4bf1c919-de65-434c-bdce-08b81eaf76c3" name="buffer_usage" direction="In">
+                  <elementDefinition Id="80e96ed4-030d-41e8-98f8-3cf11858cd3b" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="b0b887ae-b077-4f82-ab2e-1151183ebee8" LastKnownName="BufferUsage" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -1153,6 +1228,12 @@
               <referencedTypeMoniker Id="b0b887ae-b077-4f82-ab2e-1151183ebee8" LastKnownName="BufferUsage" />
             </type_NamedElement>
           </property>
+          <property Id="612d0116-685a-4532-845f-30c0c71a9915" name="access_type_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="52127158-8a87-4263-8cfa-78c6e30a334b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="6962e0ce-f06a-4deb-99e9-0fc343a804b3" LastKnownName="AccessType" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -1160,11 +1241,17 @@
       <enumeration Id="629ba377-a584-4d0c-8dbc-7140b32ade29" name="BufferUsage" isAbstract="false" isLeaf="false">
         <elementDefinition Id="5cfcdb7c-e5d7-47a7-b774-eaf465b7a288" />
         <ownedLiterals>
-          <enumerationLiteral Id="fa1804a2-0bdf-4d35-b0ce-daac92bd0566" name="BU_STATIC">
+          <enumerationLiteral Id="fa1804a2-0bdf-4d35-b0ce-daac92bd0566" name="BU_INDEX">
             <elementDefinition Id="5bdd9ff3-567d-4c80-98db-c42124abe4bb" />
           </enumerationLiteral>
-          <enumerationLiteral Id="bab5276f-ce74-476d-8872-9c0050420049" name="BU_DYNAMIC">
+          <enumerationLiteral Id="bab5276f-ce74-476d-8872-9c0050420049" name="BU_VERTEX">
             <elementDefinition Id="ae1ef256-aa44-4853-bce2-b7cbdf37054d" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="fca4c8a0-eb8a-4e2d-8208-cd71bd259b9d" name="BU_SHADER_RES">
+            <elementDefinition Id="a947b141-5574-4d56-808b-40f78679a2c4" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="ed33f3bc-bff7-401a-992b-64661e22892a" name="BU_SHADER_CONST">
+            <elementDefinition Id="84f7fc9f-de38-4993-9f0f-84b868a15360" />
           </enumerationLiteral>
         </ownedLiterals>
       </enumeration>
@@ -1173,14 +1260,17 @@
       <enumeration Id="ee18f764-f1c4-4ad8-be51-94008106ed91" name="AccessType" isAbstract="false" isLeaf="false">
         <elementDefinition Id="26278ca9-2950-44dd-a0c0-49a46f067bea" />
         <ownedLiterals>
-          <enumerationLiteral Id="e7a5f9ec-b7ca-4a4a-9ea4-ddb8efd561b8" name="AT_READ">
+          <enumerationLiteral Id="e7a5f9ec-b7ca-4a4a-9ea4-ddb8efd561b8" name="AT_GPU_READ">
             <elementDefinition Id="6c59abfa-0c41-42f4-aad4-cc8614fb8249" />
           </enumerationLiteral>
-          <enumerationLiteral Id="b6044f95-ffda-4c0b-89f1-7f369e5a3381" name="AT_WRITE">
+          <enumerationLiteral Id="b6044f95-ffda-4c0b-89f1-7f369e5a3381" name="AT_GPU_WRITE">
             <elementDefinition Id="317b7838-cb0d-4d33-9bc1-61f05a99333a" />
           </enumerationLiteral>
-          <enumerationLiteral Id="e3a1ca6b-5526-4ed0-9675-ff160d9cda86" name="AT_READ_WRITE">
+          <enumerationLiteral Id="e3a1ca6b-5526-4ed0-9675-ff160d9cda86" name="AT_CPU_READ">
             <elementDefinition Id="6b947a8c-97a0-4c54-af01-86210ff107f4" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="6d91657e-efd3-45f9-808e-af75e77c69e1" name="AT_CPU_WRITE">
+            <elementDefinition Id="04b1de8a-b2ca-4468-82d9-aa70af788663" />
           </enumerationLiteral>
         </ownedLiterals>
       </enumeration>
@@ -1728,6 +1818,27 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation Id="c5707e85-61fc-44e8-90da-73e4bfdcff6f" name="MakeRenderLayout" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="dedb103c-6b9f-4c82-ac82-b231ef7e336f" />
+          </operation>
+          <operation Id="0633146a-4bb7-4dd5-a890-384067c0fefa" name="MakeRenderBuffer" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="e237ae6e-5dc0-4ea2-bf5d-bc0be64c1bb7" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="b0cb074d-2418-4b31-b9c6-9a30141aa3af" name="init_data" direction="In">
+                  <elementDefinition Id="d261daba-4a14-4fa5-a9d7-35772e88c60f" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f8540e21-bc3e-4b96-86fb-cbeb0dfb09bb" name="buffer_usage" direction="In">
+                  <elementDefinition Id="aeba89e7-13a7-466a-993d-f39dbb9e138e" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="b0b887ae-b077-4f82-ab2e-1151183ebee8" LastKnownName="BufferUsage" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -1940,55 +2051,65 @@
             <enumerationMoniker Id="11dfc80a-7451-4362-9ff5-aae0c3fadd5b" LastKnownName="PrimitiveType" />
             <elementDefinition Id="17bc2a0b-5e4c-409e-83c0-0460fdb0f4f5" />
           </dependency>
-          <dependency Id="11010304-bfed-4068-b4fa-10d6bfdf96df">
-            <enumerationMoniker Id="da52332d-f326-4083-aa13-daabb07c20e2" LastKnownName="VertexUsage" />
-            <elementDefinition Id="62f655f0-0de3-44ba-a9fa-2836f30d814d" />
-          </dependency>
         </suppliersInternal>
         <targetEnds>
-          <association Id="03a0d03b-4046-4689-88e1-ae08e18dc636" isDerived="false" sourceEndRoleName="RenderLayout" targetEndRoleName="RenderBuffer" isLeaf="false" isAbstract="false">
-            <classMoniker Id="aa3b522d-dd7d-47a6-a8d4-010259acff9c" LastKnownName="RenderBuffer" />
+          <association Id="960dac14-56fe-4cf8-9c4f-8e37f9b4da57" isDerived="false" sourceEndRoleName="RenderLayout" targetEndRoleName="LayoutInstance" isLeaf="false" isAbstract="false">
+            <classMoniker Id="c6011dae-05bc-401d-bb21-cce93e6a3a81" LastKnownName="LayoutInstance" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
-                <memberEnd Id="03f00ddd-6ed6-4acc-84a7-f54b36accf39" name="RenderLayout" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="f986a63d-701c-4a06-a307-6ddf8ab616fa" />
+                <memberEnd Id="c2dcad10-1840-4d1d-a2e9-34004b569a20" name="RenderLayout" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="757ac5ec-4a5c-4bcd-b1f5-fd6ae7575bc0" />
                 </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
-                <memberEnd Id="2c13c224-7612-4478-85d9-f83e81645d90" name="RenderBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="28b99e12-08f1-4d30-891b-5f2fb62ede63" />
+                <memberEnd Id="44d7398f-7074-46be-8bef-4e6c0df153d2" name="LayoutInstance" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="eb8f3fbd-c8de-4ee9-8333-b52d2a8fc89b" />
                 </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
-            <elementDefinition Id="5c05eb00-0c05-4abb-a804-fac55c60e1ab" />
+            <elementDefinition Id="afdf58af-50e3-44aa-995a-04afc774b198" />
           </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property Id="008c4657-9d8e-4f79-83c4-630941c46192" name="data_" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="b26215a8-febf-4c8f-b28d-5f2ac974ff15" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="d8b2eb6f-7339-471b-bdc9-f4aa09410c72" LastKnownName="RenderBuffer" />
+              <referencedTypeMoniker Id="8cb3d69e-551b-40bd-8859-bd4125034709" LastKnownName="LayoutInstance" />
             </type_NamedElement>
           </property>
           <property Id="c9197dbd-2e10-43ff-b1bc-4f2c1d59f133" name="type_" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="c555956e-7655-4e1f-b66b-7654beb9eed4" />
           </property>
-          <property Id="3962ad6f-4b02-4490-a405-bfcc83deb276" name="usage_" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-            <elementDefinition Id="55c2b32d-4ed7-46c4-97e2-d7baac6f4197" />
+          <property Id="c15ee34b-00aa-46b0-af66-f0e262c3985b" name="input_layout_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="81659834-61ae-4059-ba53-2172dfc26dc8" />
           </property>
         </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation Id="45da5bf5-25cb-4e03-9cb6-5d6a5b386f2d" name="GetLayout" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="05e9c59e-a58f-4ca5-94e2-8ecc8b0db9e1" />
           </operation>
+          <operation Id="cc465d97-b497-4827-9a73-6a2056a03722" name="AddBuffer" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="d3820649-de0a-470e-b90f-9a77d3d052df" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="08137fbe-8a54-401e-a039-de255a9c3648" name="buffer" direction="In">
+                  <elementDefinition Id="251bd8fa-10d5-4828-9a97-18f7fb58c718" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="7887b3c6-0df3-43b5-856c-be477415246f" LastKnownName="RenderBuffer" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="e50475f7-14ff-45bc-a29d-3872d628d3fb" name="SetPrimitive" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="b9a91487-dbfa-4ee7-a7cf-779ab350e12a" />
+          </operation>
+          <operation Id="78227c08-fb9d-40ad-8805-5283c300b195" name="SetInputLayout" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="c3c6c5a9-9dec-4086-acb9-ed1d54f05c68" />
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
-    <packageHasNamedElement>
-      <referencedType Id="d8b2eb6f-7339-471b-bdc9-f4aa09410c72" name="RenderBuffer" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::RenderBuffer">
-        <elementDefinition Id="8df124f3-d978-403f-822f-c0f50179df24" />
-      </referencedType>
-    </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
       <class Id="fc5737fe-1c9e-44f0-9912-8e9d2fbd5f1b" name="D3DRenderBuffer" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="272b3921-9530-4fdb-a262-89ed29a2ec2a" />
@@ -2184,6 +2305,9 @@
           <operation Id="ca342559-e805-4cdd-93e4-d62dae498f91" name="EndRender" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="24b40694-2038-4828-b70d-e2a34ea6b4ac" />
           </operation>
+          <operation Id="89da1828-f46f-4903-8706-ae30b89a5ec4" name="AddMesh" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="c1ec6296-9a1b-41f0-8016-05dd4bdb3015" />
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -2226,6 +2350,156 @@
     <packageHasNamedElement>
       <referencedType Id="e8a5aabb-53aa-468b-8935-1dd3f774342b" name="Material" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::Material">
         <elementDefinition Id="f4a8d478-9bc9-4fb9-95d0-99a4c8ebb4d3" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c6011dae-05bc-401d-bb21-cce93e6a3a81" name="LayoutInstance" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="163b0855-d06c-4f31-9fbd-90777c6cad67" />
+        <suppliersInternal>
+          <dependency Id="efcd962f-d084-4b1f-810b-d9821029deb7">
+            <enumerationMoniker Id="0f0cde00-3b8c-42c6-b1f1-7fe5a5d3ae33" LastKnownName="VertexBufferUsage" />
+            <elementDefinition Id="f7520900-7db2-48e6-9a56-f53f1ae3e5e3" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association Id="92546869-1d3c-4175-8c31-3b346e8085b2" isDerived="false" sourceEndRoleName="LayoutInstance" targetEndRoleName="RenderBuffer" isLeaf="false" isAbstract="false">
+            <classMoniker Id="aa3b522d-dd7d-47a6-a8d4-010259acff9c" LastKnownName="RenderBuffer" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ab034c91-9dc2-4be7-9428-f0eded5d9d52" name="LayoutInstance" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="033f3b05-607d-40b3-b2cc-4ef80124d3ce" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1f4cc940-1be3-4708-b95f-b60fa1e8d98b" name="RenderBuffer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="0d35f4ef-0d78-4ceb-9178-ab86de006489" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c4015e46-0ea3-4e0e-8513-c560c691cf1e" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="e73489b3-6f95-4967-9ae9-f21666f1cb4a" name="buffer" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d7853c37-4857-4938-8208-55053c06cd76" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="7887b3c6-0df3-43b5-856c-be477415246f" LastKnownName="RenderBuffer" />
+            </type_NamedElement>
+          </property>
+          <property Id="019b25f4-3bcd-40e9-beda-3c75eaf55b3d" name="usage" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="44688a67-dab6-4392-9e32-1da57c92a8e7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="46a86409-a336-44a1-8f12-e1eb913f6a0b" LastKnownName="VertexBufferUsage" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="7887b3c6-0df3-43b5-856c-be477415246f" name="RenderBuffer" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::RenderBuffer">
+        <elementDefinition Id="8df124f3-d978-403f-822f-c0f50179df24" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="8cb3d69e-551b-40bd-8859-bd4125034709" name="LayoutInstance" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::LayoutInstance">
+        <elementDefinition Id="163b0855-d06c-4f31-9fbd-90777c6cad67" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <enumeration Id="0f0cde00-3b8c-42c6-b1f1-7fe5a5d3ae33" name="VertexBufferUsage" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="fb4249d5-aa16-4848-b6b5-a4c76a6cf6d1" />
+        <ownedLiterals>
+          <enumerationLiteral Id="3c7160a9-a822-4968-ba69-d28689e9a033" name="Vertex">
+            <elementDefinition Id="0a204109-a473-4b60-96ba-f9a1aa7a7f1c" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="7b959a23-44a1-43c2-a9a8-921f3eac091f" name="Animation">
+            <elementDefinition Id="92aff83d-6443-4404-92d2-3b219fefcb60" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="ed11ba6c-7fe5-4bea-983b-3a6d307a8b41" name="Index">
+            <elementDefinition Id="94dbd8e6-cabd-4037-85d0-1e948b07645e" />
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="46a86409-a336-44a1-8f12-e1eb913f6a0b" name="VertexBufferUsage" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::VertexBufferUsage">
+        <elementDefinition Id="fb4249d5-aa16-4848-b6b5-a4c76a6cf6d1" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c50f4c4b-6b37-42bc-9236-6a97bf4c4e23" name="ResourceLoader" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="32e2b104-8453-4da3-9a06-9fa2689255c5" />
+        <targetEnds>
+          <association Id="644c831d-b577-4ba2-aeac-c9c32bae12b3" isDerived="false" sourceEndRoleName="ResourceLoader" targetEndRoleName="Model" isLeaf="false" isAbstract="false">
+            <classMoniker Id="a6a2b90d-e8c3-41e2-ac00-33557e1a1dc8" LastKnownName="Model" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cb0d6fd4-fbf2-449a-99e4-215b9d945d79" name="ResourceLoader" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="75b0b46b-6f81-41c2-9f9b-7d9bfc9273d3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b89f4a00-b1b6-4a8e-b62b-494bf1e0c3c9" name="Model" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="440a6ba8-d10f-4190-8b84-b3a8b08884c5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="13e3c73f-9db2-4e12-ad95-9dc75367034c" />
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation Id="68b2692a-90e3-4837-83e1-5ac9856ac198" name="LoadModel" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="9b1ebbac-b9f5-46bd-8339-1a8b367ad195" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="122313ae-1feb-4812-a098-a46371f04e22" name="file_name" direction="In">
+                  <elementDefinition Id="c4794032-24a7-4073-85d8-efdfbf0ecab8" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6fd9361f-9019-45ca-9262-51e35af50bfc" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="128957ff-77c8-4218-9b95-d467e3a9e7bf" direction="Return">
+                  <elementDefinition Id="c047ba0f-4e59-4999-8689-1f7c468aaf66" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="cff78ba5-1c99-4f9c-8b92-aa20ed93d894" LastKnownName="Model" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="a24693aa-fc42-4f07-89d7-9b63edebbcdc" name="SceneManager" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::SceneManager">
+        <elementDefinition Id="b4a7aec7-2099-4164-8b01-d3726010567c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="f902d18f-0b2d-4696-8d9b-1755a8477224" name="ResourceLoader" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::ResourceLoader">
+        <elementDefinition Id="32e2b104-8453-4da3-9a06-9fa2689255c5" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="26ab619a-22ea-4983-9206-bf7f4a7ca90b" name="ResourceLoader" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::ResourceLoader">
+        <elementDefinition Id="32e2b104-8453-4da3-9a06-9fa2689255c5" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="00f6f9d5-51ac-46e4-b781-b545f94a4ff6" name="SceneManager" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::SceneManager">
+        <elementDefinition Id="b4a7aec7-2099-4164-8b01-d3726010567c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="cff78ba5-1c99-4f9c-8b92-aa20ed93d894" name="Model" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::Model">
+        <elementDefinition Id="c8ff12b3-bcdd-45a1-8d05-56f977450f24" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="6962e0ce-f06a-4deb-99e9-0fc343a804b3" name="AccessType" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::AccessType">
+        <elementDefinition Id="26278ca9-2950-44dd-a0c0-49a46f067bea" />
       </referencedType>
     </packageHasNamedElement>
   </packagedElements>

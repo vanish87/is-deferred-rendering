@@ -13,7 +13,7 @@ MyApp::~MyApp(void)
 
 void MyApp::InitObjects()
 {
-
+	Context::Instance().GetResourceLoader().LoadModel("test.dae");
 }
 
 void MyApp::ReleaseObjects()

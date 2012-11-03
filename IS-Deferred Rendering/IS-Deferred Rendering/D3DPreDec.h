@@ -5,6 +5,5 @@
 
 #include <d3d11.h>
 
-#define PRINT(x) std::cout<<x<<std::endl;
 
 #endif

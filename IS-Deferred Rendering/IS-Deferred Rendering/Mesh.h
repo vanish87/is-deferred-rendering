@@ -14,6 +14,10 @@ namespace MocapGE
 		Mesh(void);
 		~Mesh(void);
 
+		Mesh(RenderLayout* render_layout)
+			:render_layout_(render_layout)
+		{};
+
 		virtual void AddToScene();
 
 		virtual RenderLayout* GetRenderLayout();
@@ -26,6 +30,7 @@ namespace MocapGE
 
 	protected:
 
+		std::string name_;
 		RenderLayout* render_layout_;
 	};
 

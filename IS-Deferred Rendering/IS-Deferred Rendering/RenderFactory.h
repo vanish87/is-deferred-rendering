@@ -17,6 +17,8 @@ namespace MocapGE
 		RenderEngine& GetRenderEngine();
 
 		virtual FrameBuffer* MakeFrameBuffer(RenderSetting& render_setting) = 0;
+		virtual RenderLayout* MakeRenderLayout() = 0;
+		virtual RenderBuffer* MakeRenderBuffer(InitData init_data, BufferUsage usage, uint32_t byte_width) = 0;
 
 	protected:
 		RenderEngine* render_engine_;

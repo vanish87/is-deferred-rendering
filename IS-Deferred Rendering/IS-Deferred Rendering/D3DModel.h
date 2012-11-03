@@ -17,6 +17,7 @@ namespace MocapGE
 		~D3DModel(void);
 
 		virtual void LoadFile(std::string file_name);
+
 	};
 
 }
