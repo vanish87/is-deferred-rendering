@@ -4,36 +4,32 @@ namespace MocapGE
 {
 	namespace Math
 	{
-
-		template <typename T>
-		Matrix<T>	Multiply( const Matrix<T> & lhs, const Matrix<T> & rhs )
+		float Sqrt(float x)
 		{
-			assert( lhs.row() == rhs.col() );
-			Matrix<T> ret;
-			size_t dim = 4;
-
-			for (int row = 0 ; row < dim ; row++)
-				for (int col = 0 ; col < dim ; col++) 
-				{
-					ret[row][col] = 0;
-					for (int i = 0 ; i < dim ; i++)
-						ret[row][col] += lhs[row][i] * rhs[i][col];
-				}
-			return ret;
+			return std::sqrt(x);
 		}
 
 
-		template <typename T>
-		Vec3<T> Transform(const Vec3<T> & lhs, const Matrix<T> & rhs)
+		float Tan(float x)
 		{
-
+			return std::tan(x);
 		}
 
-		template <typename T>
-		Vec4<T>	Transform( const Vec4<T> & lhs, const Matrix<T> & rhs )
+		float Cot(float x)
 		{
-
+			return 1.0f / Tan(x);
 		}
+		float InvSqrt(float number)
+		{
+			float xhalf = 0.5f*number;
 
+			int i = *(int*)&number; // get bits for floating value
+			i = 0x5f3759df - (i>>1); // gives initial guess y0
+			number = *(float*)&i; // convert bits back to float
+			number = number*(1.5f-xhalf*number*number); // Newton step, repeating increases accuracy
+			number = number*(1.5f-xhalf*number*number); // 2nd Newton step, repeating increases accuracy
+
+			return number;
+		}
 	}
 }

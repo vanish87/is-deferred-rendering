@@ -25,6 +25,9 @@
     <Filter Include="D3DRenderingLayer\Source Files">
       <UniqueIdentifier>{221a05f8-b1ea-4da1-b276-224408ac6ff1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FxFiles">
+      <UniqueIdentifier>{60ccf8dd-177e-4c34-bc8d-dfd4c1f8bf30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -67,9 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Frustum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3DRenderView.cpp">
@@ -115,6 +115,12 @@
       <Filter>D3DRenderingLayer\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DShaderobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,10 +233,21 @@
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3DShaderobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml">
       <Filter>Config</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\FxFiles\color.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

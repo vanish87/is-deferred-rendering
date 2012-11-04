@@ -16,7 +16,7 @@ namespace MocapGE
 		height_ = d3d_t2d->GetHeight();
 
 		format_ = d3d_t2d->GetFormat();
-		dimension_ = TextureType::TEXTURE2D;
+		dimension_ = TEXTURE2D;
 	}
 
 

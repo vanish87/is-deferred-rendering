@@ -1,6 +1,7 @@
 #ifndef PREDEC_H_
 #define PREDEC_H_
 
+//#pragma warning(disable:4819 4355) take care
 #pragma once
 #include <assert.h>
 #include <boost/smart_ptr.hpp>

@@ -5,12 +5,14 @@
 
 namespace MocapGE
 {
+	
 	class Frustum
 	{
 	public:
 		Frustum(void);
 		~Frustum(void);
 
+	//bad frustum, better use 6 planes
 	protected:
 
 	};

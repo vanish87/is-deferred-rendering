@@ -118,7 +118,7 @@ namespace MocapGE
 
 	}
 
-	void D3DRenderEngine::Render()
+	void D3DRenderEngine::Render(RenderLayout* render_layout)
 	{
 		
 
