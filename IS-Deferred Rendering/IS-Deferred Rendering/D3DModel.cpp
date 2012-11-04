@@ -13,7 +13,8 @@ namespace MocapGE
 
 	void D3DModel::LoadFile( std::string file_name )
 	{
-
+		Model::LoadFile(file_name);
+		//do Load texture here
 	}
 
 	void D3DModel::SetRenderParameters()

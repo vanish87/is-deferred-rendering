@@ -1,5 +1,6 @@
+//
+//
 //This is a temporary solution for model loader in D3D. Because it uses D3DtextureLoader tool from Microsoft.
-
 #ifndef D3DMODEL_H_
 #define D3DMODEL_H_
 

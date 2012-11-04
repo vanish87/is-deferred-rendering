@@ -13,7 +13,8 @@ MyApp::~MyApp(void)
 
 void MyApp::InitObjects()
 {
-	scene= Context::Instance().GetResourceLoader().LoadModel("test.dae");
+	scene = new D3DModel();
+	scene->LoadFile("test.dae");
 	scene->AddToScene();
 }
 

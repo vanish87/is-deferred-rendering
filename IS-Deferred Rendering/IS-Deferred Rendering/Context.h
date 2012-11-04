@@ -10,7 +10,7 @@
 #include "XMLParser.h"
 #include "RenderFactory.h"
 #include "SceneManager.h"
-#include "ResourceLoader.h"
+//#include "ResourceLoader.h" // find in Deprecated Files folder
 
 namespace MocapGE
 {
@@ -29,7 +29,7 @@ namespace MocapGE
 
 		RenderFactory& GetRenderFactory();
 		SceneManager& GetSceneManager();
-		ResourceLoader& GetResourceLoader();
+		//ResourceLoader& GetResourceLoader();
 
 		void SetAppInstance(App &app)
 		{
@@ -47,7 +47,7 @@ namespace MocapGE
 
 		RenderFactory*	render_factory_;
 		SceneManager* scene_manager_;
-		ResourceLoader* resource_loader_;
+		//ResourceLoader* resource_loader_;
 	};
 }
 

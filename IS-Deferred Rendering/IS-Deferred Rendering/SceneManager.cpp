@@ -27,13 +27,14 @@ namespace MocapGE
 	}
 
 	void SceneManager::Update()
+		//do scene cull here
 	{
 		render_list_.clear();
 
 		std::vector<SceneObject*>::iterator so;
 		for(so = scene_object_list.begin() ; so < scene_object_list.end(); so++)
 		{
-			(*so)->Update();
+			(*so)->Update();//do update aabb and set model_matrix equals to render_element_'s
 			render_list_.push_back((*so)->GetRenderElement());
 		}
 	}

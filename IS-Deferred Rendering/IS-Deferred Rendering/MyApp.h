@@ -1,6 +1,6 @@
 #pragma once
 #include "App.h"
-#include "Model.h"
+#include "D3DModel.h"
 
 class MyApp :
 	public MocapGE:: App
@@ -14,6 +14,6 @@ public:
 
 private:
 
-	MocapGE::Model* scene;
+	MocapGE::D3DModel* scene;
 };
 
