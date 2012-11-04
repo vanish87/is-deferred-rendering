@@ -32,7 +32,7 @@ namespace MocapGE
 		virtual void LoadFile(std::string file_name);
 
 		void AddMesh( Mesh* mesh );
-
+		
 
 	protected:
 		std::vector<Mesh*> meshes_;

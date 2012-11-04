@@ -4,6 +4,7 @@
 #pragma once
 #include "PreDec.h"
 #include "Matrix.h"
+#include "ShaderObject.h"
 
 namespace MocapGE
 {
@@ -22,7 +23,7 @@ namespace MocapGE
 		virtual void AddToScene() = 0;
 		virtual RenderLayout* GetRenderLayout() = 0;
 
-		//virtual ShaderObject* GetShaderObject() = 0;
+		virtual ShaderObject* GetShaderObject();
 
 		virtual void SetRenderParameters() = 0;
 		virtual void Render() = 0;
@@ -30,6 +31,8 @@ namespace MocapGE
 
 	protected:
 		float4x4 model_matrix_;
+
+		ShaderObject* shader_object_;
 
 	};
 

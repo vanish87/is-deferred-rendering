@@ -54,6 +54,8 @@ namespace MocapGE
 				loops = 0;
 				while( GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) 
 				{
+					this->Update();
+
 					Context::Instance().GetSceneManager().Update();
 
 					next_game_tick += SKIP_TICKS;

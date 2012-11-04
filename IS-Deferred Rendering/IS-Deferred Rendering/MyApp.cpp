@@ -22,6 +22,11 @@ void MyApp::ReleaseObjects()
 	delete scene;
 }
 
+void MyApp::Update()
+{
+
+}
+
 int main()
 {
 	Context::Instance().LoadConfig("E:\\12Fall\\Independent Study\\IS-Deferred Rendering\\IS-Deferred Rendering\\Config.xml");

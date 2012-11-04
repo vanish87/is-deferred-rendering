@@ -106,6 +106,7 @@
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="ShaderObject.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="ShaderObject.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TypeAndFormat.h" />
     <ClInclude Include="Vector.h" />

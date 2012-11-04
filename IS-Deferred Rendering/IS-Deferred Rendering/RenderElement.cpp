@@ -11,5 +11,10 @@ namespace MocapGE
 	{
 	}
 
+	ShaderObject* RenderElement::GetShaderObject()
+	{
+		return shader_object_;
+	}
+
 
 }

@@ -16,8 +16,10 @@ namespace MocapGE
 		D3DModel(void);
 		~D3DModel(void);
 
+		//Load D3DTexture here
 		virtual void LoadFile(std::string file_name);
 
+		virtual void SetRenderParameters();
 	};
 
 }

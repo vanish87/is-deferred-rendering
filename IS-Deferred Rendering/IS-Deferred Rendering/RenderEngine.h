@@ -8,6 +8,7 @@
 #include "PreDec.h"
 #include "Configure.h"
 #include "FrameBuffer.h"
+#include "SceneObject.h"
 
 namespace MocapGE
 {
@@ -22,7 +23,7 @@ namespace MocapGE
 		//virtual void BindSOBuffers(RenderLayoutPtr const & rl) = 0;
 		//virtual void Render(ShaderObject const & shader, RenderLayout const & rl) = 0;
 
-		virtual void Render(RenderLayout* render_layout) = 0;
+		virtual void Render(RenderLayout* render_layout, ShaderObject* shader_object) = 0;
 		virtual void SwapBuffers() = 0;
 		virtual void OnResize() = 0;
 

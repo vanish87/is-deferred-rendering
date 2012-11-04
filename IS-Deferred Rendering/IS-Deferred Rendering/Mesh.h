@@ -28,6 +28,7 @@ namespace MocapGE
 
 		virtual void EndRender();
 
+
 	protected:
 
 		std::string name_;

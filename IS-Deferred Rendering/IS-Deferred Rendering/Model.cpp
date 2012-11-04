@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Context.h"
 
 namespace MocapGE
 {
@@ -13,6 +14,7 @@ namespace MocapGE
 
 	void Model::AddToScene()
 	{
+		Context::Instance().GetSceneManager().AddSceneObject(new SceneObject(this));
 		for(size_t i = 0;i < meshes_.size(); i++)
 		{
 			meshes_[i]->AddToScene();
@@ -26,11 +28,13 @@ namespace MocapGE
 
 	void Model::Render()
 	{
+		//do nothing
 		throw std::exception("The method or operation is not implemented.");
 	}
 
 	void Model::SetRenderParameters()
 	{
+		//only do the general setup
 		throw std::exception("The method or operation is not implemented.");
 	}
 
@@ -48,6 +52,7 @@ namespace MocapGE
 	{
 		meshes_.push_back(mesh);
 	}
+
 
 
 }

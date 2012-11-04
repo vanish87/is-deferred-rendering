@@ -16,4 +16,9 @@ namespace MocapGE
 
 	}
 
+	void D3DModel::SetRenderParameters()
+	{
+
+	}
+
 }

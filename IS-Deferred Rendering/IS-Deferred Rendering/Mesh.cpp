@@ -30,13 +30,13 @@ namespace MocapGE
 	void Mesh::Render()
 	{
 		RenderEngine& render_engine = Context::Instance().GetRenderFactory().GetRenderEngine();
-		this->SetRenderParameters();
-		render_engine.Render(render_layout_);
+		render_engine.Render(render_layout_, shader_object_);
 	}
 
 	void Mesh::EndRender()
 	{
 		throw std::exception("The method or operation is not implemented.");
 	}
+
 
 }

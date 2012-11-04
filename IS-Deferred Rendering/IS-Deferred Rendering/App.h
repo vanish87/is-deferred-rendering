@@ -35,9 +35,14 @@ namespace MocapGE
 	protected:
 		virtual void InitObjects()
 		{
-		}virtual void ReleaseObjects()
+		}
+		virtual void Update()
 		{
 		}
+		virtual void ReleaseObjects()
+		{
+		}
+
 	};
 }
 #endif

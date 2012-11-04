@@ -118,11 +118,18 @@ namespace MocapGE
 
 	}
 
-	void D3DRenderEngine::Render(RenderLayout* render_layout)
+	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
 	{
-		
+		//Clear Frame Buffer
+		//IASetInputLayout
+		//IASetPrimitiveTopology
+		//for each pass of tech
+			//IASetVertexBuffers
+			//IASetIndexBuffer	
+			
+			//SetShaderPara
+			//DrawIndexed
 
-		
 	}
 
 	void D3DRenderEngine::SwapBuffers()

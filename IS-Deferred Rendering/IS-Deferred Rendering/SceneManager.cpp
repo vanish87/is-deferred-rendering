@@ -17,7 +17,11 @@ namespace MocapGE
 	{
 		std::vector<RenderElement*>::iterator re;
 		for(re = render_list_.begin() ; re < render_list_.end(); re++)
+		{
+			(*re)->SetRenderParameters();
 			(*re)->Render();
+			(*re)->EndRender();
+		}
 
 		Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
 	}

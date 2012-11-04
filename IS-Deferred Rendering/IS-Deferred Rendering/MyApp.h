@@ -10,6 +10,7 @@ public:
 	~MyApp(void);
 	void InitObjects();
 	void ReleaseObjects();
+	void Update();
 
 private:
 
