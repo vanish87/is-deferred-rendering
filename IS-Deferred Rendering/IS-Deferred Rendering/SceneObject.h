@@ -19,6 +19,7 @@ namespace MocapGE
 		};
 		~SceneObject(void);
 
+		//do update aabb and set model_matrix equals to its render_element_'s
 		virtual void Update();
 		virtual RenderElement* & GetRenderElement();
 

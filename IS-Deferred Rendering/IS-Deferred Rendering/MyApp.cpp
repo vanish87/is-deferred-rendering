@@ -14,7 +14,8 @@ MyApp::~MyApp(void)
 void MyApp::InitObjects()
 {
 	scene = new D3DModel();
-	scene->LoadFile("test.dae");
+	scene->LoadFile("heart.dae");
+	scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	scene->AddToScene();
 }
 

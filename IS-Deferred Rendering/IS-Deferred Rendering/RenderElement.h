@@ -23,7 +23,9 @@ namespace MocapGE
 		virtual void AddToScene() = 0;
 		virtual RenderLayout* GetRenderLayout() = 0;
 
-		virtual ShaderObject* GetShaderObject();
+		ShaderObject* GetShaderObject();
+		void SetShaderObject(ShaderObject* shader_object);
+		virtual void LoadShaderFile(std::string file_name);
 
 		virtual void SetRenderParameters() = 0;
 		virtual void Render() = 0;

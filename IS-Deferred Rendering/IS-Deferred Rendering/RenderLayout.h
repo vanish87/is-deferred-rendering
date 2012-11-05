@@ -17,16 +17,23 @@ namespace MocapGE
 		~RenderLayout(void);
 
 		virtual RenderLayout* GetLayout() = 0;
-		virtual void AddBuffer(RenderBuffer* render_buffer);
+		virtual void AddBuffer(RenderBuffer* render_buffer, uint32_t vertex_size);
 		void SetPrimitive( PrimitiveType primitive_type );
 		void SetInputLayout( std::vector<VertexUsage> input_layout );
 
+		RenderBuffer* GetBuffer(VertexBufferUsage usage);
+		std::vector<VertexUsage> GetInputLayout();
+		uint32_t GetVertexSize();
+		uint32_t GetIndexCount();
+
+		PrimitiveType GetPrimitive(){return type_;};
 
 	protected:
 		struct LayoutInstance
 		{
 			RenderBuffer* buffer;
 			VertexBufferUsage usage;
+			uint32_t vertex_size;
 		};
 		std::vector<LayoutInstance*> data_;
 		PrimitiveType type_;

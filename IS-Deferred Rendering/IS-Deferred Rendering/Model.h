@@ -25,6 +25,7 @@ namespace MocapGE
 		struct VertexType//temp struct for loading
 		{
 			float3 position;
+			//float4 color;
 			float2 uv;
 			float3 normal;
 			float3 tangent;
@@ -71,14 +72,13 @@ namespace MocapGE
 		virtual RenderLayout* GetRenderLayout();
 
 		virtual void Render();
-
 		virtual void SetRenderParameters();
-
 		virtual void EndRender();
 
 		virtual void LoadFile(std::string file_name);
-
 		void AddMesh( Mesh* mesh );
+
+		virtual void LoadShaderFile(std::string file_name);
 		
 
 	protected:
@@ -89,6 +89,7 @@ namespace MocapGE
 		float4x4 processMatrix(daeElement* node);
 		void processSource( DaeMesh* mesh, daeElement* sources );
 		void processTriangles( DaeMesh* mesh, daeElement* triangles );
+
 	};
 }
 

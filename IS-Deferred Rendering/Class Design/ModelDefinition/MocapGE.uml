@@ -2716,10 +2716,62 @@
         isAbstract="true"
         isLeaf="false"
         isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="eef5f24b-6d3d-4b0d-8ec2-c62c85d01a7f"
+            isDerived="false"
+            sourceEndRoleName="RenderElement"
+            targetEndRoleName="ShaderObject"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="a34e09e1-9829-4cf0-a9b1-2c488282d1b8"
+              LastKnownName="ShaderObject"
+              LastKnownLocation="MocapGE.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="00c5cdf9-7a76-4ec1-b928-0118b44b211a"
+                  name="RenderElement"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c813f47e-57da-4629-8a05-464800f86ff1"
+                  name="ShaderObject"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedAttributesInternal>
           <property
             Id="18a2fe35-e0ae-4da6-b60b-3b1ed8809dcf"
             name="model_matrix_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="6ae180e4-bd78-416d-95a9-f1ffe07abf3b"
+            name="shader_object_"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -2778,6 +2830,31 @@
             isAbstract="true"
             concurrency="Sequential"
             isQuery="false" />
+          <operation
+            Id="9d6a7bbe-8afb-44b0-80a1-bb478c15b2bd"
+            name="LoadShaderFile"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="536ebaea-47bf-4c43-9a76-fee583185e1c"
+                  name="file_name"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -3762,13 +3839,6 @@
     </packageHasNamedElement>
     <packageHasNamedElement>
       <enumeration
-        Id="0d08d3e8-2807-4b85-b74e-768f2b7ab141"
-        name="Enumeration1"
-        isAbstract="false"
-        isLeaf="false" />
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <enumeration
         Id="7151ea09-105a-409f-a15b-42d9c1776b29"
         name="PrimitiveType"
         isAbstract="false"
@@ -4339,6 +4409,31 @@
             isAbstract="false"
             concurrency="Sequential"
             isQuery="false" />
+          <operation
+            Id="65f31317-fd42-4100-8b2c-c10a23e33ff9"
+            name="LoadShaderFile"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="75febbc9-1f57-4924-8046-cfea3b9b540e"
+                  name="file_name"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -4374,6 +4469,31 @@
                   Id="3e930b5f-aa55-401c-ab42-fbc22ba52968"
                   name="file_name"
                   direction="In">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="8699cef1-ed41-4a81-8d70-08f9aae18c66"
+            name="LoadShaderFile"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ed3d8f6c-0b49-475d-b283-f1a0d27eb5d5"
+                  name="file_name"
+                  direction="In"
+                  isUnique="false">
                   <type_NamedElement>
                     <primitiveTypeMoniker
                       Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
@@ -4589,6 +4709,114 @@
             </ownedParameters>
           </operation>
         </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a34e09e1-9829-4cf0-a9b1-2c488282d1b8"
+        name="ShaderObject"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="495794a5-659b-42f0-9958-e8dd4c0364ab"
+        name="Light"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="f90dc90d-50b3-493b-a6c6-2e57f68166cd">
+            <enumerationMoniker
+              Id="6550f49b-d670-4091-a14f-0828513aa39b"
+              LastKnownName="LightType"
+              LastKnownLocation="MocapGE.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="2d13bdc5-8fdf-4bd0-8053-de4f949c8bae"
+            name="light_type_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="6550f49b-d670-4091-a14f-0828513aa39b"
+                LastKnownName="LightType"
+                LastKnownLocation="MocapGE.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="6e59755c-60ce-4801-addb-20bb7ea2ce90"
+            name="light_color_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="6550f49b-d670-4091-a14f-0828513aa39b"
+        name="LightType"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="cd9b79ce-68e0-4a48-9a9d-fa32ba45f83e"
+            name="LT_POINT" />
+          <enumerationLiteral
+            Id="6d49ea74-106b-496b-8fd5-ae9b165bbf36"
+            name="LT_SPOT" />
+          <enumerationLiteral
+            Id="17817712-4a75-4b0c-891c-0e80506d9e42"
+            name="LT_DIRECTIONAL" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b2349454-851c-44db-a3ff-8afa40c6b889"
+        name="PointLight"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="edc228fb-954f-4b33-bda3-bb654139ffb3"
+            isSubstitutable="false">
+            <classMoniker
+              Id="495794a5-659b-42f0-9958-e8dd4c0364ab"
+              LastKnownName="Light"
+              LastKnownLocation="MocapGE.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="ebfbbff0-632e-4610-9043-adcd87b07d62"
+            name="pos_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
   </packagedElements>

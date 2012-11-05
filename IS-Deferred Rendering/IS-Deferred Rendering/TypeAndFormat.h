@@ -52,7 +52,8 @@ namespace MocapGE
 		VU_TANGENT,
 		VU_BINORMAL,
 		VU_BLENDINDEX,
-		VU_BLENDWEIGHT
+		VU_BLENDWEIGHT,
+		VU_COLOR
 	};
 	enum VertexBufferUsage
 	{
@@ -74,6 +75,13 @@ namespace MocapGE
 		float3 diffuse;
 		float3 specular;
 		float shininess;
+	};
+
+	enum LightType
+	{
+		LT_POINT,
+		LT_SPOT,
+		LT_DERECTIONAL
 	};
 
 }

@@ -1,8 +1,5 @@
 #include "D3DRenderEngine.h"
-#include "Context.h"
-#include "App.h"
-#include "Window.h"
-#include "D3DFrameBuffer.h"
+
 
 namespace MocapGE
 {
@@ -35,7 +32,7 @@ namespace MocapGE
 				D3D11_SDK_VERSION,
 				&d3d_device_,
 				&d3d_feature_level_,
-				&d3d_imm_ctx_);
+				&d3d_imm_context_);
 
 		if( FAILED(result) )
 		{
@@ -120,25 +117,107 @@ namespace MocapGE
 
 	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
 	{
+
+		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object);
+		size_t pass = d3d_shader_object->GetPass();
 		//Clear Frame Buffer
+		float color[4] = {0.0f,0.0f,0.0f,1.0f};
+		D3DFreamBuffer* d3d_frame_buffer;
+		d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
+		d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
+		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);
+		
 		//IASetInputLayout
+		D3DRenderLayout* d3d_rl = static_cast<D3DRenderLayout*>(render_layout);
+		std::vector<VertexUsage> vertex_layout = d3d_rl->GetInputLayout();
+		D3D11_INPUT_ELEMENT_DESC *input_layout_desc = new D3D11_INPUT_ELEMENT_DESC[vertex_layout.size()]; 
+		for (size_t i = 0; i < vertex_layout.size(); i++)
+		{
+			input_layout_desc[i].SemanticIndex = 0;
+			input_layout_desc[i].InputSlot = 0;
+			input_layout_desc[i].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+			input_layout_desc[i].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+			input_layout_desc[i].InstanceDataStepRate = 0;
+			switch (vertex_layout[i])
+			{
+			case VU_POSITION:
+				input_layout_desc[i].SemanticName = "POSITION";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+				break;
+			case VU_NORMAL:
+				input_layout_desc[i].SemanticName = "NORMAL";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+				break;
+			case VU_TEXCOORD:
+				input_layout_desc[i].SemanticName = "TEXCOORD";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32_FLOAT;
+				break;
+			case VU_TANGENT:
+				input_layout_desc[i].SemanticName = "TANGENT";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+				break;
+			case VU_BINORMAL:
+				input_layout_desc[i].SemanticName = "BINORMAL";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+				break;
+			case VU_COLOR:
+				input_layout_desc[i].SemanticName = "COLOR";
+				input_layout_desc[i].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+				input_layout_desc[i].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+				break;
+			default:
+				break;
+			}
+
+
+		}
+
+		// Create the input layout
+		D3DX11_PASS_DESC pass_desc;
+		d3d_shader_object->GetTechnique()->GetPassByIndex(0)->GetDesc( &pass_desc );
+		ID3D11InputLayout* input_layout;
+		HRESULT result = d3d_device_->CreateInputLayout(input_layout_desc, 2, pass_desc.pIAInputSignature, 
+			pass_desc.IAInputSignatureSize, &input_layout);
+		if(FAILED(result))PRINT("Cannot Create Input Layout");
+		d3d_imm_context_->IASetInputLayout(input_layout);
+
 		//IASetPrimitiveTopology
+		PrimitiveType pri_type = d3d_rl->GetPrimitive();
+		switch (pri_type)
+		{
+		case MocapGE::PT_POINTLIST:
+			d3d_imm_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			break;
+		case MocapGE::PT_TRIANGLELIST:
+			d3d_imm_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			break;
+		default:
+			break;
+		}
 		//for each pass of tech
+		for (size_t i =0; i < pass; i++)
+		{			
 			//IASetVertexBuffers
+			D3DRenderBuffer* d3d_vertex_buffer = static_cast<D3DRenderBuffer*>(d3d_rl->GetBuffer(VBU_VERTEX));
+			uint32_t stride = d3d_rl->GetVertexSize();
+			uint32_t offset = 0;
+			d3d_imm_context_->IASetVertexBuffers(0, 1, &(d3d_vertex_buffer->D3DBuffer()), &stride, &offset);
+
 			//IASetIndexBuffer	
+			D3DRenderBuffer* d3d_index_buffer = static_cast<D3DRenderBuffer*>(d3d_rl->GetBuffer(VBU_INDEX));
+			d3d_imm_context_->IASetIndexBuffer(d3d_index_buffer->D3DBuffer(), DXGI_FORMAT_R32_UINT, 0);
 			
 			//SetShaderPara
 			//DrawIndexed
+			d3d_shader_object->Apply(i);
+			uint32_t index_count = d3d_rl->GetIndexCount();
+			d3d_imm_context_->DrawIndexed(index_count, 0, 0);
+		}
 
 	}
 
 	void D3DRenderEngine::SwapBuffers()
 	{
-		float color[4] = {0.0f,0.0f,1.0f,1.0f};
-		D3DFreamBuffer* d3d_frame_buffer;
-		d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
-		d3d_imm_ctx_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
-		d3d_imm_ctx_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);
 		d3d_swap_chain->Present(0, 0);
 	}
 
@@ -224,6 +303,63 @@ namespace MocapGE
 		d3d_frame_buffer->D3DDSView()->SetD3DDSV(depth_stencil_view);
 
 		this->BindFrameBuffer(d3d_frame_buffer);
+
+
+		/*ID3D11RasterizerState* m_rasterState;
+		ID3D11DepthStencilState* m_depthStencilState;
+		D3D11_RASTERIZER_DESC rasterDesc;
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+		// Set up the description of the stencil state.
+		depthStencilDesc.DepthEnable = true;
+		depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		depthStencilDesc.StencilEnable = false;
+		depthStencilDesc.StencilReadMask = 0xFF;
+		depthStencilDesc.StencilWriteMask = 0xFF;
+
+		// Stencil operations if pixel is front-facing.
+		depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+		// Stencil operations if pixel is back-facing.
+		depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+		// Create the depth stencil state.
+		result = d3d_device_->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
+		if(FAILED(result))
+		{
+			return ;
+		}
+
+		// Set the depth stencil state.
+		d3d_imm_context_->OMSetDepthStencilState(m_depthStencilState, 1);
+
+		rasterDesc.AntialiasedLineEnable = false;
+		rasterDesc.CullMode = D3D11_CULL_BACK;
+		rasterDesc.DepthBias = 0;
+		rasterDesc.DepthBiasClamp = 0.0f;
+		rasterDesc.DepthClipEnable = true;
+		rasterDesc.FillMode = D3D11_FILL_SOLID;
+		rasterDesc.FrontCounterClockwise = false;
+		rasterDesc.MultisampleEnable = false;
+		rasterDesc.ScissorEnable = false;
+		rasterDesc.SlopeScaledDepthBias = 0.0f;
+
+		// Create the rasterizer state from the description we just filled out.
+		result = d3d_device_->CreateRasterizerState(&rasterDesc, &m_rasterState);
+		if(FAILED(result))
+		{
+			return ;
+		}
+
+		// Now set the rasterizer state.
+		d3d_imm_context_->RSSetState(m_rasterState);*/
 
 
 	}

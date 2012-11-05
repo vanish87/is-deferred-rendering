@@ -1,4 +1,5 @@
 #include "D3DShaderobject.h"
+#include "Context.h"
 
 namespace MocapGE
 {
@@ -15,6 +16,8 @@ namespace MocapGE
 	{
 		std::ifstream fin(file_name, std::ios::binary);
 
+		if (!fin)PRINT("Cannot open Fxo File ");
+
 		fin.seekg(0, std::ios_base::end);
 		int size = (int)fin.tellg();
 		fin.seekg(0, std::ios_base::beg);
@@ -26,6 +29,51 @@ namespace MocapGE
 		HRESULT result = D3DX11CreateEffectFromMemory(&compiledShader[0], size,	0, render_engine->D3DDevice(), &fx_);
 		if(FAILED(result))
 			PRINT("Cannot Load Effect File");
+	}
+
+	void D3DShaderobject::SetVariable( std::string name )
+	{
+		effect_variable_[name] = fx_->GetVariableByName(name.c_str());
+	}
+
+	void D3DShaderobject::SetMatrixVariable( std::string name )
+	{
+		matrix_variable_[name] = fx_->GetVariableByName(name.c_str())->AsMatrix();
+	}
+
+	void D3DShaderobject::SetMatrixVariable( std::string name, float4x4 & matrix )
+	{
+		//TODO: write a better solution for cast float4x4 to float*
+		ID3DX11EffectMatrixVariable* mat_var = GetMatrixVariable(name);
+		float *p = new float[matrix.size()];
+		for(size_t i = 0; i< matrix.row(); i++)
+			for(size_t j = 0; j < matrix.col(); j++)
+				p[i*matrix.row() + j] = matrix[i][j];
+		mat_var->SetMatrix(p);
+		delete[] p;
+	}
+
+	void D3DShaderobject::SetVectorVariable( std::string name )
+	{
+		vector_variable_[name] = fx_->GetVariableByName(name.c_str())->AsVector();
+	}
+
+	void D3DShaderobject::SetTechnique( std::string name )
+	{
+		tech_ = fx_->GetTechniqueByName(name.c_str());
+	}
+
+	size_t D3DShaderobject::GetPass()
+	{
+		D3DX11_TECHNIQUE_DESC tech_desc;
+		tech_->GetDesc( &tech_desc );
+		return tech_desc.Passes;
+	}
+
+	void D3DShaderobject::Apply( size_t pass_index )
+	{
+		D3DRenderEngine* d3d_render_engine = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
+		tech_->GetPassByIndex(pass_index)->Apply(0, d3d_render_engine->D3DDeviceImmContext());
 	}
 
 }

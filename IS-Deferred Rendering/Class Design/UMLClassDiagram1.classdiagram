@@ -1446,9 +1446,30 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="80e46129-f3a4-42f6-9fd0-166cb589ca73" name="RenderElement" isAbstract="true" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="ac7d5bd8-cad7-42d4-9405-33fd5b3e2a7e" />
+        <targetEnds>
+          <association Id="40b7058e-f09e-470b-8917-a8bf71d8ff28" isDerived="false" sourceEndRoleName="RenderElement" targetEndRoleName="ShaderObject" isLeaf="false" isAbstract="false">
+            <classMoniker Id="01595edb-7ee6-4394-97e3-ffd37a7ff9f2" LastKnownName="ShaderObject" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b9abaabf-01a1-4f93-8284-5f7a53a87588" name="RenderElement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="00c5cdf9-7a76-4ec1-b928-0118b44b211a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="14a63345-d47c-41ac-85fe-2d0aa2056899" name="ShaderObject" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="c813f47e-57da-4629-8a05-464800f86ff1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="eef5f24b-6d3d-4b0d-8ec2-c62c85d01a7f" />
+          </association>
+        </targetEnds>
         <ownedAttributesInternal>
           <property Id="2785283c-706a-408f-b41b-f431b9df7779" name="model_matrix_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="18a2fe35-e0ae-4da6-b60b-3b1ed8809dcf" />
+          </property>
+          <property Id="27e90a06-ce0d-4250-8e37-44ff2174a513" name="shader_object_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6ae180e4-bd78-416d-95a9-f1ffe07abf3b" />
           </property>
         </ownedAttributesInternal>
         <ownedOperationsInternal>
@@ -1469,6 +1490,19 @@
           </operation>
           <operation Id="c33e7c39-2a24-4def-8284-b48f74c7173d" name="EndRender" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="c790dfb5-8c24-47c9-8697-c638d759b03f" />
+          </operation>
+          <operation Id="b2cebc78-953c-4485-b367-9dbe919e8e7e" name="LoadShaderFile" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="9d6a7bbe-8afb-44b0-80a1-bb478c15b2bd" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="565e5c4e-4103-41ad-9301-c356af3251ba" name="file_name" direction="In" isUnique="false">
+                  <elementDefinition Id="536ebaea-47bf-4c43-9a76-fee583185e1c" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6fd9361f-9019-45ca-9262-51e35af50bfc" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -2032,11 +2066,6 @@
       </enumeration>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
-      <enumeration Id="f3e5b2e7-8cbe-4bd0-9254-dbac50c71240" name="Enumeration1" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="0d08d3e8-2807-4b85-b74e-768f2b7ab141" />
-      </enumeration>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
       <enumeration Id="11dfc80a-7451-4362-9ff5-aae0c3fadd5b" name="PrimitiveType" isAbstract="false" isLeaf="false">
         <elementDefinition Id="7151ea09-105a-409f-a15b-42d9c1776b29" />
         <ownedLiterals>
@@ -2314,6 +2343,19 @@
           <operation Id="89da1828-f46f-4903-8706-ae30b89a5ec4" name="AddMesh" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="c1ec6296-9a1b-41f0-8016-05dd4bdb3015" />
           </operation>
+          <operation Id="ef831569-28f8-4a90-8a11-1cbfe7494478" name="LoadShaderFile" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="65f31317-fd42-4100-8b2c-c10a23e33ff9" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="52e4124b-d755-43a4-a2df-1fd4016d3430" name="file_name" direction="In" isUnique="false">
+                  <elementDefinition Id="75febbc9-1f57-4924-8046-cfea3b9b540e" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6fd9361f-9019-45ca-9262-51e35af50bfc" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -2343,6 +2385,19 @@
               <operationHasOwnedParameters>
                 <parameter Id="810a2c0a-b985-48a2-811f-5f085d4a0efb" name="file_name" direction="In">
                   <elementDefinition Id="3e930b5f-aa55-401c-ab42-fbc22ba52968" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6fd9361f-9019-45ca-9262-51e35af50bfc" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="ec6584ee-fc3b-4353-91b0-47e197614308" name="LoadShaderFile" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="8699cef1-ed41-4a81-8d70-08f9aae18c66" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ab1ebc58-1de8-4767-a894-19df572b3310" name="file_name" direction="In" isUnique="false">
+                  <elementDefinition Id="ed3d8f6c-0b49-475d-b283-f1a0d27eb5d5" />
                   <type_NamedElement>
                     <referencedTypeMoniker Id="6fd9361f-9019-45ca-9262-51e35af50bfc" LastKnownName="String" />
                   </type_NamedElement>
@@ -2508,6 +2563,70 @@
         <elementDefinition Id="26278ca9-2950-44dd-a0c0-49a46f067bea" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="01595edb-7ee6-4394-97e3-ffd37a7ff9f2" name="ShaderObject" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="a34e09e1-9829-4cf0-a9b1-2c488282d1b8" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="43267f41-5d10-4fbe-97dd-e42f3b95fb82" name="Light" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="495794a5-659b-42f0-9958-e8dd4c0364ab" />
+        <suppliersInternal>
+          <dependency Id="0006b481-ffd9-4a1f-99e7-0af1079e399a">
+            <enumerationMoniker Id="411c8911-0616-42b4-8d01-0566d03375ef" LastKnownName="LightType" />
+            <elementDefinition Id="f90dc90d-50b3-493b-a6c6-2e57f68166cd" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property Id="d1dd7531-ee4b-4fdb-8b4a-c1d75a631ae7" name="light_type_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2d13bdc5-8fdf-4bd0-8053-de4f949c8bae" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0353d7b9-521c-4d51-adfb-62735f0a818c" LastKnownName="LightType" />
+            </type_NamedElement>
+          </property>
+          <property Id="e0b864b6-fa7f-40a3-9d55-045defbba0e5" name="light_color_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6e59755c-60ce-4801-addb-20bb7ea2ce90" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <enumeration Id="411c8911-0616-42b4-8d01-0566d03375ef" name="LightType" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6550f49b-d670-4091-a14f-0828513aa39b" />
+        <ownedLiterals>
+          <enumerationLiteral Id="e0e230a8-bae3-48f3-9a75-563aa189aeb5" name="LT_POINT">
+            <elementDefinition Id="cd9b79ce-68e0-4a48-9a9d-fa32ba45f83e" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="525418b2-0b92-40eb-93a6-bd43e093750d" name="LT_SPOT">
+            <elementDefinition Id="6d49ea74-106b-496b-8fd5-ae9b165bbf36" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="61384382-7019-48c2-b193-a1f664116cda" name="LT_DIRECTIONAL">
+            <elementDefinition Id="17817712-4a75-4b0c-891c-0e80506d9e42" />
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="0353d7b9-521c-4d51-adfb-62735f0a818c" name="LightType" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::LightType">
+        <elementDefinition Id="6550f49b-d670-4091-a14f-0828513aa39b" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fdcb13b7-c2a4-4375-bffd-e7634daceaed" name="PointLight" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b2349454-851c-44db-a3ff-8afa40c6b889" />
+        <generalsInternal>
+          <generalization Id="932c186c-b9ac-46a8-92fa-197d79c32765" isSubstitutable="false">
+            <classMoniker Id="43267f41-5d10-4fbe-97dd-e42f3b95fb82" LastKnownName="Light" />
+            <elementDefinition Id="edc228fb-954f-4b33-bda3-bb654139ffb3" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="34da1a0a-2617-49cd-aeb3-4ce0fa59c469" name="pos_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ebfbbff0-632e-4610-9043-adcd87b07d62" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="dd7a0302-7a78-47be-9485-41109ff69847" name="MocapGE">
     <elementDefinition Id="d0bbf3ca-4bd9-4edb-bdbd-bb73c74d45f2" />

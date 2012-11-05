@@ -24,7 +24,7 @@ namespace MocapGE
 
 	void Mesh::SetRenderParameters()
 	{
-		throw std::exception("The method or operation is not implemented.");
+		//throw std::exception("The method or operation is not implemented.");
 	}
 
 	void Mesh::Render()
@@ -35,7 +35,7 @@ namespace MocapGE
 
 	void Mesh::EndRender()
 	{
-		throw std::exception("The method or operation is not implemented.");
+		//throw std::exception("The method or operation is not implemented.");
 	}
 
 

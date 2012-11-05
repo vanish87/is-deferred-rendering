@@ -16,6 +16,8 @@ namespace MocapGE
 
 		D3DRenderBuffer(void* init_data, BufferUsage buffer_usage, AccessType access_type);
 
+		ID3D11Buffer* & D3DBuffer(){return d3d_buffer_;};
+
 	private:
 		ID3D11Buffer* d3d_buffer_;
 		ID3D11ShaderResourceView* d3d_shader_resource_view_;

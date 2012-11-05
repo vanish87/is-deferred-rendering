@@ -134,6 +134,47 @@ namespace MocapGE
 			//realign the index of vertex
 			uint32_t i_size = meshes[i]->GetNumIndex();
 			uint32_t v_size = meshes[i]->GetNumVertex();
+			/*//===============================================================
+			i_size = 36;
+			v_size = 8;
+			VertexType vb[] = {
+			{ float3(-1.0f, -1.0f, -1.0f ),float4(1.0f, 0.0f, 0.0f ,1.0f)  },
+			{ float3(-1.0f, +1.0f, -1.0f), float4(1.0f, 1.0f, 0.0f ,1.0f)  },
+			{ float3(+1.0f, +1.0f, -1.0f), float4(1.0f, 1.0f, 1.0f ,1.0f)  },
+			{ float3(+1.0f, -1.0f, -1.0f), float4(0.0f, 0.0f, 0.0f ,1.0f)  },
+			{ float3(-1.0f, -1.0f, +1.0f), float4(0.0f, 1.0f, 0.0f ,1.0f)  },
+			{ float3(-1.0f, +1.0f, +1.0f), float4(1.0f, 1.0f, 1.0f ,1.0f)  },
+			{ float3(+1.0f, +1.0f, +1.0f), float4(1.0f, 0.0f, 1.0f ,1.0f)  },
+			{ float3(+1.0f, -1.0f, +1.0f), float4(1.0f, 0.0f, 0.0f ,1.0f)  }
+			};
+
+			uint32_t ib[] = 	{
+				// front face
+				0, 1, 2,
+				0, 2, 3,
+
+				// back face
+				4, 6, 5,
+				4, 7, 6,
+
+				// left face
+				4, 5, 1,
+				4, 1, 0,
+
+				// right face
+				3, 2, 6,
+				3, 6, 7,
+
+				// top face
+				1, 5, 6,
+				1, 6, 2,
+
+				// bottom face
+				4, 0, 3, 
+				4, 3, 7
+			};
+			
+			//========================================================*/
 			VertexType* vb = new VertexType[v_size];
 			uint32_t* ib = new uint32_t[i_size];
 			for(size_t j = 0; j < i_size; j++)
@@ -159,6 +200,7 @@ namespace MocapGE
 				vb[meshes[i]->indices[0][j]].bitangent = bitangent;
 				ib[j] = meshes[i]->indices[0][j];
 			}
+			
 			//call MakeRenderLayout
 			RenderLayout* render_layout = Context::Instance().GetRenderFactory().MakeRenderLayout();
 			//call MakeRenderBuffer(Vertex)
@@ -167,22 +209,23 @@ namespace MocapGE
 			init_data.row_pitch = 0;
 			init_data.slice_pitch = 0;
 			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, BU_VERTEX, sizeof(VertexType)*v_size);
-			delete[] vb;
+			//delete[] vb;
 			//call MakeRenderBuffer(Index)
 			init_data.data = ib;
 			init_data.row_pitch = 0;
 			init_data.slice_pitch = 0;
 			RenderBuffer* index_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data,BU_INDEX, sizeof(uint32_t)*i_size);
-			delete[] ib;
+			//delete[] ib;
 			//add VertexBuffer to renderlayout;
-			render_layout->AddBuffer(vertex_buffer);
+			render_layout->AddBuffer(vertex_buffer, sizeof(VertexType));
 			//add IndexBuffer to renderlayout;
-			render_layout->AddBuffer(index_buffer);
+			render_layout->AddBuffer(index_buffer, i_size);
 			//set Primitivetype of renderlayout;
 			render_layout->SetPrimitive(PT_TRIANGLELIST);
 			//set Input layout Semi
 			std::vector<VertexUsage> inputlayout;
 			inputlayout.push_back(VU_POSITION);
+			//inputlayout.push_back(VU_COLOR);
 			inputlayout.push_back(VU_TEXCOORD);
 			inputlayout.push_back(VU_NORMAL);
 			inputlayout.push_back(VU_TANGENT);
@@ -194,7 +237,11 @@ namespace MocapGE
 
 		dae.close(file_name);
 
+		Math::Identity(model_matrix_);
+
 	}
+
+
 
 	float4x4 Model::processMatrix(daeElement* mat_node)
 	{
@@ -432,6 +479,9 @@ namespace MocapGE
 		meshes_.push_back(mesh);
 	}
 
+	void Model::LoadShaderFile( std::string file_name )
+	{
 
+	}	
 
 }

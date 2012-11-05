@@ -44,6 +44,9 @@ namespace MocapGE
 		template <typename T>
 		Matrix<T> PerspectiveFovLH(const T fovy, const T aspect, const T zn,const T zf);
 
+		template <typename T>
+		void Identity(Matrix<T> & lhs);
+
 	}
 
 }

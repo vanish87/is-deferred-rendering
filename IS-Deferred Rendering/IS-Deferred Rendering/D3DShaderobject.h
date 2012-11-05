@@ -30,6 +30,23 @@ namespace MocapGE
 
 		void LoadFxoFile(std::string file_name);
 
+		ID3DX11EffectTechnique* GetTechnique(){return tech_;};
+		void SetTechnique(std::string name);
+
+		ID3DX11EffectVariable* GetVariable(std::string name){return effect_variable_.find(name)->second;};
+		void SetVariable(std::string name);
+
+		ID3DX11EffectMatrixVariable* GetMatrixVariable(std::string name){return matrix_variable_.find(name)->second;};
+		void SetMatrixVariable(std::string name);
+		void SetMatrixVariable(std::string name, float4x4 & matrix);
+
+		ID3DX11EffectVectorVariable* GetVectorVariable(std::string name){return vector_variable_.find(name)->second;};
+		void SetVectorVariable(std::string name);
+
+		size_t GetPass();
+		void Apply(size_t pass_index);
+
+
 	private:
 
 		ID3DX11Effect* fx_;

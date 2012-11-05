@@ -86,6 +86,14 @@ namespace MocapGE
 							 0,		  0,	   m33,		1,
 							 0,		  0,	   -zn*m33, 0 );
 		}
+		template <typename T>
+		void Identity(Matrix<T> & lhs)
+		{
+				lhs =  Matrix<T>(1, 0, 0, 0,
+								 0, 1, 0, 0,
+								 0, 0, 1, 0,
+								 0, 0, 0, 1 );
+		}
 	}
 }
 
