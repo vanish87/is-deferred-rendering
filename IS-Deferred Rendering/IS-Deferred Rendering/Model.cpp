@@ -124,10 +124,22 @@ namespace MocapGE
 			//Process each <source> child
 			int count = sources.getCount();
 			for(unsigned int z = 0; z < count; z++) 
-				processSource(meshes[i], sources[z]);
+			{
+				if(std::string(sources[z]->getElementName()) == "source")
+				{
+					processSource(meshes[i], sources[z]);
+					continue;
+				}
+				if (std::string(sources[z]->getElementName()) == "triangles")
+				{
+					processTriangles(meshes[i],sources[z]);
+					continue;
+				}
+				
+			}
 
 			//Process the <triangles> child
-			processTriangles(meshes[i], triangles);
+			//processTriangles(meshes[i], triangles);
 
 
 
@@ -299,7 +311,7 @@ namespace MocapGE
 				stm >> z;
 
 				//Push this back as another Position component
-				mesh->positions.push_back(float3(x, y, z));
+				mesh->positions.push_back(float3(x, y, -z));
 			}
 
 			return;
