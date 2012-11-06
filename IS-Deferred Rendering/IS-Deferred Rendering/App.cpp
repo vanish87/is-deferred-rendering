@@ -52,13 +52,13 @@ namespace MocapGE
 			else
 			{
 				loops = 0;
-				while( GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) 
+				//while( GetTickCount() > next_game_tick && loops < MAX_CYCLES_PER_FRAME ) 
 				{
 					this->Update();//do user's update
 
 					Context::Instance().GetSceneManager().Update();
 
-					next_game_tick += SKIP_TICKS;
+					next_game_tick += UPDATE_INTERVAL;
 					loops++;
 				}
 				Context::Instance().GetSceneManager().Flush();

@@ -113,19 +113,27 @@ namespace MocapGE
 
 		this->OnResize();
 
+
+
 	}
 
 	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
 	{
+		//Get view and Projection Matrix
+		D3DFrameBuffer* d3d_frame_buffer;
+		d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
+		float4x4 view_mat = d3d_frame_buffer->GetFrameCamera()->GetViewMatirx();
+		float4x4 proj_mat = d3d_frame_buffer->GetFrameCamera()->GetProjMatrix();
+		float3 camera_pos = d3d_frame_buffer->GetFrameCamera()->GetPos();
+
+		//Make sure every Shader has a constant named view_proj_matrix
+		shader_object->SetMatrixVariable("g_view_proj_matrix", view_mat*proj_mat);
+		shader_object->SetVectorVariable("g_eye_pos", camera_pos);
+		
 
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object);
 		size_t pass = d3d_shader_object->GetPass();
-		//Clear Frame Buffer
-		float color[4] = {0.0f,0.0f,0.0f,1.0f};
-		D3DFreamBuffer* d3d_frame_buffer;
-		d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
-		d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
-		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);
+
 		
 		//IASetInputLayout
 		D3DRenderLayout* d3d_rl = static_cast<D3DRenderLayout*>(render_layout);
@@ -171,7 +179,6 @@ namespace MocapGE
 
 
 		}
-
 		// Create the input layout
 		D3DX11_PASS_DESC pass_desc;
 		d3d_shader_object->GetTechnique()->GetPassByIndex(0)->GetDesc( &pass_desc );
@@ -196,7 +203,7 @@ namespace MocapGE
 		}
 		//for each pass of tech
 		for (size_t i =0; i < pass; i++)
-		{			
+		{							
 			//IASetVertexBuffers
 			D3DRenderBuffer* d3d_vertex_buffer = static_cast<D3DRenderBuffer*>(d3d_rl->GetBuffer(VBU_VERTEX));
 			uint32_t stride = d3d_rl->GetVertexSize();
@@ -224,21 +231,21 @@ namespace MocapGE
 	void D3DRenderEngine::OnResize()
 	{
 		HRESULT result;
-		D3DFreamBuffer* d3d_frame_buffer;
+		D3DFrameBuffer* d3d_frame_buffer;
 		if(cur_frame_buffer_ == nullptr)
 		{
 			cur_frame_buffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting_);
-		    d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
+		    d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
 		}
 		else
 		{
 			//check it
-			d3d_frame_buffer= static_cast<D3DFreamBuffer*>(cur_frame_buffer_);
+			d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
 			d3d_frame_buffer->D3DRTView()->D3DRTV()->Release();
 			d3d_frame_buffer->D3DDSView()->D3DDSV()->Release();
 		}
 
-
+		//TODO : Use new size of window to resize FrameBuffer
 		result = d3d_swap_chain->ResizeBuffers(1, render_setting_.width, render_setting_.height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 		if(FAILED(result))
 			PRINT("ResizeBuffer Failed!");
@@ -386,6 +393,21 @@ namespace MocapGE
 	void D3DRenderEngine::BindFrameBuffer( FrameBuffer* const & fb )
 	{
 		fb->OnBind();
+	}
+
+	void D3DRenderEngine::RenderFrameBegin()
+	{
+		//Clear Frame Buffer
+		float color[4] = {0.0f,0.0f,0.0f,1.0f};
+		D3DFrameBuffer* d3d_frame_buffer;
+		d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
+		d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
+		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);		
+	}
+
+	void D3DRenderEngine::RenderFrameEnd()
+	{
+
 	}
 
 }

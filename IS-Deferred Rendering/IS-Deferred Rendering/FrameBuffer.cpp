@@ -12,5 +12,10 @@ namespace MocapGE
 
 	}
 
+	Camera* FrameBuffer::GetFrameCamera()
+	{
+		return viewport_->GetCamera();
+	}
+
 
 }

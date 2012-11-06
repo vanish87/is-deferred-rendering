@@ -21,6 +21,8 @@ namespace MocapGE
 		int Width(){return width_;};
 		int Height(){return height_;};
 
+		Camera* GetCamera(){return camera_;};
+
 
 	protected:
 		int left_;

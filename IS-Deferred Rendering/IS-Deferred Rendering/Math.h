@@ -14,10 +14,15 @@ namespace MocapGE
 {
 	namespace Math
 	{
+		//constant
+		float const PI		= 3.141592f;
+
 		template <typename T>
 		Matrix<T> Multiply(const Matrix<T> & lhs, const Matrix<T> & rhs);
 
 		float Sqrt(float x);
+		float Sin(float x);
+		float Cos(float x);
 		float Tan(float x);
 		float Cot(float x);
 		float InvSqrt(float number);
@@ -46,6 +51,15 @@ namespace MocapGE
 
 		template <typename T>
 		void Identity(Matrix<T> & lhs);
+
+		template <typename T>
+		Matrix<T>  Inverse(Matrix<T> & lhs);
+
+		template <typename T>
+		Matrix<T>  Transpose(Matrix<T> & lhs);
+
+		template <typename T>
+		Matrix<T>  InverTranspose(Matrix<T> & lhs);
 
 	}
 

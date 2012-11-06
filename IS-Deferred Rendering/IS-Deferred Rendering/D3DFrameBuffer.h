@@ -12,12 +12,12 @@
 namespace MocapGE
 {
 
-	class D3DFreamBuffer : public FrameBuffer
+	class D3DFrameBuffer : public FrameBuffer
 	{
 	public:
-		D3DFreamBuffer(void);
-		D3DFreamBuffer(RenderSetting& render_setting);
-		~D3DFreamBuffer(void);
+		D3DFrameBuffer(void);
+		D3DFrameBuffer(RenderSetting& render_setting);
+		~D3DFrameBuffer(void);
 
 		D3DRenderTargetView* const D3DRTView() const {return static_cast<D3DRenderTargetView*>(render_view_);};
 		D3DDepthStencilRenderView* const &D3DDSView() const {return depth_stencil_view_;};

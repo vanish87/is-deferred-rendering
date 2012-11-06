@@ -2,14 +2,14 @@
 
 namespace MocapGE
 {
-	D3DFreamBuffer::D3DFreamBuffer(void)
+	D3DFrameBuffer::D3DFrameBuffer(void)
 		: depth_stencil_buffer_(new D3DTexture2D),
 		  depth_stencil_view_(new D3DDepthStencilRenderView)
 	{
 		render_view_ = new D3DRenderTargetView();
 	}
 
-	D3DFreamBuffer::D3DFreamBuffer( RenderSetting& render_setting )
+	D3DFrameBuffer::D3DFrameBuffer( RenderSetting& render_setting )
 		: depth_stencil_buffer_(new D3DTexture2D),
 		  depth_stencil_view_(new D3DDepthStencilRenderView)		
 	{
@@ -18,11 +18,11 @@ namespace MocapGE
 	}
 
 
-	D3DFreamBuffer::~D3DFreamBuffer(void)
+	D3DFrameBuffer::~D3DFrameBuffer(void)
 	{
 	}
 
-	void D3DFreamBuffer::OnBind()
+	void D3DFrameBuffer::OnBind()
 	{
 		D3DRenderEngine* render_engine = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
 		ID3D11RenderTargetView* rtv = static_cast<D3DRenderTargetView*>(this->render_view_)->D3DRTV();

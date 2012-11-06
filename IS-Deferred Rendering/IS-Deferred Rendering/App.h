@@ -28,9 +28,11 @@ namespace MocapGE
 		std::string app_name_;
 		Window* win_;
 
-		static const int TICKS_PER_SECOND = 50;
-		static const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
-		static const int MAX_FRAMESKIP = 2;
+		static const int MAXIMUM_FRAME_RATE = 60;
+		static const int UPDATE_INTERVAL = 1000 / MAXIMUM_FRAME_RATE;
+		static const int MINIMUM_FRAME_RATE = 24;
+		static const int MAX_CYCLES_PER_FRAME = MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE ;
+
 
 	protected:
 		virtual void InitObjects()

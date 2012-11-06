@@ -38,13 +38,17 @@ namespace MocapGE
 
 		ID3DX11EffectMatrixVariable* GetMatrixVariable(std::string name){return matrix_variable_.find(name)->second;};
 		void SetMatrixVariable(std::string name);
-		void SetMatrixVariable(std::string name, float4x4 & matrix);
+		virtual void SetMatrixVariable(std::string name, float4x4 & matrix);
 
 		ID3DX11EffectVectorVariable* GetVectorVariable(std::string name){return vector_variable_.find(name)->second;};
 		void SetVectorVariable(std::string name);
+		virtual void SetVectorVariable( std::string name, float3 & vec3 );
+		virtual void SetVectorVariable( std::string name, float4 & vec4 );
 
 		size_t GetPass();
 		void Apply(size_t pass_index);
+
+		virtual void SetRawData( std::string name, void* data, uint32_t size );
 
 
 	private:

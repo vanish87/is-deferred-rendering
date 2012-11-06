@@ -4,7 +4,8 @@ namespace MocapGE
 {
 	D3DModel::D3DModel(void)
 	{
-	}
+		theta =0;
+	} 
 
 
 	D3DModel::~D3DModel(void)
@@ -20,23 +21,41 @@ namespace MocapGE
 	void D3DModel::SetRenderParameters()
 	{
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
-		//TODO: write a better solution for cast float4x4 to float*
-		float3 pos = float3(3.5,3.5,-3.5);
-		float4x4 view_matrix = Math::LookAtLH(pos ,float3(0,0,0),float3(0,1,0));
-		float4x4 proj_matrix = Math::PerspectiveFovLH(3.14f/4, 1280/800.0f, 1.0f, 1000.0f);
-		Math::Identity(model_matrix_);
-		model_matrix_ = model_matrix_*view_matrix*proj_matrix;
-		d3d_shader_object->SetMatrixVariable("gWorldViewProj", model_matrix_);
-	
+		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
 	}
 
 	void D3DModel::Render()
 	{
+
+		
+		//TODO : After write a normal ShaderObject, move these to SceneManager->Flush(), because all Render_elenment shader the same lights.
+		//for each light
+		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+		for(size_t j = 0; j < lights.size(); j++)
+		{
+			//set light parameter
+			switch (lights[j]->GetType())
+			{
+			case LT_POINT:
+				shader_object_->SetVectorVariable("g_light_position", static_cast<PointLight*>(lights[j])->GetPos());
+				break;
+			case LT_SPOT:
+				break;
+			case LT_DERECTIONAL:
+				break;
+			default:
+				break;
+			}
+			shader_object_->SetVectorVariable("g_light_color", lights[j]->GetColor());
 			//for each mesh 
 			for(size_t i =0; i < meshes_.size(); i++)
 			{
 				//set texture
 				//set material
+				shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));
+				float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
+				float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix() * model_matrix_);
+				shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
 				//set mesh's parameter
 				meshes_[i]->SetRenderParameters();
 				//render
@@ -44,6 +63,7 @@ namespace MocapGE
 				//end render
 				meshes_[i]->EndRender();
 			}
+		}
 		
 	}
 
@@ -66,7 +86,15 @@ namespace MocapGE
 
 		//Default init for Model shader
 		d3d_shader_object->SetTechnique("ColorTech");
-		d3d_shader_object->SetMatrixVariable("gWorldViewProj");
+		d3d_shader_object->SetMatrixVariable("g_world_matrix");
+		d3d_shader_object->SetMatrixVariable("g_world_inv_transpose");
+		d3d_shader_object->SetMatrixVariable("g_view_proj_matrix");
+		d3d_shader_object->SetMatrixVariable("g_model_matrix");
+		d3d_shader_object->SetVariable("gMaterial");
+
+		d3d_shader_object->SetVectorVariable("g_light_color");
+		d3d_shader_object->SetVectorVariable("g_light_position");
+		d3d_shader_object->SetVectorVariable("g_eye_pos");
 	}
 
 

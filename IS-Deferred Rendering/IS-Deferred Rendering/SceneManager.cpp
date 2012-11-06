@@ -15,6 +15,7 @@ namespace MocapGE
 
 	void SceneManager::Flush()
 	{
+		Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
 		std::vector<RenderElement*>::iterator re;
 		for(re = render_list_.begin() ; re < render_list_.end(); re++)
 		{
@@ -22,7 +23,7 @@ namespace MocapGE
 			(*re)->Render();
 			(*re)->EndRender();
 		}
-
+		Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
 		Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
 	}
 
@@ -30,7 +31,6 @@ namespace MocapGE
 		//do scene cull here
 	{
 		render_list_.clear();
-
 		std::vector<SceneObject*>::iterator so;
 		for(so = scene_object_list.begin() ; so < scene_object_list.end(); so++)
 		{
@@ -42,6 +42,16 @@ namespace MocapGE
 	void SceneManager::AddSceneObject( SceneObject* scene_object )
 	{
 		scene_object_list.push_back(scene_object);
+	}
+
+	std::vector<Light*> SceneManager::GetLights()
+	{
+		return lights_;
+	}
+
+	void SceneManager::AddLight( Light* light )
+	{
+		lights_.push_back(light);
 	}
 
 }

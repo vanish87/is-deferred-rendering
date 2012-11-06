@@ -94,6 +94,55 @@ namespace MocapGE
 								 0, 0, 1, 0,
 								 0, 0, 0, 1 );
 		}
+
+		template <typename T>
+		Matrix<T>  Inverse(Matrix<T> & lhs)
+		{
+			Matrix<T> dst;
+			// COMPUTE ADJOINT COFACTOR MATRIX FOR THE ROTATION/SCALE 3x3 SUBMATRIX
+
+			for (int i = 0 ; i < 3 ; i++)
+				for (int j = 0 ; j < 3 ; j++) {
+					int iu = (i + 1) % 3, iv = (i + 2) % 3;
+					int ju = (j + 1) % 3, jv = (j + 2) % 3;
+					dst[j][i] = lhs[iu][ju] * lhs[iv][jv] - lhs[iu][jv] * lhs[iv][ju];
+				}
+
+				// RENORMALIZE BY DETERMINANT TO INVERT ROTATION/SCALE SUBMATRIX
+
+				double det = lhs[0][0]*dst[0][0] + lhs[1][0]*dst[0][1] + lhs[2][0]*dst[0][2];
+				for (int i = 0 ; i < 3 ; i++)
+					for (int j = 0 ; j < 3 ; j++)
+						dst[i][j] /= det;
+
+				// INVERT TRANSLATION
+
+				for (int i = 0 ; i < 3 ; i++)
+					dst[i][3] = -dst[i][0]*lhs[0][3] - dst[i][1]*lhs[1][3] - dst[i][2]*lhs[2][3];
+
+				// NO PERSPECTIVE
+
+				for (int i = 0 ; i < 4 ; i++)
+					dst[3][i] = i < 3 ? 0 : 1;
+
+				return dst;
+		}
+
+		template <typename T>
+		Matrix<T>  Transpose(Matrix<T> & lhs)
+		{
+			return Matrix<T>(
+				lhs(0, 0), lhs(1, 0), lhs(2, 0), lhs(3, 0),
+				lhs(0, 1), lhs(1, 1), lhs(2, 1), lhs(3, 1),
+				lhs(0, 2), lhs(1, 2), lhs(2, 2), lhs(3, 2),
+				lhs(0, 3), lhs(1, 3), lhs(2, 3), lhs(3, 3));
+		}
+
+		template <typename T>
+		Matrix<T>  InverTranspose(Matrix<T> & lhs)
+		{
+			return Transpose(Inverse(lhs));
+		}
 	}
 }
 

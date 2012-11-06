@@ -4,8 +4,18 @@ namespace MocapGE
 {
 	Camera::Camera(void)
 	{
+		this->SetView(float3(0,0,-1), float3(0,0,0), float3(0,1,0));
+		this->SetProjection(Math::PI/4, 1 , 1, 1000);
+		//TODO : Init frustum here
+		frustum_;
 	}
 
+	Camera::Camera(float aspect)
+	{
+		this->SetView(float3(0,0,-1), float3(0,0,0), float3(0,1,0));
+		this->SetProjection(Math::PI/4, aspect , 1, 1000);
+		frustum_;
+	}
 
 	Camera::~Camera(void)
 	{

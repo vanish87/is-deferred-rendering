@@ -20,7 +20,7 @@ namespace MocapGE
 	
 	FrameBuffer* D3DRenderFactory::MakeFrameBuffer( RenderSetting& render_setting )
 	{
-		return new D3DFreamBuffer(render_setting);
+		return new D3DFrameBuffer(render_setting);
 	}
 
 	RenderLayout* D3DRenderFactory::MakeRenderLayout()

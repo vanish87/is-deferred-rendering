@@ -93,13 +93,16 @@ namespace MocapGE
 
 			//Get the <instance_geometry> node that corresponds to this <node>
 			domInstance_geometry* instance_geometry = NULL;
+			domInstance_material* instance_material = NULL;
 			instance_geometry = (domInstance_geometry*)nodes[i]->getDescendant("instance_geometry");
+			instance_material = (domInstance_material*)nodes[i]->getDescendant("instance_material");
 
 			//If there is no <instance_geometry>, this isn't a static mesh and we will skip it.
 			if(!instance_geometry) continue;
 
 			//Get the <geometry> node that is referenced by the <instance_geometry>
 			daeElement* geometry = instance_geometry->getUrl().getElement();
+			daeElement* material = instance_material->getTarget().getElement();
 
 			//If the referenced node was not found, skip this node
 			if(!geometry) continue;
@@ -107,19 +110,18 @@ namespace MocapGE
 			//Now create a new mesh, set it's <geometry> node and get it's World transform.
 			meshes.push_back(new DaeMesh(Name, processMatrix(nodes[i]->getDescendant("matrix"))));
 			meshes.back()->geometry = geometry;
+			meshes.back()->material = material;
 		}
 		
 		//Foreach mesh...
 		for(unsigned int i = 0; i < meshes.size(); i++)
 		{
+			Material* mat = ProcessMaterial(meshes[i], meshes[i]->material);
 			//Get the <mesh> node
 			daeElement* mesh = meshes[i]->geometry->getDescendant("mesh");
-
 			//Get the <source> nodes
 			daeTArray<daeElementRef> sources = mesh->getChildren();
 
-			//Get the <triangles> node (yes it will be in the sources array above if you wish to find it that way)
-			daeElement* triangles = mesh->getDescendant("triangles");
 
 			//Process each <source> child
 			int count = sources.getCount();
@@ -137,15 +139,12 @@ namespace MocapGE
 				}
 				
 			}
-
-			//Process the <triangles> child
-			//processTriangles(meshes[i], triangles);
-
-
+			
 
 			//realign the index of vertex
 			uint32_t i_size = meshes[i]->GetNumIndex();
-			uint32_t v_size = meshes[i]->GetNumVertex();
+			uint32_t v_size = i_size;
+			//uint32_t v_size = meshes[i]->GetNumVertex();
 			/*//===============================================================
 			i_size = 36;
 			v_size = 8;
@@ -205,12 +204,31 @@ namespace MocapGE
 						bitangent=meshes[i]->bitangents[meshes[i]->indices[4][j]];
 				}
 
+				vb[j].position = position;
+				vb[j].normal = normal;
+				vb[j].uv = uv;
+				vb[j].tangent = tangent;
+				vb[j].bitangent = bitangent;
+				ib[j] = j;
+				//std::cout<<"position "<<j <<std::endl;
+				//std::cout<<vb[j].position.x()<<" "<<vb[j].position.y()<<" "<<vb[j].position.z()<<std::endl;
+
+				//std::cout<<"normal"<<std::endl;
+				//std::cout<<vb[j].normal.x()<<" "<<vb[j].normal.y()<<" "<<vb[j].normal.z()<<std::endl;
+				//Deprecated problem code
+				/*
 				vb[meshes[i]->indices[0][j]].position = position;
 				vb[meshes[i]->indices[0][j]].normal = normal;
+				
+				std::cout<<"position"<<std::endl;
+				std::cout<<vb[meshes[i]->indices[0][j]].position.x()<<" "<<vb[meshes[i]->indices[0][j]].position.y()<<" "<<vb[meshes[i]->indices[0][j]].position.z()<<std::endl;
+				std::cout<<"normal"<<std::endl;
+				std::cout<<vb[meshes[i]->indices[0][j]].normal.x()<<" "<<vb[meshes[i]->indices[0][j]].normal.y()<<" "<<vb[meshes[i]->indices[0][j]].normal.z()<<std::endl;
 				vb[meshes[i]->indices[0][j]].uv = uv;
 				vb[meshes[i]->indices[0][j]].tangent = tangent;
 				vb[meshes[i]->indices[0][j]].bitangent = bitangent;
 				ib[j] = meshes[i]->indices[0][j];
+				*/
 			}
 			
 			//call MakeRenderLayout
@@ -238,13 +256,14 @@ namespace MocapGE
 			std::vector<VertexUsage> inputlayout;
 			inputlayout.push_back(VU_POSITION);
 			//inputlayout.push_back(VU_COLOR);
-			inputlayout.push_back(VU_TEXCOORD);
 			inputlayout.push_back(VU_NORMAL);
+			inputlayout.push_back(VU_TEXCOORD);
 			inputlayout.push_back(VU_TANGENT);
 			inputlayout.push_back(VU_BINORMAL);
 			render_layout->SetInputLayout(inputlayout);
 			//add renderlayout to model;
-			this->AddMesh(new MocapGE::Mesh(meshes[i]->name_, render_layout, meshes[i]->model_matrix_));	
+			this->AddMesh(new MocapGE::Mesh(meshes[i]->name_, render_layout, meshes[i]->model_matrix_));
+			this->AddMaterial(mat);
 		}
 
 		dae.close(file_name);
@@ -261,6 +280,7 @@ namespace MocapGE
 		std::string model = mat_node->getCharData();
 		std::stringstream stm(model);
 
+		//LH
 		stm >> res[0][0];
 		stm >> res[1][0];
 		stm >> res[2][0];
@@ -280,6 +300,29 @@ namespace MocapGE
 		stm >> res[1][3];
 		stm >> res[2][3];
 		stm >> res[3][3];
+		
+		//RH
+		/*
+		stm >> res[0][0];
+		stm >> res[0][1];
+		stm >> res[0][2];
+		stm >> res[0][3];
+
+		stm >> res[1][0];
+		stm >> res[1][1];
+		stm >> res[1][2];
+		stm >> res[1][3];
+
+		stm >> res[2][0];
+		stm >> res[2][1];
+		stm >> res[2][2];
+		stm >> res[2][3];
+
+		stm >> res[3][0];
+		stm >> res[3][1];
+		stm >> res[3][2];
+		stm >> res[3][3];
+		*/
 
 		return res;
 	}
@@ -311,7 +354,7 @@ namespace MocapGE
 				stm >> z;
 
 				//Push this back as another Position component
-				mesh->positions.push_back(float3(x, y, -z));
+				mesh->positions.push_back(float3(x, y, z));
 			}
 
 			return;
@@ -486,9 +529,82 @@ namespace MocapGE
 		}
 	}
 
+	Material* Model::ProcessMaterial( DaeMesh* mesh, daeElement* material )
+	{
+		domInstance_effect* instance_effect = (domInstance_effect*)material->getDescendant("instance_effect");
+		daeElement* effect = instance_effect->getUrl().getElement();
+		//std::string e_id = effect->getID();
+		daeElement* phong = effect->getDescendant("phong");
+		Material* material_out = new Material();
+
+		if(!phong) 
+		{
+			phong = effect->getDescendant("lambert");
+			//TODO : use material attribute list to read phong;
+			daeElement* ambient = phong->getDescendant("ambient")->getDescendant("color");
+			std::string ambient_color = ambient->getCharData();
+			std::stringstream astm(ambient_color);
+			astm >> material_out->ambient.x();
+			astm >> material_out->ambient.y();
+			astm >> material_out->ambient.z();
+			astm >> material_out->ambient.w();
+
+			daeElement* diffuse = phong->getDescendant("diffuse")->getDescendant("color");
+			std::string diffuse_color = diffuse->getCharData();
+			std::stringstream dstm(diffuse_color);
+			dstm >> material_out->diffuse.x();
+			dstm >> material_out->diffuse.y();
+			dstm >> material_out->diffuse.z();
+			dstm >> material_out->diffuse.w();
+
+			material_out->specular	= float4(0,0,0,1);
+			material_out->shininess = 0;
+		}
+		else
+		{
+			//TODO : use material attribute list to read phong;
+			daeElement* ambient = phong->getDescendant("ambient")->getDescendant("color");
+			std::string ambient_color = ambient->getCharData();
+			std::stringstream astm(ambient_color);
+			astm >> material_out->ambient.x();
+			astm >> material_out->ambient.y();
+			astm >> material_out->ambient.z();
+			astm >> material_out->ambient.w();
+
+			daeElement* diffuse = phong->getDescendant("diffuse")->getDescendant("color");
+			std::string diffuse_color = diffuse->getCharData();
+			std::stringstream dstm(diffuse_color);
+			dstm >> material_out->diffuse.x();
+			dstm >> material_out->diffuse.y();
+			dstm >> material_out->diffuse.z();
+			dstm >> material_out->diffuse.w();
+
+			daeElement* specular = phong->getDescendant("specular")->getDescendant("color");
+			std::string specular_color = specular->getCharData();
+			std::stringstream sstm(specular_color);
+			sstm >> material_out->specular.x();
+			sstm >> material_out->specular.y();
+			sstm >> material_out->specular.z();
+			sstm >> material_out->specular.w();
+
+			daeElement* shininess = phong->getDescendant("shininess")->getDescendant("float");
+			std::string shininess_f = shininess->getCharData();
+			std::stringstream shstm(shininess_f);
+			shstm >> material_out->shininess;
+		}
+		
+
+		return material_out;
+	}
+
+
 	void Model::AddMesh( Mesh* mesh )
 	{
 		meshes_.push_back(mesh);
+	}
+	void Model::AddMaterial( Material* mat )
+	{
+		materials_.push_back(mat);
 	}
 
 	void Model::LoadShaderFile( std::string file_name )

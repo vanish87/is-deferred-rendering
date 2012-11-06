@@ -15,10 +15,16 @@ namespace MocapGE
 	{
 	public:
 		Camera(void);
+		Camera(float aspect);
 		~Camera(void);
 
 		void SetView(float3 eye, float3 at, float3 up);
+		float4x4 GetViewMatirx(){return view_matrix_;};
 		void SetProjection(float fovy, float aspect, float zn, float zf);
+		float4x4 GetProjMatrix(){return proj_matrix_;};
+
+		float3 GetPos(){return eye_;};
+		
 
 	private:
 		Frustum	frustum_;

@@ -26,15 +26,15 @@ namespace MocapGE
 		{
 			float3 position;
 			//float4 color;
-			float2 uv;
 			float3 normal;
+			float2 uv;
 			float3 tangent;
 			float3 bitangent;
 		};
 		struct DaeMesh//temp struct for loading
 		{
 			daeElement* geometry;
-
+			daeElement* material;
 			std::vector<float3> positions;
 			std::vector<float2> uvs;
 			std::vector<float3> normals;
@@ -77,7 +77,7 @@ namespace MocapGE
 
 		virtual void LoadFile(std::string file_name);
 		void AddMesh( Mesh* mesh );
-
+		void AddMaterial( Material* mat );
 		virtual void LoadShaderFile(std::string file_name);
 		
 
@@ -89,6 +89,7 @@ namespace MocapGE
 		float4x4 processMatrix(daeElement* node);
 		void processSource( DaeMesh* mesh, daeElement* sources );
 		void processTriangles( DaeMesh* mesh, daeElement* triangles );
+		Material* ProcessMaterial(DaeMesh* mesh, daeElement* material);
 
 	};
 }

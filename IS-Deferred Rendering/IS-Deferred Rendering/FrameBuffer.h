@@ -15,6 +15,7 @@ namespace MocapGE
 		FrameBuffer(void);
 		~FrameBuffer(void);
 
+		Camera* GetFrameCamera();
 		virtual void OnBind() = 0;
 
 

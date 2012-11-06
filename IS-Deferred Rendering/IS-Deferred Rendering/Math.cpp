@@ -9,6 +9,16 @@ namespace MocapGE
 			return std::sqrt(x);
 		}
 
+		float Sin(float x)
+		{
+			return std::sin(x);
+		}
+
+		float Cos(float x)
+		{
+			return std::cos(x);
+		}
+
 
 		float Tan(float x)
 		{

@@ -24,7 +24,9 @@ namespace MocapGE
 		virtual RenderLayout* GetRenderLayout() = 0;
 
 		ShaderObject* GetShaderObject();
+		float4x4 & GetModelMatrix();
 		void SetShaderObject(ShaderObject* shader_object);
+		void SetModelMatrix(float4x4 model_matrix);
 		virtual void LoadShaderFile(std::string file_name);
 
 		virtual void SetRenderParameters() = 0;

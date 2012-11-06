@@ -71,9 +71,9 @@ namespace MocapGE
 
 	struct Material
 	{
-		float3 ambient;
-		float3 diffuse;
-		float3 specular;
+		float4 ambient;
+		float4 diffuse;
+		float4 specular;
 		float shininess;
 	};
 

@@ -24,7 +24,7 @@ namespace MocapGE
 
 	void Mesh::SetRenderParameters()
 	{
-		//throw std::exception("The method or operation is not implemented.");
+		shader_object_->SetMatrixVariable("g_model_matrix", model_matrix_);
 	}
 
 	void Mesh::Render()

@@ -30,6 +30,7 @@ namespace MocapGE
 		virtual void SetRenderParameters();
 		virtual void Render();
 		virtual void EndRender();
+		float theta;
 	};
 
 }
