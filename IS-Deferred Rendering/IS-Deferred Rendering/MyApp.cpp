@@ -60,11 +60,11 @@ void MyApp::Update()
 	yrotation_matrix[0][2] = Math::Sin(theta);
 	yrotation_matrix[2][0] = -Math::Sin(theta);
 	yrotation_matrix[2][2] = Math::Cos(theta);
-	model_matrix = yrotation_matrix ;
-	translate_matrix[0][3] = 1*Math::Sin(theta);
-	translate_matrix[1][3] = 0;
-	translate_matrix[2][3] = 0;
-	//scene->SetModelMatrix(yrotation_matrix);
+	//model_matrix = yrotation_matrix ;
+	translate_matrix[3][0] = Math::Cos(theta);
+	translate_matrix[3][1] = 0;
+	translate_matrix[3][2] = 0;
+	//scene->SetModelMatrix(translate_matrix*model_matrix);
 	point_light->SetPos(float3(0,55*Math::Cos(theta),55*Math::Sin(theta)));
 	//std::cout<<"light zpos"<< 5*Math::Sin(theta)<< std::endl;
 }
