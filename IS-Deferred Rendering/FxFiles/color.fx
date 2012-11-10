@@ -8,9 +8,18 @@ struct Material
 {
 	float4 Ambient;
 	float4 Diffuse;
-	float4 Specular; // w = SpecPower
-	float  Reflect;
+	float4 Specular; 
+	float  Shininess;
 };
+struct PointLight
+{
+    float3 positionView;
+    float attenuationBegin;
+    float4 color;
+    float attenuationEnd;
+};
+
+StructuredBuffer<PointLight> gLight;
 
 cbuffer cbPerFrame
 {
@@ -73,25 +82,36 @@ float4 PS(VertexOut pin) : SV_Target
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	uint lights_size, dummy;
+    gLight.GetDimensions(lights_size, dummy);
 
-	// The vector from the surface to the light.
-	float3 pos_light = g_light_position - pin.world_pos;
-	pos_light = normalize(pos_light);
-
-	ambient = gMaterial.Ambient * 0.1;
-
-	float diffuse_angle = dot(pos_light, pin.normal);
-	[flatten]
-	if( diffuse_angle > 0.0f )
+	for(uint i = 0; i < lights_size; i++)
 	{
-		float3 refect_vec = reflect(-pos_light, pin.normal);
+		float4 light_color = gLight[i].color;
+		float3 light_position = gLight[i].positionView;
+		// The vector from the surface to the light.
+		float3 pos_light = light_position - pin.world_pos;
+		pos_light = normalize(pos_light);
 
-		float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), gMaterial.Reflect);
 
-		diffuse = diffuse_angle * gMaterial.Diffuse * g_light_color;
-		spec    = spec_factor * gMaterial.Specular * g_light_color;
+
+		ambient = gMaterial.Ambient * light_color* 0.2;
+
+		float diffuse_angle = dot(pos_light, pin.normal);
+		//[flatten]
+		if( diffuse_angle > 0.0f )
+		{
+			float3 refect_vec = reflect(-pos_light, pin.normal);
+
+			float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), gMaterial.Shininess);
+
+			diffuse = diffuse_angle * gMaterial.Diffuse * light_color;
+			spec    = spec_factor * gMaterial.Specular * light_color;
+		}
+		
+	litColor += (ambient + diffuse + spec);
 	}
-	float4 litColor = ambient + diffuse + spec;
 
 	litColor.a = gMaterial.Diffuse.a;
     return litColor;

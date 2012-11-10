@@ -17,6 +17,8 @@ namespace MocapGE
 		~RenderLayout(void);
 
 		virtual RenderLayout* GetLayout() = 0;
+		//vertex size for VBU_VERTEX
+		//stores index count for VBU_INDEX
 		virtual void AddBuffer(RenderBuffer* render_buffer, uint32_t vertex_size);
 		void SetPrimitive( PrimitiveType primitive_type );
 		void SetInputLayout( std::vector<VertexUsage> input_layout );
@@ -33,6 +35,8 @@ namespace MocapGE
 		{
 			RenderBuffer* buffer;
 			VertexBufferUsage usage;
+			//stores vertex size for VBU_VERTEX
+			//stores index count for VBU_INDEX
 			uint32_t vertex_size;
 		};
 		std::vector<LayoutInstance*> data_;

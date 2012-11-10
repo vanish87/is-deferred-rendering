@@ -238,13 +238,13 @@ namespace MocapGE
 			init_data.data = vb;
 			init_data.row_pitch = 0;
 			init_data.slice_pitch = 0;
-			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, BU_VERTEX, sizeof(VertexType)*v_size);
+			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_GPU_READ, BU_VERTEX, v_size ,sizeof(VertexType));
 			//delete[] vb;
 			//call MakeRenderBuffer(Index)
 			init_data.data = ib;
 			init_data.row_pitch = 0;
 			init_data.slice_pitch = 0;
-			RenderBuffer* index_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data,BU_INDEX, sizeof(uint32_t)*i_size);
+			RenderBuffer* index_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_GPU_READ, BU_INDEX, i_size, sizeof(uint32_t));
 			//delete[] ib;
 			//add VertexBuffer to renderlayout;
 			render_layout->AddBuffer(vertex_buffer, sizeof(VertexType));
@@ -557,40 +557,60 @@ namespace MocapGE
 			dstm >> material_out->diffuse.z();
 			dstm >> material_out->diffuse.w();
 
-			material_out->specular	= float4(0,0,0,1);
-			material_out->shininess = 0;
+			material_out->specular	= float4(0 ,0 , 0, 1);
+			material_out->shininess = 1;
 		}
 		else
 		{
 			//TODO : use material attribute list to read phong;
 			daeElement* ambient = phong->getDescendant("ambient")->getDescendant("color");
-			std::string ambient_color = ambient->getCharData();
-			std::stringstream astm(ambient_color);
-			astm >> material_out->ambient.x();
-			astm >> material_out->ambient.y();
-			astm >> material_out->ambient.z();
-			astm >> material_out->ambient.w();
+			if(!ambient)
+				material_out->ambient =float4(0.5, 0.5, 0.5, 1);
+			else
+			{
+				std::string ambient_color = ambient->getCharData();
+				std::stringstream astm(ambient_color);
+				astm >> material_out->ambient.x();
+				astm >> material_out->ambient.y();
+				astm >> material_out->ambient.z();
+				astm >> material_out->ambient.w();
+			}
 
 			daeElement* diffuse = phong->getDescendant("diffuse")->getDescendant("color");
-			std::string diffuse_color = diffuse->getCharData();
-			std::stringstream dstm(diffuse_color);
-			dstm >> material_out->diffuse.x();
-			dstm >> material_out->diffuse.y();
-			dstm >> material_out->diffuse.z();
-			dstm >> material_out->diffuse.w();
+			if(!diffuse)
+				material_out->diffuse =float4(0, 0, 0, 1);
+			else
+			{
+				std::string diffuse_color = diffuse->getCharData();
+				std::stringstream dstm(diffuse_color);
+				dstm >> material_out->diffuse.x();
+				dstm >> material_out->diffuse.y();
+				dstm >> material_out->diffuse.z();
+				dstm >> material_out->diffuse.w();
+			}
 
 			daeElement* specular = phong->getDescendant("specular")->getDescendant("color");
-			std::string specular_color = specular->getCharData();
-			std::stringstream sstm(specular_color);
-			sstm >> material_out->specular.x();
-			sstm >> material_out->specular.y();
-			sstm >> material_out->specular.z();
-			sstm >> material_out->specular.w();
+			if(!specular)
+				material_out->specular =float4(0, 0, 0, 1);
+			else
+			{
+				std::string specular_color = specular->getCharData();
+				std::stringstream sstm(specular_color);
+				sstm >> material_out->specular.x();
+				sstm >> material_out->specular.y();
+				sstm >> material_out->specular.z();
+				sstm >> material_out->specular.w();
+			}
 
 			daeElement* shininess = phong->getDescendant("shininess")->getDescendant("float");
-			std::string shininess_f = shininess->getCharData();
-			std::stringstream shstm(shininess_f);
-			shstm >> material_out->shininess;
+			if(!shininess)
+				material_out->shininess = 1;
+			else
+			{
+				std::string shininess_f = shininess->getCharData();
+				std::stringstream shstm(shininess_f);
+				shstm >> material_out->shininess;
+			}
 		}
 		
 

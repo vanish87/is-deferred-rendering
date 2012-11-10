@@ -30,7 +30,8 @@ namespace MocapGE
 
 		virtual RenderLayout* MakeRenderLayout();
 
-		virtual RenderBuffer* MakeRenderBuffer(InitData init_data, BufferUsage usage, uint32_t byte_width);
+		RenderBuffer* MakeRenderBuffer(InitData init_data, AccessType access_type, BufferUsage usage, uint32_t width, uint32_t type_size);
+
 
 	};
 

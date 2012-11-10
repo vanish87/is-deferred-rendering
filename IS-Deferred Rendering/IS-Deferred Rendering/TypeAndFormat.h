@@ -27,7 +27,10 @@ namespace MocapGE
 		BU_VERTEX,
 		BU_INDEX,
 		BU_SHADER_RES,
-		BU_SHADER_CONST
+		BU_SHADER_CONST,
+		BU_STRUCTURED_BUFFER,
+		BU_SR_SB //shader resource | structured buffer
+
 	};
 
 	enum AccessType
@@ -75,6 +78,26 @@ namespace MocapGE
 		float4 diffuse;
 		float4 specular;
 		float shininess;
+	};
+
+	struct LightStruct
+	{
+		float3 positionView;
+		float attenuationBegin;
+		float4 color;
+		float attenuationEnd;
+	};
+
+	//formal struct for loading and vertex buffer 
+	//you can map vertexbuffer(RenderBuffer) and return a variable of this type to accessing vertex data of GPU
+	struct VertexType
+	{
+		float3 position;
+		//float4 color;
+		float3 normal;
+		float2 uv;
+		float3 tangent;
+		float3 bitangent;
 	};
 
 	enum LightType

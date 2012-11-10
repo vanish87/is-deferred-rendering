@@ -6,9 +6,11 @@
 #include <string>
 
 #include "PreDec.h"
+#include "Context.h"
 #include "Configure.h"
 #include "FrameBuffer.h"
 #include "SceneObject.h"
+#include "RenderBuffer.h"
 
 namespace MocapGE
 {
@@ -18,6 +20,7 @@ namespace MocapGE
 		RenderEngine(void);
 		~RenderEngine(void);
 		virtual void InitRenderWindow(std::string const & name, RenderSetting const & render_setting);
+		void InitLights();
 
 		virtual void BindFrameBuffer(FrameBuffer* const & frame_buffer) = 0;
 		virtual FrameBuffer* CurrentFrameBuffer(){return cur_frame_buffer_;};
@@ -29,12 +32,14 @@ namespace MocapGE
 		virtual void RenderFrameEnd() = 0;
 		virtual void SwapBuffers() = 0;
 		virtual void OnResize() = 0;
+		RenderBuffer* & GetLightsBuufer(){return light_buffer_;};
 
 	protected:
 		std::string name_;
 		RenderSetting render_setting_;
 
 		FrameBuffer* cur_frame_buffer_;
+		RenderBuffer* light_buffer_;
 
 	};
 }

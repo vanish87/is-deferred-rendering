@@ -8,6 +8,7 @@
 
 namespace MocapGE
 {
+	//TODO : Add Mapper class to make sure the Type definition when mapping resource
 	class RenderBuffer
 	{
 	public:
@@ -19,9 +20,26 @@ namespace MocapGE
 		};
 		~RenderBuffer(void);
 		BufferUsage GetUsage();
+
+
+		//this only check BufferUsage and AccessType
+		//you should make sure the return type is the same as you create it with
+		//template <typename T>
+		void* Map(AccessType access_type)
+		{
+			this->DoMap(access_type);
+			assert(data_);
+			return data_ ;
+		};
+		virtual void UnMap() = 0;
 	protected:
 		BufferUsage usage_;
 		AccessType access_type_;
+
+		//assign data_ with mapped resource
+		virtual void DoMap(AccessType access_type) = 0;
+
+		void* data_;
 	};
 }
 

@@ -117,6 +117,7 @@ namespace MocapGE
 
 	}
 
+
 	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
 	{
 		//Get view and Projection Matrix
@@ -217,7 +218,7 @@ namespace MocapGE
 			//SetShaderPara
 			//DrawIndexed
 			d3d_shader_object->Apply(i);
-			uint32_t index_count = d3d_rl->GetIndexCount();
+			uint32_t index_count = d3d_rl->GetIndexCount();	
 			d3d_imm_context_->DrawIndexed(index_count, 0, 0);
 		}
 
@@ -402,13 +403,16 @@ namespace MocapGE
 		D3DFrameBuffer* d3d_frame_buffer;
 		d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
 		d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
-		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);		
+		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);	
+
+
 	}
 
 	void D3DRenderEngine::RenderFrameEnd()
 	{
-
 	}
+
+
 
 }
 

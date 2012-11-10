@@ -32,6 +32,7 @@ namespace MocapGE
 		//init deferred rendering here
 
 		this->InitObjects();
+		Context::Instance().GetRenderFactory().GetRenderEngine().InitLights();
 
 	}
 

@@ -62,14 +62,14 @@ namespace MocapGE
 	{
 		ID3DX11EffectVectorVariable* vec3_var = GetVectorVariable(name);
 		float data[3] = {vec3[0], vec3[1], vec3[2]};
-		vec3_var->SetFloatVector(data);
+		HRESULT res = vec3_var->SetFloatVector(data);
 	}
 
 	void D3DShaderobject::SetVectorVariable( std::string name, float4 & vec4 )
 	{
 		ID3DX11EffectVectorVariable* vec4_var = GetVectorVariable(name);
 		float data[4] = {vec4[0], vec4[1], vec4[2], vec4[3]};
-		vec4_var->SetFloatVector(data);
+		HRESULT res = vec4_var->SetFloatVector(data);
 	}
 
 	void D3DShaderobject::SetTechnique( std::string name )
@@ -87,13 +87,28 @@ namespace MocapGE
 	void D3DShaderobject::Apply( size_t pass_index )
 	{
 		D3DRenderEngine* d3d_render_engine = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
-		tech_->GetPassByIndex(pass_index)->Apply(0, d3d_render_engine->D3DDeviceImmContext());
+		HRESULT res = tech_->GetPassByIndex(pass_index)->Apply(0, d3d_render_engine->D3DDeviceImmContext());
 	}
 
 	void D3DShaderobject::SetRawData( std::string name, void* data, uint32_t size )
 	{
 		ID3DX11EffectVariable* var = this->GetVariable(name);
-		var->SetRawValue(data, 0, size);
+		HRESULT res = var->SetRawValue(data, 0, size);
+	}
+
+	void D3DShaderobject::SetReource( std::string name, RenderBuffer* data, uint32_t size )
+	{
+		D3DRenderBuffer* d3d_render_buffer = static_cast<D3DRenderBuffer*>(data);
+		ID3DX11EffectShaderResourceVariable* sr_var = this->GetShaderRourceVariable(name);
+		sr_var->SetResource(d3d_render_buffer->D3DShaderResourceView());
+	}
+
+	void D3DShaderobject::SetShaderResourceVariable( std::string name )
+	{
+		bool valid = fx_->GetVariableByName(name.c_str())->IsValid();
+		if( !valid)
+			PRINT("Cannot find Variables")
+		shader_resource_variable_[name] = fx_->GetVariableByName(name.c_str())->AsShaderResource();
 	}
 
 }

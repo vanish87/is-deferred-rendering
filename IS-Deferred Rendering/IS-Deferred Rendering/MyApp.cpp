@@ -16,13 +16,17 @@ void MyApp::InitObjects()
 {
 	theta = 0;
 	scene = new D3DModel();
-	scene->LoadFile("..\\Media\\pumpkin1.dae");
+	scene->LoadFile("..\\Media\\pumpkin.dae");
 	scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	scene->AddToScene();
-
+	
 	point_light = new PointLight();
-	point_light->SetPos(float3(0,0,5));
+	point_light->SetPos(float3(0 ,1000, 0));	
 	point_light->AddToScene();
+
+	point_light_1 = new PointLight();
+	point_light_1->SetPos(float3(50, 50, 50));
+	point_light_1->AddToScene();
 }
 
 void MyApp::ReleaseObjects()
@@ -33,7 +37,7 @@ void MyApp::ReleaseObjects()
 void MyApp::Update()
 {
 	//Example for changing Camera View
-	float3 pos = float3(0,1.5,3.5);
+	float3 pos = float3(0,1,3.5);
 	FrameBuffer* frame_buffer;
 	frame_buffer= Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer();
 	frame_buffer->GetFrameCamera()->SetView(pos ,float3(0,0,0),float3(0,1,0));
@@ -64,8 +68,8 @@ void MyApp::Update()
 	translate_matrix[3][0] = Math::Cos(theta);
 	translate_matrix[3][1] = 0;
 	translate_matrix[3][2] = 0;
-	//scene->SetModelMatrix(translate_matrix*model_matrix);
-	point_light->SetPos(float3(0,55*Math::Cos(theta),55*Math::Sin(theta)));
+	//scene->SetModelMatrix(scale_matrix*model_matrix);
+	point_light_1->SetPos(float3(55*Math::Cos(theta),0,55*Math::Sin(theta)));
 	//std::cout<<"light zpos"<< 5*Math::Sin(theta)<< std::endl;
 }
 

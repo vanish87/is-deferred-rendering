@@ -15,6 +15,17 @@ namespace MocapGE
 
 	void SceneManager::Flush()
 	{
+		//set lights parameters
+		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+		RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
+		LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
+		for (size_t i =0; i< lights.size(); i++)
+		{
+			l[i].color = lights[i]->GetColor();
+			l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+		}
+		lights_buffer->UnMap();
+
 		Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
 		std::vector<RenderElement*>::iterator re;
 		for(re = render_list_.begin() ; re < render_list_.end(); re++)

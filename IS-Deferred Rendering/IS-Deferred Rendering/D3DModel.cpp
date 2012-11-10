@@ -30,40 +30,28 @@ namespace MocapGE
 		
 		//TODO : After write a normal ShaderObject, move these to SceneManager->Flush(), because all Render_elenment shader the same lights.
 		//for each light
+
+		//set light parameter
 		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
-		for(size_t j = 0; j < lights.size(); j++)
+		D3DRenderBuffer* lights_buffer = static_cast<D3DRenderBuffer*>(Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer());
+		shader_object_->SetReource("gLight", lights_buffer, lights.size());
+
+		//for each mesh 
+		for(size_t i =0; i < meshes_.size(); i++)
 		{
-			//set light parameter
-			switch (lights[j]->GetType())
-			{
-			case LT_POINT:
-				shader_object_->SetVectorVariable("g_light_position", static_cast<PointLight*>(lights[j])->GetPos());
-				break;
-			case LT_SPOT:
-				break;
-			case LT_DERECTIONAL:
-				break;
-			default:
-				break;
-			}
-			shader_object_->SetVectorVariable("g_light_color", lights[j]->GetColor());
-			//for each mesh 
-			for(size_t i =0; i < meshes_.size(); i++)
-			{
-				//set texture
-				//set material
-				shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));
-				float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
-				float4x4 world_inv_transpose = Math::InverTranspose( model_matrix_);
-				shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
-				//set mesh's parameter
-				meshes_[i]->SetRenderParameters();
-				//render
-				meshes_[i]->Render();
-				//end render
-				meshes_[i]->EndRender();
-			}
-		}
+			//set texture
+			//set material
+			shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));
+			float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
+			float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix()* model_matrix_ );
+			shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
+			//set mesh's parameter
+			meshes_[i]->SetRenderParameters();
+			//render
+			meshes_[i]->Render();
+			//end render
+			meshes_[i]->EndRender();
+		}		
 		
 	}
 
@@ -95,6 +83,8 @@ namespace MocapGE
 		d3d_shader_object->SetVectorVariable("g_light_color");
 		d3d_shader_object->SetVectorVariable("g_light_position");
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
+
+		d3d_shader_object->SetShaderResourceVariable("gLight");
 	}
 
 

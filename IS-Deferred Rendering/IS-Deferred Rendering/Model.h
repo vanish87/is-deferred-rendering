@@ -22,15 +22,6 @@ namespace MocapGE
 {
 	class Model : public RenderElement
 	{
-		struct VertexType//temp struct for loading
-		{
-			float3 position;
-			//float4 color;
-			float3 normal;
-			float2 uv;
-			float3 tangent;
-			float3 bitangent;
-		};
 		struct DaeMesh//temp struct for loading
 		{
 			daeElement* geometry;
