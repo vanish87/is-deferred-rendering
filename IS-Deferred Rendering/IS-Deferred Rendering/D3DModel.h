@@ -28,7 +28,7 @@ namespace MocapGE
 		virtual void LoadShaderFile(std::string file_name);
 
 		virtual void SetRenderParameters();
-		virtual void Render();
+		virtual void Render(int pass_index);
 		virtual void EndRender();
 		float theta;
 	};

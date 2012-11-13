@@ -28,7 +28,7 @@ namespace MocapGE
 			//
 	}
 
-	void D3DModel::Render()
+	void D3DModel::Render(int pass_index)
 	{
 		//TODO : After write a normal ShaderObject, move these to SceneManager->Flush(), because all Render_elenment shader the same lights.
 		//set light parameter
@@ -41,15 +41,14 @@ namespace MocapGE
 		{
 			//set texture
 			//set material
-			shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));
-			std::cout<<"Mat: "<<i<<" " <<materials_[i]->diffuse.x() <<" "<<materials_[i]->diffuse.y()<<" "<<materials_[i]->diffuse.z()<<std::endl;
+			shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));			
 			float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
 			float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix()* model_matrix_ );
 			shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
 			//set mesh's parameter
 			meshes_[i]->SetRenderParameters();
 			//render
-			meshes_[i]->Render();
+			meshes_[i]->Render(pass_index);
 			//end render
 			meshes_[i]->EndRender();
 		}		
@@ -75,7 +74,9 @@ namespace MocapGE
 
 		//Default init for Model shader
 		d3d_shader_object->SetTechnique("ColorTech");
-		//d3d_shader_object->SetTechnique("GbufferTech");
+		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
+		if(render_engine->GetRenderSetting().deferred_rendering)
+			d3d_shader_object->SetTechnique("GbufferTech");
 		d3d_shader_object->SetMatrixVariable("g_world_matrix");
 		d3d_shader_object->SetMatrixVariable("g_world_inv_transpose");
 		d3d_shader_object->SetMatrixVariable("g_view_proj_matrix");
@@ -88,14 +89,14 @@ namespace MocapGE
 
 		d3d_shader_object->SetShaderResourceVariable("gLight");
 
-		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
+		
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{
 			//init parameter here
 			d3d_shader_object->SetShaderResourceVariable("position_tex");
 			d3d_shader_object->SetShaderResourceVariable("normal_tex");
 			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
-			d3d_shader_object->SetShaderResourceVariable("spacular_tex");
+			d3d_shader_object->SetShaderResourceVariable("specular_tex");
 		}
 			
 	}

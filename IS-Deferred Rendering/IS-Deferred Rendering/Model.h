@@ -62,7 +62,7 @@ namespace MocapGE
 
 		virtual RenderLayout* GetRenderLayout();
 
-		virtual void Render();
+		virtual void Render(int pass_index);
 		virtual void SetRenderParameters();
 		virtual void EndRender();
 

@@ -24,7 +24,7 @@ namespace MocapGE
 
 		virtual void SetRenderParameters();
 
-		virtual void Render();
+		virtual void Render(int pass_index);
 
 		virtual void EndRender();
 

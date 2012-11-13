@@ -32,8 +32,8 @@ namespace MocapGE
 			{
 				(*re)->SetRenderParameters();
 				//Render to Gbuffer
-				(*re)->GetShaderObject()->Apply(0);
-				(*re)->Render();
+				//(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render(0);
 				(*re)->EndRender();
 			}
 
@@ -58,21 +58,16 @@ namespace MocapGE
 			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();			
 			shader_object->SetReource("position_tex", gbuffer_srv[3], 1);
 			shader_object->SetReource("diffuse_tex", gbuffer_srv[1], 1);
-			shader_object->SetReource("spacular_tex", gbuffer_srv[2], 1);
+			shader_object->SetReource("specular_tex", gbuffer_srv[2], 1);
 			shader_object->SetReource("normal_tex", gbuffer_srv[0], 1);
 			//do lighting
 			Mesh* quad = render_engine->GetFullscreenQuad();
 			//Set Shader file for quad
 			quad->SetShaderObject(shader_object);
-			//quad->SetRenderParameters();
-			quad->GetShaderObject()->Apply(1);
-			quad->Render();
+			quad->SetRenderParameters();
+			//quad->GetShaderObject()->Apply(1);
+			quad->Render(1);
 			quad->EndRender();
-
-			shader_object->SetReource("position_tex", 0 , 1);
-			shader_object->SetReource("diffuse_tex", 0 , 1);
-			shader_object->SetReource("spacular_tex", 0 , 1);
-			shader_object->SetReource("normal_tex", 0 , 1);
 
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
 			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
@@ -99,8 +94,8 @@ namespace MocapGE
 			for(re = render_list_.begin() ; re < render_list_.end(); re++)
 			{
 				(*re)->SetRenderParameters();
-				(*re)->GetShaderObject()->Apply(0);
-				(*re)->Render();
+				//(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render(0);
 				(*re)->EndRender();
 			}
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();

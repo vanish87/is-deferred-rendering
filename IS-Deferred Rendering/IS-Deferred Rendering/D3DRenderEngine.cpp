@@ -118,7 +118,7 @@ namespace MocapGE
 	}
 
 
-	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
+	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object, int pass_index)
 	{
 		HRESULT result;
 		//Get view and Projection Matrix
@@ -219,7 +219,7 @@ namespace MocapGE
 			
 			//SetShaderPara
 			//DrawIndexed
-			//d3d_shader_object->Apply(0);
+			d3d_shader_object->Apply(pass_index);
 			uint32_t index_count = d3d_rl->GetIndexCount();	
 			d3d_imm_context_->DrawIndexed(index_count, 0, 0);
 		}
@@ -384,7 +384,7 @@ namespace MocapGE
 
 	void D3DRenderEngine::BindFrameBuffer( FrameBuffer* const & fb )
 	{
-		//cur_frame_buffer_ = fb;
+		cur_frame_buffer_ = fb;
 		fb->OnBind();
 	}
 

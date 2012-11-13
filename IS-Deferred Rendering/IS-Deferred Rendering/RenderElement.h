@@ -30,7 +30,7 @@ namespace MocapGE
 		virtual void LoadShaderFile(std::string file_name);
 
 		virtual void SetRenderParameters() = 0;
-		virtual void Render() = 0;
+		virtual void Render(int pass_index) = 0;
 		virtual void EndRender() = 0;
 
 	protected:

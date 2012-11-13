@@ -17,7 +17,7 @@ void MyApp::InitObjects()
 	theta = 0;
 	scene = new D3DModel();
 	scene->LoadFile("..\\Media\\pumpkin.dae");
-	scene->LoadShaderFile("..\\FxFiles\\color.fxo");
+	scene->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
 	scene->AddToScene();
 
 	//scene_1 = new D3DModel();

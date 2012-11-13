@@ -22,7 +22,7 @@ namespace MocapGE
 		throw std::exception("The method or operation is not implemented.");
 	}
 
-	void Model::Render()
+	void Model::Render(int pass_index)
 	{
 		//render each mesh
 		throw std::exception("The method or operation is not implemented.");

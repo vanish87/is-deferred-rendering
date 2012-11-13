@@ -99,7 +99,7 @@ float4 PS(VertexOut pin) : SV_Target
 		ambient = gMaterial.Ambient * light_color* 0.2;
 
 		float diffuse_angle = dot(pos_light, pin.normal);
-		//[flatten]
+		[flatten]
 		if( diffuse_angle > 0.0f )
 		{
 			float3 refect_vec = reflect(-pos_light, pin.normal);

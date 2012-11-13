@@ -23,7 +23,7 @@ StructuredBuffer<PointLight> gLight;
 
 Texture2D position_tex;
 Texture2D diffuse_tex;
-Texture2D spacular_tex;
+Texture2D specular_tex;
 Texture2D normal_tex;
 
 cbuffer cbPerFrame
@@ -112,7 +112,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	if(0)
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 world_pos = diffuse_tex.Load( samplelndices ).xyz;
+	float3 world_pos = position_tex.Load( samplelndices ).xyz;
 	return float4(world_pos,1.0f);
 	}
 	else{
@@ -121,7 +121,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float3 world_pos = position_tex.Load( samplelndices ).xyz;
 	float3 normal = normal_tex.Load( samplelndices ).xyz;
 	float4 diffuse_mat = diffuse_tex.Load( samplelndices );
-	float4 sparcular_mat = spacular_tex.Load( samplelndices );
+	float4 spercular_mat = specular_tex.Load( samplelndices );
 
 	float3 pos_eye = normalize(g_eye_pos - world_pos);
 	
@@ -146,15 +146,15 @@ float4 LightingPS( in LightingVout pin): SV_Target
 		ambient = light_color* 0;
 
 		float diffuse_angle = dot(pos_light, normal);
-		//[flatten]
+		[flatten]
 		if( diffuse_angle > 0.0f )
 		{
 			float3 refect_vec = reflect(-pos_light, normal);
 
-			float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), sparcular_mat.w);
+			float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), spercular_mat.w);
 
 			diffuse = diffuse_angle * diffuse_mat * light_color;
-			spec    = spec_factor * float4(sparcular_mat.xyz, 1.0f) * light_color;
+			spec    = spec_factor * float4(spercular_mat.xyz, 1.0f) * light_color;
 		}
 		
 	litColor += (ambient + diffuse + spec);

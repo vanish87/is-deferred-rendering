@@ -28,7 +28,7 @@ namespace MocapGE
 
 		virtual void InitRenderWindow( std::string const & name, RenderSetting const & render_setting );
 
-		virtual void Render(RenderLayout* render_layout, ShaderObject* shader_object);
+		virtual void Render(RenderLayout* render_layout, ShaderObject* shader_object, int pass_index);
 
 		virtual void SwapBuffers();
 

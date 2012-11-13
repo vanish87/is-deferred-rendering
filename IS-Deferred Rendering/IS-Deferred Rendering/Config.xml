@@ -9,7 +9,7 @@
       </frame>
     <msaa4x value="0"/>
     <gamma value="1"/>
-    <deferred_rendering value="0">
+    <deferred_rendering value="1">
       <gbuffer_size value ="4"/>
       </deferred_rendering>
   </render>

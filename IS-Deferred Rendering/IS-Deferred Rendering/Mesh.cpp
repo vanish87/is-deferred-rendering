@@ -27,10 +27,10 @@ namespace MocapGE
 		shader_object_->SetMatrixVariable("g_model_matrix", model_matrix_);
 	}
 
-	void Mesh::Render()
+	void Mesh::Render(int pass_index)
 	{
 		RenderEngine& render_engine = Context::Instance().GetRenderFactory().GetRenderEngine();
-		render_engine.Render(render_layout_, shader_object_);
+		render_engine.Render(render_layout_, shader_object_, pass_index);
 	}
 
 	void Mesh::EndRender()
