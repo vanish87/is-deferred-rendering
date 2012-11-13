@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "PreDec.h"
 #include "RenderView.h"
 #include "Viewport.h"
@@ -13,10 +15,14 @@ namespace MocapGE
 	{
 	public:
 		FrameBuffer(void);
+		FrameBuffer(uint32_t left, uint32_t top, uint32_t width, uint32_t height);
 		~FrameBuffer(void);
 
 		Camera* GetFrameCamera();
+		void SetFrameCamera(Camera* camera);
 		virtual void OnBind() = 0;
+		virtual void AddRenderView(RenderView* render_view);
+		virtual RenderView* GetRenderView(size_t index){return render_views_[index];};
 
 
 	protected:
@@ -27,7 +33,7 @@ namespace MocapGE
 
 		Viewport* viewport_;
 
-		RenderView* render_view_;
+		std::vector<RenderView*> render_views_;
 	};
 }
 

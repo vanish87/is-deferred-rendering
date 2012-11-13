@@ -45,8 +45,8 @@ namespace MocapGE
 		virtual void SetVectorVariable( std::string name, float3 & vec3 );
 		virtual void SetVectorVariable( std::string name, float4 & vec4 );
 
-		size_t GetPass();
-		void Apply(size_t pass_index);
+		virtual size_t GetPass();
+		virtual void Apply(size_t pass_index);
 
 		virtual void SetRawData( std::string name, void* data, uint32_t size );
 

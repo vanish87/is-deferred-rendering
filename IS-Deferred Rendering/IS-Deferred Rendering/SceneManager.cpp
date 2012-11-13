@@ -15,27 +15,100 @@ namespace MocapGE
 
 	void SceneManager::Flush()
 	{
-		//set lights parameters
-		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
-		RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
-		LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
-		for (size_t i =0; i< lights.size(); i++)
-		{
-			l[i].color = lights[i]->GetColor();
-			l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
-		}
-		lights_buffer->UnMap();
 
-		Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
-		std::vector<RenderElement*>::iterator re;
-		for(re = render_list_.begin() ; re < render_list_.end(); re++)
+		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
+		if(render_engine->GetRenderSetting().deferred_rendering)
+		{	//do DR here
+			render_engine->SetNormalState();
+			//bind gbuffer
+			FrameBuffer* back_buffer = render_engine->CurrentFrameBuffer();
+			Camera* back_frame_camera = back_buffer->GetFrameCamera();
+			render_engine->GetGBuffer()->SetFrameCamera(back_frame_camera);
+			render_engine->BindFrameBuffer(render_engine->GetGBuffer());
+
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			std::vector<RenderElement*>::iterator re;
+			for(re = render_list_.begin() ; re < render_list_.end(); re++)
+			{
+				(*re)->SetRenderParameters();
+				//Render to Gbuffer
+				(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render();
+				(*re)->EndRender();
+			}
+
+			
+			//bind screen buffer
+			render_engine->BindFrameBuffer(back_buffer);
+			render_engine->SetDeferredRenderingState();
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			//set lights parameters
+			std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+			RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
+			LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
+			for (size_t i =0; i< lights.size(); i++)
+			{
+				l[i].color = lights[i]->GetColor();
+				l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+			}
+			lights_buffer->UnMap();
+
+			//set gbuffer as input textures
+			ShaderObject* shader_object = render_list_[0]->GetShaderObject();
+			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();			
+			shader_object->SetReource("position_tex", gbuffer_srv[3], 1);
+			shader_object->SetReource("diffuse_tex", gbuffer_srv[1], 1);
+			shader_object->SetReource("spacular_tex", gbuffer_srv[2], 1);
+			shader_object->SetReource("normal_tex", gbuffer_srv[0], 1);
+			//do lighting
+			Mesh* quad = render_engine->GetFullscreenQuad();
+			//Set Shader file for quad
+			quad->SetShaderObject(shader_object);
+			//quad->SetRenderParameters();
+			quad->GetShaderObject()->Apply(1);
+			quad->Render();
+			quad->EndRender();
+
+			shader_object->SetReource("position_tex", 0 , 1);
+			shader_object->SetReource("diffuse_tex", 0 , 1);
+			shader_object->SetReource("spacular_tex", 0 , 1);
+			shader_object->SetReource("normal_tex", 0 , 1);
+
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
+			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+		}	
+		else
 		{
-			(*re)->SetRenderParameters();
-			(*re)->Render();
-			(*re)->EndRender();
+			//do FR
+			//Forward Rendering
+			//=======================================================================================================================
+			//set lights parameters
+			std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+			RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
+			LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
+			for (size_t i =0; i< lights.size(); i++)
+			{
+				l[i].color = lights[i]->GetColor();
+				l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+			}
+			lights_buffer->UnMap();
+
+			render_engine->BindFrameBuffer(render_engine->CurrentFrameBuffer());
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			std::vector<RenderElement*>::iterator re;
+			for(re = render_list_.begin() ; re < render_list_.end(); re++)
+			{
+				(*re)->SetRenderParameters();
+				(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render();
+				(*re)->EndRender();
+			}
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
+			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+			//Forward Rendering End
+			//========================================================================================================================
 		}
-		Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
-		Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+
 	}
 
 	void SceneManager::Update()

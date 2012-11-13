@@ -32,15 +32,24 @@ namespace MocapGE
 		int width = atoi(frame->GetAttri("width")->GetValue().c_str());
 		int height = atoi(frame->GetAttri("height")->GetValue().c_str());
 		short full_screen = atoi(frame->GetAttri("fullscreen")->GetValue().c_str());
+		
+		XMLNodePtr render = configure->GetChild("render");
 
-		XMLNodePtr hdr_ptr = configure->GetChild("render")->GetChild("msaa4x");
-		short msaa4x = atoi(hdr_ptr->GetAttri("value")->GetValue().c_str());
+		XMLNodePtr msaa4x_ptr = render->GetChild("msaa4x");
+		short msaa4x = atoi(msaa4x_ptr->GetAttri("value")->GetValue().c_str());
 
-		XMLNodePtr gamma_ptr = configure->GetChild("render")->GetChild("gamma");
+		XMLNodePtr gamma_ptr = render->GetChild("gamma");
 		short gamma = atoi(gamma_ptr->GetAttri("value")->GetValue().c_str());
 
-		XMLNodePtr deferred_rendering_ptr = configure->GetChild("render")->GetChild("deferred_rendering");
+		XMLNodePtr deferred_rendering_ptr = render->GetChild("deferred_rendering");
 		short deferred_rendering = atoi(deferred_rendering_ptr->GetAttri("value")->GetValue().c_str());
+
+		if(deferred_rendering)
+		{
+			XMLNodePtr gbuffer_size_ptr = deferred_rendering_ptr->GetChild("gbuffer_size");
+			int gbuffer_size = atoi(gbuffer_size_ptr->GetAttri("value")->GetValue().c_str());
+			context_config_.render_setting.gbuffer_size = gbuffer_size;
+		}
 
 		context_config_.render_factory_name=render_factory_name;
 

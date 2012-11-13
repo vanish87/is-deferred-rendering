@@ -22,6 +22,7 @@ namespace MocapGE
 		int Height(){return height_;};
 
 		Camera* GetCamera(){return camera_;};
+		void SetCamera(Camera* & camera);
 
 
 	protected:

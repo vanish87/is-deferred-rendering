@@ -21,6 +21,8 @@ namespace MocapGE
 	class Window;
 	struct ContextConfig;
 	struct RenderSetting;
+
+	class RenderState;
 	class RenderFactory;
 	class RenderEngine;
 	class RenderView;
@@ -28,6 +30,10 @@ namespace MocapGE
 	class RenderElement;
 	class RenderBuffer;
 	class FrameBuffer;
+	class Texture;
+	class Mesh;
+	class Model;
+	class DeferredRendering;
 
 	class SceneObject;
 	class SceneManager;

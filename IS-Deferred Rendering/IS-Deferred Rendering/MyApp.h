@@ -14,7 +14,7 @@ public:
 
 private:
 
-	MocapGE::D3DModel* scene;
+	MocapGE::D3DModel* scene,*scene_1;
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;
 	float theta;

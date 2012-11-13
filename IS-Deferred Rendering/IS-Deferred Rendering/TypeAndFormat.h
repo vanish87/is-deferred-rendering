@@ -12,7 +12,9 @@ namespace MocapGE
 	{
 		A8_U,
 		R8_U,
-		R8G8B8A8_U
+		R8G8B8A8_U,
+		R32G32B32A32_U,
+		R32G32B32A32_F
 	};
 
 	enum TextureType
@@ -20,6 +22,15 @@ namespace MocapGE
 		TEXTURE1D,
 		TEXTURE2D,
 		TEXTURE3D
+	};
+	enum TextureUsage
+	{
+		TU_SHADER_RES,
+		TU_RENDER_TARGET,
+		TU_SHADER_CONST,
+		TU_STRUCTURED_BUFFER,
+		TU_SR_RT,
+
 	};
 
 	enum BufferUsage
@@ -105,6 +116,13 @@ namespace MocapGE
 		LT_POINT,
 		LT_SPOT,
 		LT_DERECTIONAL
+	};
+
+	enum RenderStateType
+	{
+		RST_RASTERIZER,
+		RST_DEPTH,
+		RST_BLEND
 	};
 
 }

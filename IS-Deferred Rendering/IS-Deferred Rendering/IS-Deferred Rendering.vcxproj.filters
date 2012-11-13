@@ -126,6 +126,15 @@
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DeferredRendering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DRenderState.cpp">
+      <Filter>D3DRenderingLayer\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -245,6 +254,15 @@
     <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DeferredRendering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DRenderState.h">
+      <Filter>D3DRenderingLayer\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml">
@@ -253,6 +271,9 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\FxFiles\color.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\FxFiles\DeferredRendering.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
   </ItemGroup>

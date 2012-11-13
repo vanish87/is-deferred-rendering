@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "PreDec.h"
 #include "Context.h"
 #include "App.h"
 #include "Window.h"
@@ -13,6 +14,7 @@
 #include "D3DFrameBuffer.h"
 #include "D3DShaderobject.h"
 #include "D3DRenderBuffer.h"
+#include "D3DRenderState.h"
 
 #pragma comment(lib, "d3d11.lib") //may fix in the future
 
@@ -43,16 +45,18 @@ namespace MocapGE
 
 		virtual void RenderFrameEnd();
 
+		virtual void SetDeferredRenderingState();
+
+		virtual void SetNormalState();
+
 	private:
 		ID3D11Device*		d3d_device_;
 		ID3D11DeviceContext* d3d_imm_context_;
 		D3D_FEATURE_LEVEL d3d_feature_level_;
-		IDXGISwapChain* d3d_swap_chain;
+		IDXGISwapChain* d3d_swap_chain;	
 
-
-
-		
-
+		D3DRenderState* depth_on_;
+		D3DRenderState* depth_off_;
 
 	};
 }

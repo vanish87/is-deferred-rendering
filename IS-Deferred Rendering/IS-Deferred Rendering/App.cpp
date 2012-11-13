@@ -30,6 +30,8 @@ namespace MocapGE
 		Context::Instance().GetRenderFactory().GetRenderEngine().InitRenderWindow(app_name_ , config.render_setting);
 
 		//init deferred rendering here
+		if(config.render_setting.deferred_rendering)
+			Context::Instance().GetRenderFactory().GetRenderEngine().InitDeferredRendering(config.render_setting);
 
 		this->InitObjects();
 		Context::Instance().GetRenderFactory().GetRenderEngine().InitLights();

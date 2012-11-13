@@ -18,5 +18,10 @@ namespace MocapGE
 	{
 	}
 
+	void Viewport::SetCamera( Camera* & camera )
+	{
+		this->camera_ = camera;
+	}
+
 
 }

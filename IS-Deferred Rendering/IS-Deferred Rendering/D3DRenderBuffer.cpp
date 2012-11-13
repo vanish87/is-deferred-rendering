@@ -52,4 +52,21 @@ namespace MocapGE
 
 
 
+
+	void D3DShaderResourceView::UnMap()
+	{
+		throw std::exception("The method or operation is not implemented.");
+	}
+
+	void D3DShaderResourceView::DoMap( AccessType access_type )
+	{
+		throw std::exception("The method or operation is not implemented.");
+	}
+
+	D3DShaderResourceView::D3DShaderResourceView( Texture& texture, int array_size, int mip_level )
+	{
+		d3d_texture_= static_cast<D3DTexture2D*>(&texture);
+		shader_resource_view_ = d3d_texture_->GetShaderResourceView(array_size, mip_level);
+	}
+
 }

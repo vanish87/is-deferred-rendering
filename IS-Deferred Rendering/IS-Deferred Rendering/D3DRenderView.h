@@ -39,17 +39,7 @@ namespace MocapGE
 	};
 
 
-	class D3DShaderResourceView : public RenderView
-	{
-	public:
-		D3DShaderResourceView(void);
-		~D3DShaderResourceView(void);
 
-		ID3D11ShaderResourceView* const &D3DDSV(){return shader_resource_view_;};
-		void SetD3DDSV( ID3D11ShaderResourceView* shader_resource_view_ );
-	private:
-		ID3D11ShaderResourceView* shader_resource_view_;
-	};
 
 }
 

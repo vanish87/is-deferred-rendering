@@ -49,7 +49,9 @@ namespace MocapGE
 		for(size_t i = 0; i< matrix.row(); i++)
 			for(size_t j = 0; j < matrix.col(); j++)
 				p[i*matrix.row() + j] = matrix[i][j];
-		mat_var->SetMatrix(p);
+		HRESULT res = mat_var->SetMatrix(p);
+		if(FAILED(res))
+			PRINT("Cannot set Shader Matrix");
 		delete[] p;
 	}
 
@@ -96,19 +98,43 @@ namespace MocapGE
 		HRESULT res = var->SetRawValue(data, 0, size);
 	}
 
-	void D3DShaderobject::SetReource( std::string name, RenderBuffer* data, uint32_t size )
+	void D3DShaderobject::SetReource( std::string name, RenderBuffer* data, uint32_t type )
 	{
-		D3DRenderBuffer* d3d_render_buffer = static_cast<D3DRenderBuffer*>(data);
+
 		ID3DX11EffectShaderResourceVariable* sr_var = this->GetShaderRourceVariable(name);
-		sr_var->SetResource(d3d_render_buffer->D3DShaderResourceView());
+		if(data == 0)
+		{
+			HRESULT res = sr_var->SetResource(NULL);
+			if(FAILED(res))
+				PRINT("Cannot set Resource");
+			return;
+		}
+
+		
+		if(type == 0)//RenderBuffer
+		{
+			D3DRenderBuffer* d3d_render_buffer;
+			d3d_render_buffer = static_cast<D3DRenderBuffer*>(data);
+			HRESULT res = sr_var->SetResource(d3d_render_buffer->D3DShaderResourceView());
+			if(FAILED(res))
+				PRINT("Cannot set Resource");
+		}
+		else//Shader Resource
+		{
+			D3DShaderResourceView* d3d_srv = static_cast<D3DShaderResourceView*>(data);
+			HRESULT res = sr_var->SetResource(d3d_srv->D3DSRV());
+			if(FAILED(res))
+				PRINT("Cannot set Resource");
+		}
 	}
 
 	void D3DShaderobject::SetShaderResourceVariable( std::string name )
 	{
 		bool valid = fx_->GetVariableByName(name.c_str())->IsValid();
 		if( !valid)
-			PRINT("Cannot find Variables")
+			PRINT("Cannot find Variables");
 		shader_resource_variable_[name] = fx_->GetVariableByName(name.c_str())->AsShaderResource();
 	}
+
 
 }

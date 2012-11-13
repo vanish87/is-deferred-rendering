@@ -120,6 +120,7 @@ namespace MocapGE
 
 	void D3DRenderEngine::Render(RenderLayout* render_layout, ShaderObject* shader_object)
 	{
+		HRESULT result;
 		//Get view and Projection Matrix
 		D3DFrameBuffer* d3d_frame_buffer;
 		d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
@@ -133,7 +134,7 @@ namespace MocapGE
 		
 
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object);
-		size_t pass = d3d_shader_object->GetPass();
+		//size_t pass = d3d_shader_object->GetPass();
 
 		
 		//IASetInputLayout
@@ -182,9 +183,12 @@ namespace MocapGE
 		}
 		// Create the input layout
 		D3DX11_PASS_DESC pass_desc;
-		d3d_shader_object->GetTechnique()->GetPassByIndex(0)->GetDesc( &pass_desc );
+		if(vertex_layout.size() == 1)
+			result = d3d_shader_object->GetTechnique()->GetPassByIndex(1)->GetDesc( &pass_desc );
+		else
+			d3d_shader_object->GetTechnique()->GetPassByIndex(0)->GetDesc( &pass_desc );
 		ID3D11InputLayout* input_layout;
-		HRESULT result = d3d_device_->CreateInputLayout(input_layout_desc, 2, pass_desc.pIAInputSignature, 
+		result = d3d_device_->CreateInputLayout(input_layout_desc, vertex_layout.size(), pass_desc.pIAInputSignature, 
 			pass_desc.IAInputSignatureSize, &input_layout);
 		if(FAILED(result))PRINT("Cannot Create Input Layout");
 		d3d_imm_context_->IASetInputLayout(input_layout);
@@ -202,8 +206,6 @@ namespace MocapGE
 		default:
 			break;
 		}
-		//for each pass of tech
-		for (size_t i =0; i < pass; i++)
 		{							
 			//IASetVertexBuffers
 			D3DRenderBuffer* d3d_vertex_buffer = static_cast<D3DRenderBuffer*>(d3d_rl->GetBuffer(VBU_VERTEX));
@@ -217,7 +219,7 @@ namespace MocapGE
 			
 			//SetShaderPara
 			//DrawIndexed
-			d3d_shader_object->Apply(i);
+			//d3d_shader_object->Apply(0);
 			uint32_t index_count = d3d_rl->GetIndexCount();	
 			d3d_imm_context_->DrawIndexed(index_count, 0, 0);
 		}
@@ -252,7 +254,7 @@ namespace MocapGE
 			PRINT("ResizeBuffer Failed!");
 
 		ID3D11Texture2D* back_buffer;
-		ID3D11RenderTargetView* render_target_view = d3d_frame_buffer->D3DRTView()->D3DRTV();
+		ID3D11RenderTargetView* render_target_view;// = d3d_frame_buffer->D3DRTView()->D3DRTV();
 		result = d3d_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&back_buffer));
 		if(FAILED(result))
 			PRINT("GetBuffer Failed!");
@@ -294,8 +296,8 @@ namespace MocapGE
 		depth_stencil_desc.CPUAccessFlags = 0; 
 		depth_stencil_desc.MiscFlags      = 0;
 
-		ID3D11Texture2D* depth_stencil_buffer = d3d_frame_buffer->D3DDSBuffer()->D3DTexture();
-		ID3D11DepthStencilView*	depth_stencil_view = d3d_frame_buffer->D3DDSView()->D3DDSV();
+		ID3D11Texture2D* depth_stencil_buffer;// = d3d_frame_buffer->D3DDSBuffer()->D3DTexture();
+		ID3D11DepthStencilView*	depth_stencil_view;// = d3d_frame_buffer->D3DDSView()->D3DDSV();
 
 		result = d3d_device_->CreateTexture2D(&depth_stencil_desc, 0, &depth_stencil_buffer);
 		if(FAILED(result))
@@ -305,70 +307,56 @@ namespace MocapGE
 		if(FAILED(result))
 			PRINT("depth_stencil_view create Failed!");
 
-
-		d3d_frame_buffer->D3DRTView()->SetD3DRTV(render_target_view);
+		D3DRenderTargetView* d3d_rtv = new D3DRenderTargetView();
+		d3d_rtv->SetD3DRTV(render_target_view);
+		d3d_frame_buffer->AddRenderView(d3d_rtv);
 		d3d_frame_buffer->D3DDSBuffer()->SetD3DTexture(depth_stencil_buffer);
 		d3d_frame_buffer->D3DDSView()->SetD3DDSV(depth_stencil_view);
 
 		this->BindFrameBuffer(d3d_frame_buffer);
 
 
-		/*ID3D11RasterizerState* m_rasterState;
-		ID3D11DepthStencilState* m_depthStencilState;
-		D3D11_RASTERIZER_DESC rasterDesc;
-		D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 		// Set up the description of the stencil state.
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 		depthStencilDesc.DepthEnable = true;
 		depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 		depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
 
-		depthStencilDesc.StencilEnable = false;
+		depthStencilDesc.StencilEnable = true;
 		depthStencilDesc.StencilReadMask = 0xFF;
 		depthStencilDesc.StencilWriteMask = 0xFF;
 
 		// Stencil operations if pixel is front-facing.
 		depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-		depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
 		depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 		depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
 		// Stencil operations if pixel is back-facing.
 		depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-		depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
 		depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 		depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-		// Create the depth stencil state.
-		result = d3d_device_->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
-		if(FAILED(result))
-		{
-			return ;
-		}
+		depth_on_ = new D3DRenderState(depthStencilDesc);
 
-		// Set the depth stencil state.
-		d3d_imm_context_->OMSetDepthStencilState(m_depthStencilState, 1);
+		D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
+		depthDisabledStencilDesc.DepthEnable = false;
+		depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		depthDisabledStencilDesc.StencilEnable = true;
+		depthDisabledStencilDesc.StencilReadMask = 0xFF;
+		depthDisabledStencilDesc.StencilWriteMask = 0xFF;
+		depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+		depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+		depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-		rasterDesc.AntialiasedLineEnable = false;
-		rasterDesc.CullMode = D3D11_CULL_BACK;
-		rasterDesc.DepthBias = 0;
-		rasterDesc.DepthBiasClamp = 0.0f;
-		rasterDesc.DepthClipEnable = true;
-		rasterDesc.FillMode = D3D11_FILL_SOLID;
-		rasterDesc.FrontCounterClockwise = false;
-		rasterDesc.MultisampleEnable = false;
-		rasterDesc.ScissorEnable = false;
-		rasterDesc.SlopeScaledDepthBias = 0.0f;
-
-		// Create the rasterizer state from the description we just filled out.
-		result = d3d_device_->CreateRasterizerState(&rasterDesc, &m_rasterState);
-		if(FAILED(result))
-		{
-			return ;
-		}
-
-		// Now set the rasterizer state.
-		d3d_imm_context_->RSSetState(m_rasterState);*/
-
+		depth_off_ = new D3DRenderState(depthDisabledStencilDesc);
 
 	}
 
@@ -376,14 +364,17 @@ namespace MocapGE
 	{
 		switch (format)
 		{
-		case MocapGE::A8_U:
+		case A8_U:
 			return DXGI_FORMAT_A8_UNORM;
 			break;
-		case MocapGE::R8_U:
+		case R8_U:
 			return DXGI_FORMAT_R8_UNORM;
 			break;
-		case MocapGE::R8G8B8A8_U:
+		case R8G8B8A8_U:
 			return DXGI_FORMAT_R8G8B8A8_UNORM;
+			break;
+		case R32G32B32A32_F:
+			return DXGI_FORMAT_R32G32B32A32_FLOAT;
 			break;
 		default:
 			return DXGI_FORMAT_R32G32B32A32_UINT;
@@ -393,6 +384,7 @@ namespace MocapGE
 
 	void D3DRenderEngine::BindFrameBuffer( FrameBuffer* const & fb )
 	{
+		//cur_frame_buffer_ = fb;
 		fb->OnBind();
 	}
 
@@ -402,7 +394,8 @@ namespace MocapGE
 		float color[4] = {0.0f,0.0f,0.0f,1.0f};
 		D3DFrameBuffer* d3d_frame_buffer;
 		d3d_frame_buffer= static_cast<D3DFrameBuffer*>(cur_frame_buffer_);
-		d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView()->D3DRTV(), color);
+		for(size_t i = 0; i< d3d_frame_buffer->D3DRTViewSize(); i++)
+			d3d_imm_context_->ClearRenderTargetView(d3d_frame_buffer->D3DRTView(i)->D3DRTV(), color);
 		d3d_imm_context_->ClearDepthStencilView(d3d_frame_buffer->D3DDSView()->D3DDSV(), D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);	
 
 
@@ -410,7 +403,33 @@ namespace MocapGE
 
 	void D3DRenderEngine::RenderFrameEnd()
 	{
+
+		// Cleanup (aka make the runtime happy)
+		d3d_imm_context_->VSSetShader(0, 0, 0);
+		d3d_imm_context_->GSSetShader(0, 0, 0);
+		d3d_imm_context_->PSSetShader(0, 0, 0);
+		d3d_imm_context_->OMSetRenderTargets(0, 0, 0);
+		ID3D11ShaderResourceView* nullSRV[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+		d3d_imm_context_->VSSetShaderResources(0, 8, nullSRV);
+		d3d_imm_context_->PSSetShaderResources(0, 8, nullSRV);
+		d3d_imm_context_->CSSetShaderResources(0, 8, nullSRV);
+		ID3D11UnorderedAccessView *nullUAV[1] = {0};
+		d3d_imm_context_->CSSetUnorderedAccessViews(0, 1, nullUAV, 0);
 	}
+
+	void D3DRenderEngine::SetDeferredRenderingState()
+	{
+		ID3D11DepthStencilState* depth_state= depth_off_->GetDepthStencilState();
+		d3d_imm_context_->OMSetDepthStencilState(depth_state, 1);
+	}
+
+	void D3DRenderEngine::SetNormalState()
+	{
+		ID3D11DepthStencilState* depth_state= depth_on_->GetDepthStencilState();
+		d3d_imm_context_->OMSetDepthStencilState(depth_state, 1);
+	}
+
+
 
 
 

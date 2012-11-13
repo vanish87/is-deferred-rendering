@@ -22,19 +22,19 @@ namespace MocapGE
 	{
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
 		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
+
+		//if(deferred_rendering)
+			//set parameter here
+			//
 	}
 
 	void D3DModel::Render()
 	{
-
-		
 		//TODO : After write a normal ShaderObject, move these to SceneManager->Flush(), because all Render_elenment shader the same lights.
-		//for each light
-
 		//set light parameter
 		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
 		D3DRenderBuffer* lights_buffer = static_cast<D3DRenderBuffer*>(Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer());
-		shader_object_->SetReource("gLight", lights_buffer, lights.size());
+		shader_object_->SetReource("gLight", lights_buffer, 0);
 
 		//for each mesh 
 		for(size_t i =0; i < meshes_.size(); i++)
@@ -42,6 +42,7 @@ namespace MocapGE
 			//set texture
 			//set material
 			shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));
+			std::cout<<"Mat: "<<i<<" " <<materials_[i]->diffuse.x() <<" "<<materials_[i]->diffuse.y()<<" "<<materials_[i]->diffuse.z()<<std::endl;
 			float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
 			float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix()* model_matrix_ );
 			shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
@@ -74,6 +75,7 @@ namespace MocapGE
 
 		//Default init for Model shader
 		d3d_shader_object->SetTechnique("ColorTech");
+		//d3d_shader_object->SetTechnique("GbufferTech");
 		d3d_shader_object->SetMatrixVariable("g_world_matrix");
 		d3d_shader_object->SetMatrixVariable("g_world_inv_transpose");
 		d3d_shader_object->SetMatrixVariable("g_view_proj_matrix");
@@ -85,6 +87,17 @@ namespace MocapGE
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
 
 		d3d_shader_object->SetShaderResourceVariable("gLight");
+
+		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
+		if(render_engine->GetRenderSetting().deferred_rendering)
+		{
+			//init parameter here
+			d3d_shader_object->SetShaderResourceVariable("position_tex");
+			d3d_shader_object->SetShaderResourceVariable("normal_tex");
+			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
+			d3d_shader_object->SetShaderResourceVariable("spacular_tex");
+		}
+			
 	}
 
 

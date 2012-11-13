@@ -18,7 +18,9 @@ namespace MocapGE
 		bool	msaa4x;
 		bool	gamma;
 
-		bool deferred_rendering;
+		bool	deferred_rendering;
+		int		gbuffer_size;
+
 	};
 	struct ContextConfig
 	{

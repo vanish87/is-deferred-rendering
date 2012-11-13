@@ -19,6 +19,11 @@ void MyApp::InitObjects()
 	scene->LoadFile("..\\Media\\pumpkin.dae");
 	scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	scene->AddToScene();
+
+	//scene_1 = new D3DModel();
+	//scene_1->LoadFile("..\\Media\\pumpkin.dae");
+	//scene_1->LoadShaderFile("..\\FxFiles\\color.fxo");
+	//scene_1->AddToScene();
 	
 	point_light = new PointLight();
 	point_light->SetPos(float3(0 ,1000, 0));	
@@ -68,7 +73,7 @@ void MyApp::Update()
 	translate_matrix[3][0] = Math::Cos(theta);
 	translate_matrix[3][1] = 0;
 	translate_matrix[3][2] = 0;
-	//scene->SetModelMatrix(scale_matrix*model_matrix);
+	//scene->SetModelMatrix(yrotation_matrix*model_matrix);
 	point_light_1->SetPos(float3(55*Math::Cos(theta),0,55*Math::Sin(theta)));
 	//std::cout<<"light zpos"<< 5*Math::Sin(theta)<< std::endl;
 }

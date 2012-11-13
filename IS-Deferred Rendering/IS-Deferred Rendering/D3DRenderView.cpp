@@ -10,6 +10,7 @@ namespace MocapGE
 
 	D3DRenderTargetView::D3DRenderTargetView( Texture& texture, int array_size, int mip_level )
 	{
+		texture_ = &texture;
 		D3DTexture2D* d3d_t2d = static_cast<D3DTexture2D*>(&texture);
 		render_target_view_ = d3d_t2d->GetRenderTargetView( array_size, mip_level );
 		width_ = d3d_t2d->GetWidth();
