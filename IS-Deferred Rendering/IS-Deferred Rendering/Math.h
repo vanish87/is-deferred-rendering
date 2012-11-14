@@ -61,6 +61,21 @@ namespace MocapGE
 		template <typename T>
 		Matrix<T>  InverTranspose(Matrix<T> & lhs);
 
+		template <typename T>
+		void XRotation(Matrix<T> & lhs, float theta);
+
+		template <typename T>
+		void YRotation(Matrix<T> & lhs, float theta);
+
+		template <typename T>
+		void ZRotation(Matrix<T> & lhs, float theta);
+
+		template <typename T>
+		void Translate(Matrix<T> & lhs, float x, float y, float z);
+
+		template <typename T>
+		void Scale(Matrix<T> & lhs, float scale);
+
 	}
 
 }

@@ -80,14 +80,16 @@ float4 PS(VertexOut pin) : SV_Target
 	
 	// Start with a sum of zero. 
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
 	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	uint lights_size, dummy;
     gLight.GetDimensions(lights_size, dummy);
-
+	
+	ambient = gMaterial.Ambient * 0.2;
 	for(uint i = 0; i < lights_size; i++)
 	{
+		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 light_color = gLight[i].color;
 		float3 light_position = gLight[i].positionView;
 		// The vector from the surface to the light.
@@ -96,10 +98,9 @@ float4 PS(VertexOut pin) : SV_Target
 
 
 
-		ambient = gMaterial.Ambient * light_color* 0.2;
 
 		float diffuse_angle = dot(pos_light, pin.normal);
-		[flatten]
+		//[flatten]
 		if( diffuse_angle > 0.0f )
 		{
 			float3 refect_vec = reflect(-pos_light, pin.normal);
@@ -110,9 +111,10 @@ float4 PS(VertexOut pin) : SV_Target
 			spec    = spec_factor * gMaterial.Specular * light_color;
 		}
 		
-	litColor += (ambient + diffuse + spec);
+		float4 acc_color = (diffuse + spec);
+		litColor = litColor + acc_color;
 	}
-
+	litColor += ambient;
 	litColor.a = gMaterial.Diffuse.a;
     return litColor;
 }

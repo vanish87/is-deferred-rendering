@@ -427,7 +427,8 @@ namespace MocapGE
 		}
 
 		//Get UVs at layer0
-		if(source->getAttribute("id").find("map1") != std::string::npos)
+		if(source->getAttribute("id").find("map1") != std::string::npos||
+			source->getAttribute("id").find("UV") != std::string::npos)
 		{
 			//Get the <float_array> node
 			daeElement* float_array = source->getChild("float_array");

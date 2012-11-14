@@ -112,7 +112,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	if(0)
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 world_pos = position_tex.Load( samplelndices ).xyz;
+	float3 world_pos = normal_tex.Load( samplelndices ).xyz;
 	return float4(world_pos,1.0f);
 	}
 	else{
@@ -127,14 +127,15 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	
 	// Start with a sum of zero. 
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
 	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	uint lights_size, dummy;
     gLight.GetDimensions(lights_size, dummy);
 
 	for(uint i = 0; i < lights_size; i++)
 	{
+		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 light_color = gLight[i].color;
 		float3 light_position = gLight[i].positionView;
 		// The vector from the surface to the light.
@@ -157,7 +158,8 @@ float4 LightingPS( in LightingVout pin): SV_Target
 			spec    = spec_factor * float4(spercular_mat.xyz, 1.0f) * light_color;
 		}
 		
-	litColor += (ambient + diffuse + spec);
+		float4 acc_color = (ambient + diffuse + spec);
+		litColor = litColor + acc_color;
 	}
 
 	litColor.a = diffuse_mat.w;

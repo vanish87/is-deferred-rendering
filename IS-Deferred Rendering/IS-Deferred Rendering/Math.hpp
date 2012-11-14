@@ -143,6 +143,56 @@ namespace MocapGE
 		{
 			return Transpose(Inverse(lhs));
 		}
+
+		template <typename T>
+		void XRotation(Matrix<T> & lhs, float theta)
+		{
+			Identity(lhs);
+			lhs[1][1] = Math::Cos(theta);
+			lhs[1][2] = -Math::Sin(theta);
+			lhs[2][1] = Math::Sin(theta);
+			lhs[2][2] = Math::Cos(theta);
+		}
+
+		template <typename T>
+		void YRotation(Matrix<T> & lhs, float theta)
+		{
+			Identity(lhs);
+			lhs[0][0] = Math::Cos(theta);
+			lhs[0][2] = Math::Sin(theta);
+			lhs[2][0] = -Math::Sin(theta);
+			lhs[2][2] = Math::Cos(theta);
+		}
+
+		template <typename T>
+		void ZRotation(Matrix<T> & lhs, float theta)
+		{
+			Identity(lhs);
+			lhs[0][0] = Math::Cos(theta);
+			lhs[0][1] = -Math::Sin(theta);
+			lhs[1][0] = Math::Sin(theta);
+			lhs[1][1] = Math::Cos(theta);
+		}
+
+		template <typename T>
+		void Translate(Matrix<T> & lhs, float x, float y, float z)
+		{
+			Identity(lhs);
+			//left hand coordinate system
+			lhs[3][0] = x;
+			lhs[3][1] = y;
+			lhs[3][2] = z;
+		}
+
+		template <typename T>
+		void Scale(Matrix<T> & lhs, float scale)
+		{
+			Identity(lhs);
+
+			lhs[0][0] = scale;
+			lhs[1][1] = scale;
+			lhs[2][2] = scale;
+		}
 	}
 }
 
