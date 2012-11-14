@@ -43,6 +43,8 @@ void MyApp::InitObjects()
 void MyApp::ReleaseObjects()
 {
 	delete ship_;
+	delete cannon_1;
+	delete cannon_2;
 }
 
 void MyApp::Update()
