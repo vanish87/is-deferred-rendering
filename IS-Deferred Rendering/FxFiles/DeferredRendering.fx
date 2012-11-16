@@ -109,10 +109,10 @@ LightingVout LightingVS(in LightingVin vin)
 
 float4 LightingPS( in LightingVout pin): SV_Target
 {
-	if(0)
+	if(1)
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 world_pos = normal_tex.Load( samplelndices ).xyz;
+	float3 world_pos = specular_tex.Load( samplelndices ).xyz;
 	return float4(world_pos,1.0f);
 	}
 	else{

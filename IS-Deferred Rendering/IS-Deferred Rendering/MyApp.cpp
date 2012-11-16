@@ -16,7 +16,7 @@ void MyApp::InitObjects()
 {
 	theta = 0;
 	ship_ = new D3DModel();
-	ship_->LoadFile("..\\Media\\spacecraft.dae");
+	ship_->LoadFile("..\\Media\\pumpkin.dae");
 	ship_->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
 	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	ship_->AddToScene();
@@ -24,12 +24,12 @@ void MyApp::InitObjects()
 	cannon_1 = new D3DModel();
 	cannon_1->LoadFile("..\\Media\\gun.dae");
 	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
-	cannon_1->AddToScene();
+	//cannon_1->AddToScene();
 
 	cannon_2 = new D3DModel();
 	cannon_2->LoadFile("..\\Media\\gun.dae");
 	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
-	cannon_2->AddToScene();
+	//cannon_2->AddToScene();
 	
 	point_light = new PointLight();
 	point_light->SetPos(float3(0 ,1000, 0));	
@@ -37,7 +37,7 @@ void MyApp::InitObjects()
 
 	point_light_1 = new PointLight();
 	point_light_1->SetPos(float3(50, 50, 50));
-	//point_light_1->AddToScene();
+	point_light_1->AddToScene();
 }
 
 void MyApp::ReleaseObjects()
@@ -50,7 +50,7 @@ void MyApp::ReleaseObjects()
 void MyApp::Update()
 {
 	//Example for changing Camera View
-	float3 pos = float3(0,3,3.5);
+	float3 pos = float3(0,1,3.5);
 	FrameBuffer* frame_buffer;
 	frame_buffer= Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer();
 	frame_buffer->GetFrameCamera()->SetView(pos ,float3(0,0,0),float3(0,1,0));
@@ -80,7 +80,7 @@ void MyApp::Update()
 
 	//for ship
 	Math::YRotation(yrotation_matrix, Math::PI/2 );	
-	ship_->SetModelMatrix(yrotation_matrix * model_matrix);
+	//ship_->SetModelMatrix(yrotation_matrix * model_matrix);
 
 	//for cannons
 	Math::YRotation(yrotation_matrix, Math::PI+ Math::PI/6*Math::Sin(theta));
