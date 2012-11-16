@@ -64,7 +64,7 @@ void MyApp::Update()
 	theta+= 0.001;
 	float r = 0.6;
 	float3 cannon_pos;
-
+	
 	//for all part
 	if(theta > 3.14/2)
 	{

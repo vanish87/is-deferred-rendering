@@ -277,4 +277,9 @@
       <Filter>FxFiles</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\FxFiles\Rendering.fx">
+      <Filter>FxFiles</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>
