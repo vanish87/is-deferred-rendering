@@ -55,7 +55,9 @@ namespace MocapGE
 
 			//set gbuffer as input textures
 			ShaderObject* shader_object = render_list_[0]->GetShaderObject();
-			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();			
+			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();	
+			FrameBuffer* gbuffer = render_engine->GetGBuffer();
+			RenderBuffer* depth_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 
 			shader_object->SetReource("position_tex", gbuffer_srv[3], 1);
 			shader_object->SetReource("diffuse_tex", gbuffer_srv[1], 1);
 			shader_object->SetReource("specular_tex", gbuffer_srv[2], 1);

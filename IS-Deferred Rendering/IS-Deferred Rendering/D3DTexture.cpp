@@ -6,7 +6,7 @@
 namespace MocapGE
 {
 	D3DTexture2D::D3DTexture2D(void)
-		:d3d_texture2D_(nullptr)
+		:d3d_texture2D_(nullptr),d3d_rt_view_(nullptr), d3d_sr_view_(nullptr), d3d_ds_view_(nullptr)
 	{
 	}
 
@@ -129,9 +129,21 @@ namespace MocapGE
 		if( d3d_sr_view_== nullptr)
 		{
 			D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
-			//D3D11_SHADER_RESOURCE_VIEW_DESC sr_desc;
-			//sr_desc.Buffer = TEXTURE2D;
-			if(FAILED(d3d_re->D3DDevice()->CreateShaderResourceView(this->D3DTexture(), 0, &d3d_sr_view_)))
+			D3D11_SHADER_RESOURCE_VIEW_DESC sr_desc;
+			sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			sr_desc.Texture2D.MipLevels = mip_level;
+			sr_desc.Texture2D.MostDetailedMip = 0;
+			sr_desc.Format = d3d_re->MapFormat(format_);
+			switch (usage_)
+			{
+			case TU_DEPTH_SR:
+				sr_desc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+				break;
+			default:
+				break;
+			}
+			
+			if(FAILED(d3d_re->D3DDevice()->CreateShaderResourceView(this->D3DTexture(), &sr_desc, &d3d_sr_view_)))
 				PRINT("Cannot create Shader Resource View");
 		}
 		return d3d_sr_view_;

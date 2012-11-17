@@ -16,6 +16,8 @@ namespace MocapGE
 				Format format, uint32_t mip_level, uint32_t sample_count, uint32_t sample_quality, TextureUsage usage, TextureType type);
 		~Texture(void);
 
+		void SetUsage(TextureUsage usage);
+
 	protected:
 		AccessType access_type_;
 		uint32_t array_size_;

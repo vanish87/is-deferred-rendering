@@ -14,7 +14,8 @@ namespace MocapGE
 		R8_U,
 		R8G8B8A8_U,
 		R32G32B32A32_U,
-		R32G32B32A32_F
+		R32G32B32A32_F,
+		R24G8_TYPELESS
 	};
 
 	enum TextureType
@@ -30,6 +31,7 @@ namespace MocapGE
 		TU_SHADER_CONST,
 		TU_STRUCTURED_BUFFER,
 		TU_SR_RT,
+		TU_DEPTH_SR
 
 	};
 

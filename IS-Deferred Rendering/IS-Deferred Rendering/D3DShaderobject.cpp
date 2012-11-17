@@ -110,7 +110,7 @@ namespace MocapGE
 			return;
 		}
 
-		
+		//TODO : Combine them together
 		if(type == 0)//RenderBuffer
 		{
 			D3DRenderBuffer* d3d_render_buffer;

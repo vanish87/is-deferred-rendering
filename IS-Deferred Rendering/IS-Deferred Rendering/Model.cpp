@@ -55,7 +55,7 @@ namespace MocapGE
 		daeElement* library_geometries;
 
 		root = dae.open(file_name);
-
+		db = dae.getDatabase();
 		if(!root)
 		{
 			PRINT("Cannot open DAE file");
@@ -530,6 +530,15 @@ namespace MocapGE
 		}
 	}
 
+	// Given a <newparam>, search for child element <sampler1D>, <sampler2D>, etc
+	daeElement* Model::GetSampler(daeElement* param) {
+		daeElementRefArray children = param->getChildren();
+		for (size_t i = 0; i < children.getCount(); i++)
+			if (strncmp(children[i]->getElementName(), "sampler", 7) == 0)
+				return children[i];
+		return nullptr;
+	}
+
 	Material* Model::ProcessMaterial( DaeMesh* mesh, daeElement* material )
 	{
 		domInstance_effect* instance_effect = (domInstance_effect*)material->getDescendant("instance_effect");
@@ -564,8 +573,9 @@ namespace MocapGE
 		else
 		{
 			//TODO : use material attribute list to read phong;
-			daeElement* ambient = phong->getDescendant("ambient")->getDescendant("color");
-			if(!ambient)
+			daeElement* ambient = phong->getDescendant("ambient");
+			daeElement* ambient_elem = ambient->getDescendant("color");
+			if(!ambient_elem)
 				material_out->ambient =float4(0.5, 0.5, 0.5, 1);
 			else
 			{
@@ -577,9 +587,44 @@ namespace MocapGE
 				astm >> material_out->ambient.w();
 			}
 
-			daeElement* diffuse = phong->getDescendant("diffuse")->getDescendant("color");
-			if(!diffuse)
-				material_out->diffuse =float4(0, 0, 0, 1);
+			daeElement* diffuse = phong->getDescendant("diffuse");
+			daeElement* diffuse_elem = diffuse->getDescendant("color");
+			if(!diffuse_elem)
+			{
+				daeElement* diffuse_tex = diffuse->getDescendant("texture");
+				if(!diffuse_tex)
+					material_out->diffuse =float4(0.5, 0.5, 0.5, 1);
+				//do texture loader
+				else
+				{
+					daeElement* tex = diffuse_tex;
+					daeElement* effect = tex->getAncestor("effect");
+					daeElement* parent = tex->getParent();
+					std::string imageFile;
+
+					if (daeElement* samplerParam = daeSidRef(tex->getAttribute("texture"), effect).resolve().elt)					
+						if (daeElement* sampler = GetSampler(samplerParam))
+							// We have the <sampler*> element. Now read the <source>, which is a sid
+								// ref to a <newparam> containing a <surface>.
+									if (daeElement* source = sampler->getChild("source"))
+										if (daeElement* surfaceParam = daeSidRef(source->getCharData(), effect).resolve().elt)
+											if (daeElement* surface = surfaceParam->getChild("surface"))
+
+												// We have the <surface> element. It contains an <init_from> child
+													// whose character data contains the ID of the <image> element.
+														if (daeElement* initFrom = surface->getChild("init_from"))
+															if (daeElement* image = db->idLookup(initFrom->getCharData(), initFrom->getDocument()))
+
+																// The <image> contains an <init_from> element which is a URI
+																	// that points to the image file.
+																		if (domImage::domInit_from* initFrom = daeSafeCast<domImage::domInit_from>(image->getChild("init_from")))
+																			imageFile = cdom::uriToNativePath(initFrom->getValue().str());
+					textures_.push_back(LoadTexture(imageFile));
+
+
+
+				}
+			}
 			else
 			{
 				std::string diffuse_color = diffuse->getCharData();

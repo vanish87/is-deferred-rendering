@@ -16,7 +16,7 @@ void MyApp::InitObjects()
 {
 	theta = 0;
 	ship_ = new D3DModel();
-	ship_->LoadFile("..\\Media\\pumpkin.dae");
+	ship_->LoadFile("..\\Media\\spacecraft.dae");
 	ship_->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
 	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	ship_->AddToScene();

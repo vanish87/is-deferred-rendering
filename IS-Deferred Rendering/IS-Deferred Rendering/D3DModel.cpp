@@ -15,7 +15,6 @@ namespace MocapGE
 	void D3DModel::LoadFile( std::string file_name )
 	{
 		Model::LoadFile(file_name);
-		//do Load texture here
 	}
 
 	void D3DModel::SetRenderParameters()
@@ -99,6 +98,19 @@ namespace MocapGE
 			d3d_shader_object->SetShaderResourceVariable("specular_tex");
 		}
 			
+	}
+
+	Texture* D3DModel::LoadTexture( std::string file_name )
+	{
+		//only for load d3d Texture
+		//if I have a original texture file loader, remove it, do Texture loading on Model Class
+		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());	
+		ID3D11Resource* texture;
+		std::wstring widestr = std::wstring(file_name.begin(), file_name.end());
+		DirectX::CreateWICTextureFromFile(d3d_re->D3DDevice(), NULL,
+											widestr.c_str(), &texture, NULL);
+		//Context::Instance().GetRenderFactory().MakeTexture2D(texture, )
+		return new Texture();
 	}
 
 

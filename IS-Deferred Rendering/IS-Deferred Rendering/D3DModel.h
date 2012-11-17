@@ -11,6 +11,9 @@
 #include "Model.h"
 
 #include "D3DShaderobject.h"
+#include "..\External\WICTextureLoader.h"
+
+#pragma comment(lib, "..\\External\\DirectXTK.lib")
 
 namespace MocapGE
 {
@@ -30,6 +33,9 @@ namespace MocapGE
 		virtual void SetRenderParameters();
 		virtual void Render(int pass_index);
 		virtual void EndRender();
+
+		virtual Texture* LoadTexture( std::string file_name );
+
 		float theta;
 	};
 

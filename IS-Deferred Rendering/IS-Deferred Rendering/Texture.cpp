@@ -18,5 +18,10 @@ namespace MocapGE
 	{
 	}
 
+	void Texture::SetUsage( TextureUsage usage )
+	{
+		usage_ = usage;
+	}
+
 
 }

@@ -22,6 +22,7 @@ namespace MocapGE
 	struct ContextConfig;
 	struct RenderSetting;
 
+	class Texture;
 	class RenderState;
 	class RenderFactory;
 	class RenderEngine;
@@ -30,7 +31,6 @@ namespace MocapGE
 	class RenderElement;
 	class RenderBuffer;
 	class FrameBuffer;
-	class Texture;
 	class Mesh;
 	class Model;
 	class DeferredRendering;

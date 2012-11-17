@@ -70,6 +70,8 @@ namespace MocapGE
 		void AddMesh( Mesh* mesh );
 		void AddMaterial( Material* mat );
 		virtual void LoadShaderFile(std::string file_name);
+
+		virtual Texture* LoadTexture(std::string file_name) = 0;
 		
 
 	protected:
@@ -81,7 +83,12 @@ namespace MocapGE
 		void processSource( DaeMesh* mesh, daeElement* sources );
 		void processTriangles( DaeMesh* mesh, daeElement* triangles );
 		Material* ProcessMaterial(DaeMesh* mesh, daeElement* material);
+		daeElement* Model::GetSampler(daeElement* param);
 
+
+	private:
+		//Dae loader
+		daeDatabase* db;
 	};
 }
 

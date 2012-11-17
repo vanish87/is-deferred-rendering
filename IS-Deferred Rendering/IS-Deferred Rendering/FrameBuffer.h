@@ -23,6 +23,7 @@ namespace MocapGE
 		virtual void OnBind() = 0;
 		virtual void AddRenderView(RenderView* render_view);
 		virtual RenderView* GetRenderView(size_t index){return render_views_[index];};
+		Texture* GetDepthTexture(){return depth_texture_;};
 
 
 	protected:
@@ -34,6 +35,7 @@ namespace MocapGE
 		Viewport* viewport_;
 
 		std::vector<RenderView*> render_views_;
+		Texture* depth_texture_;
 	};
 }
 
