@@ -58,6 +58,7 @@ namespace MocapGE
 
 		D3DRenderState* depth_on_;
 		D3DRenderState* depth_off_;
+		D3DRenderState* wire_frame_;
 
 	};
 }

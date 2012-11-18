@@ -276,8 +276,10 @@
     <CustomBuild Include="..\FxFiles\DeferredRendering.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\FxFiles\Rendering.fx">
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FxFiles\Rendering.fx">
       <Filter>FxFiles</Filter>
-    </CustomBuild>
+    </None>
   </ItemGroup>
 </Project>

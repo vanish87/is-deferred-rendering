@@ -99,6 +99,16 @@ void MyApp::Update()
 	//std::cout<<"light zpos"<< 5*Math::Sin(theta)<< std::endl;
 }
 
+void MyApp::OnKeyDown( WPARAM key_para )
+{
+	std::cout<<"key down"<<std::endl;
+}
+
+void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
+{
+	std::cout<<"mouse move "<<x<<" "<<y<<std::endl;
+}
+
 int main()
 {
 	Context::Instance().LoadConfig("E:\\12Fall\\Independent Study\\IS-Deferred Rendering\\IS-Deferred Rendering\\Config.xml");

@@ -83,6 +83,25 @@ namespace MocapGE
 		case WM_DESTROY:
 			PostQuitMessage( 0 );
 			break;
+		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+			Context::Instance().AppInstance().OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			break;
+		case WM_LBUTTONUP:
+		case WM_MBUTTONUP:
+		case WM_RBUTTONUP:
+			Context::Instance().AppInstance().OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			break;
+		case WM_MOUSEMOVE:
+			Context::Instance().AppInstance().OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			break;
+		case WM_KEYDOWN: 
+			Context::Instance().AppInstance().OnKeyDown(wParam);
+			break;
+		case WM_KEYUP: 
+			Context::Instance().AppInstance().OnKeyUp(wParam);
+			break;
 
 		default:
 			{

@@ -4,10 +4,13 @@
 #pragma once
 
 #include <windows.h>
+#include <Windowsx.h>
 #include <string>
 
 #include "PreDec.h"
 #include "Configure.h"
+#include "Context.h"
+#include "App.h"
 
 namespace MocapGE
 {

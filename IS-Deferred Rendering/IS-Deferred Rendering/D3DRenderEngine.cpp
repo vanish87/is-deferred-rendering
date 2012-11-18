@@ -366,6 +366,17 @@ namespace MocapGE
 
 		depth_off_ = new D3DRenderState(depthDisabledStencilDesc);
 
+		D3D11_RASTERIZER_DESC wireframeDesc;
+		ZeroMemory(&wireframeDesc, sizeof(D3D11_RASTERIZER_DESC));
+		wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
+		wireframeDesc.CullMode = D3D11_CULL_BACK;
+		wireframeDesc.FrontCounterClockwise = false;
+		wireframeDesc.DepthClipEnable = true;
+
+		wire_frame_ = new D3DRenderState(wireframeDesc);
+
+
+
 	}
 
 	DXGI_FORMAT D3DRenderEngine::MapFormat( Format format )
@@ -435,6 +446,7 @@ namespace MocapGE
 	{
 		ID3D11DepthStencilState* depth_state= depth_on_->GetDepthStencilState();
 		d3d_imm_context_->OMSetDepthStencilState(depth_state, 1);
+
 	}
 
 

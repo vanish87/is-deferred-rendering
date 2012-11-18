@@ -79,7 +79,7 @@ namespace MocapGE
 		}
 
 		//Default init for Model shader
-		//d3d_shader_object->SetTechnique("ColorTech");
+		d3d_shader_object->SetTechnique("ColorTech");
 		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
 		if(render_engine->GetRenderSetting().deferred_rendering)
 			d3d_shader_object->SetTechnique("GbufferTech");

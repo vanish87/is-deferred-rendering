@@ -15,6 +15,8 @@ namespace MocapGE
 	{
 		D3DRenderState();
 		state_type_ = RST_RASTERIZER;		
+		D3DRenderEngine* d3d_re =static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
+		d3d_re->D3DDevice()->CreateRasterizerState(&desc, &rasterizer_state_);
 	}
 
 	D3DRenderState::D3DRenderState( D3D11_DEPTH_STENCIL_DESC desc )
