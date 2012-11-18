@@ -48,8 +48,11 @@ namespace MocapGE
 			//set mesh's parameter
 			meshes_[i]->SetRenderParameters();
 			//set mesh's texture
-			RenderBuffer* tex_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(textures_[i],AT_GPU_READ,BU_SHADER_RES);
-			shader_object_->SetReource("mesh_diffuse",tex_srv, 1);
+			if(textures_.size())
+			{
+				RenderBuffer* tex_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(textures_[i],AT_GPU_READ,BU_SHADER_RES);
+				shader_object_->SetReource("mesh_diffuse",tex_srv, 1);
+			}
 			//render
 			meshes_[i]->Render(pass_index);
 			//end render

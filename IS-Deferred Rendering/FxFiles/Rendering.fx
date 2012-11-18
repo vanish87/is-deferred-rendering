@@ -1,32 +1,63 @@
-float3 Calctighting( in float3 normal, 
-					 in float3 position,
-					 in float3 diffuseAlbedo,
+struct Material
+{
+	float4 Ambient;
+	float4 Diffuse;
+	float4 Specular; //it will be only float
+	float  Shininess;
+};
+
+struct PointLight
+{
+    float3 position;
+    float4 color;
+};
+StructuredBuffer<PointLight> gLight;
+
+cbuffer cbPerFrame
+{
+	float3 g_eye_pos;
+};
+
+float4 Calctighting( in float3 normal, 
+					 in float3 position, //world_pos
+					 in float4 diffuseAlbedo,
 					 in float3 specularAlbedo,
 					 in float specularPower )
 {
-		// Calculate the diffuse term
-		float3 L = 0;
-		float attenuation = 1.0f; 
-		#if POINTLIGHT || SPOTLIGHT
-		// Base the the light vector on the light position L = LightPos - position;
-		11.2 Classic Deferred Rendering 505
+	float3 pos_eye = normalize(g_eye_pos - position);
+	
+	// Start with a sum of zero. 
+	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	uint lights_size, dummy;
+    gLight.GetDimensions(lights_size, dummy);
+
+	for(uint i = 0; i < lights_size; i++)
+	{
+		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float4 light_color = gLight[i].color;
+		float3 light_position = gLight[i].position;//world_pos
+		// The vector from the surface to the light.
+		float3 pos_light = light_position - position;
+		pos_light = normalize(pos_light);
+
+		float diffuse_angle = dot(pos_light, normal);
+		[flatten]
+		if( diffuse_angle > 0.0f )
+		{
+			float3 refect_vec = reflect(-pos_light, normal);
+
+			float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), specularPower);
+
+			diffuse = diffuse_angle * diffuseAlbedo * light_color;
+			spec    = spec_factor * float4(specularAlbedo, 1.0f) * light_color;
 		}
-		// Calculate attenuation based on distance from the light source float dist = length( L );
-		attenuation = max( 0, 1.0f - ( dist / LightRange.x ) );
-		L /= dist; #elif DIRECTIONALLIGHT
-		// Light direction is explicit for directional lights
-		L = -LightDirection; #endif
-		#if SPOTLIGHT
-		// Also add in the spotlight attenuation factor float3 L2 = LightDirection;
-		float rho = dot( -L, L2 );
-		attenuation *= saturate( ( rho - SpotlightAngles.y )
-		/ ( SpotlightAngles.x - SpotlightAngles.y ) );
-		#endif
-		float nDotL = saturate( dot( normal, L ) );
-		float3 diffuse = nDotL * LightColor * diffuseAlbedo;
-		// Calculate the specular term
-		float3 V = CameraPos - position;
-		float3 H = normalize( L + V );
-		float3 specular = pow( saturate( dot( normal, H ) ), specular-Power )
-		* LightColor * specularAlbedo.xyz * nDotL; // Final value is the sum of the albedo and diffuse with attenuation applied
-return ( diffuse + specular ) * attenuation;
+		
+		float4 acc_color = (ambient + diffuse + spec);
+		litColor = litColor + acc_color;
+	}
+
+	litColor.a = diffuseAlbedo.w;
+    return litColor;
+}

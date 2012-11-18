@@ -95,10 +95,8 @@ namespace MocapGE
 
 	struct LightStruct
 	{
-		float3 positionView;
-		float attenuationBegin;
+		float3 position;
 		float4 color;
-		float attenuationEnd;
 	};
 
 	//formal struct for loading and vertex buffer 

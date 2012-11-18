@@ -3,30 +3,16 @@
 //
 // Transforms and colors geometry.
 //***************************************************************************************
+#include "Rendering.fx"
 
-struct Material
-{
-	float4 Ambient;
-	float4 Diffuse;
-	float4 Specular; 
-	float  Shininess;
-};
-struct PointLight
-{
-    float3 positionView;
-    float attenuationBegin;
-    float4 color;
-    float attenuationEnd;
-};
-
-StructuredBuffer<PointLight> gLight;
-
+//g-buffer
 Texture2D position_tex;
 Texture2D diffuse_tex;
 Texture2D specular_tex;
 Texture2D normal_tex;
 
 Texture2D mesh_diffuse;
+
 SamplerState MeshTextureSampler
 {
     Filter = MIN_MAG_MIP_LINEAR;
@@ -34,12 +20,7 @@ SamplerState MeshTextureSampler
     AddressV = Wrap;
 };
 
-cbuffer cbPerFrame
-{
-	float4 g_light_color;
-	float3 g_light_position;
-	float3 g_eye_pos;
-};
+
 cbuffer cbPerObject
 {
 	float4x4 g_world_matrix;
@@ -68,7 +49,6 @@ VertexOut GbufferVS(VertexIn vin)
 {
 	VertexOut vout;
 	
-	// Transform to homogeneous clip space.	
 	float4x4 world_matrix = mul(g_model_matrix, g_world_matrix);
 	float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
 	vout.pos = mul(float4(vin.pos, 1.0f), mvp_matrix);
@@ -76,8 +56,7 @@ VertexOut GbufferVS(VertexIn vin)
 
 	vout.world_pos = mul(float4(vin.pos, 1.0f), world_matrix).xyz;
 
-	vout.tex_cood = vin.tex_cood;
-    
+	vout.tex_cood = vin.tex_cood;    
     return vout;
 }
 
@@ -94,7 +73,6 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	GbufferPSOutput output;
 	float3 diffuseAlbedo = float3(0, 0, 0);
 	float3 SpecularAlbedo = float3(0, 0, 0);
-	float SpecularPower = 1;
 
 	output.Normal = float4(pin.normal.xyz, 0.0f);
 	output.DiffuseAlbedo = mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood);
@@ -122,60 +100,23 @@ LightingVout LightingVS(in LightingVin vin)
 
 float4 LightingPS( in LightingVout pin): SV_Target
 {
-	if(0)
+	if(0)//for debugging
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 world_pos = mesh_diffuse.Load( samplelndices ).xyz;
+	float3 world_pos = normal_tex.Load( samplelndices ).xyz;
 	return float4(world_pos,1.0f);
 	}
 	else{
-
+		
+	//Get Infor from g-buffer
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float3 world_pos = position_tex.Load( samplelndices ).xyz;
 	float3 normal = normal_tex.Load( samplelndices ).xyz;
 	float4 diffuse_mat = diffuse_tex.Load( samplelndices );
 	float4 spercular_mat = specular_tex.Load( samplelndices );
 
-	float3 pos_eye = normalize(g_eye_pos - world_pos);
-	
-	// Start with a sum of zero. 
-	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	uint lights_size, dummy;
-    gLight.GetDimensions(lights_size, dummy);
-
-	for(uint i = 0; i < lights_size; i++)
-	{
-		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 light_color = gLight[i].color;
-		float3 light_position = gLight[i].positionView;
-		// The vector from the surface to the light.
-		float3 pos_light = light_position - world_pos;
-		pos_light = normalize(pos_light);
-
-
-
-		ambient = light_color* 0;
-
-		float diffuse_angle = dot(pos_light, normal);
-		[flatten]
-		if( diffuse_angle > 0.0f )
-		{
-			float3 refect_vec = reflect(-pos_light, normal);
-
-			float spec_factor = pow(max(dot(refect_vec, pos_eye), 0.0f), spercular_mat.w);
-
-			diffuse = diffuse_angle * diffuse_mat * light_color;
-			spec    = spec_factor * float4(spercular_mat.xyz, 1.0f) * light_color;
-		}
-		
-		float4 acc_color = (ambient + diffuse + spec);
-		litColor = litColor + acc_color;
-	}
-
-	litColor.a = diffuse_mat.w;
-    return litColor;
+	//cal lighting
+	return Calctighting( normal, world_pos, diffuse_mat , spercular_mat.xyz, spercular_mat.w);
 	}
 }
 

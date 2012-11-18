@@ -25,7 +25,7 @@ namespace MocapGE
 		for(size_t i = 0; i < size; i++)
 		{
 			light[i].color = lights[i]->GetColor();
-			light[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+			light[i].position = static_cast<PointLight*>(lights[i])->GetPos();
 		}
 		InitData init_data;
 		init_data.data = light;

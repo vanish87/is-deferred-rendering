@@ -49,7 +49,7 @@ namespace MocapGE
 			for (size_t i =0; i< lights.size(); i++)
 			{
 				l[i].color = lights[i]->GetColor();
-				l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+				l[i].position = static_cast<PointLight*>(lights[i])->GetPos();
 			}
 			lights_buffer->UnMap();
 
@@ -86,7 +86,7 @@ namespace MocapGE
 			for (size_t i =0; i< lights.size(); i++)
 			{
 				l[i].color = lights[i]->GetColor();
-				l[i].positionView = static_cast<PointLight*>(lights[i])->GetPos();
+				l[i].position = static_cast<PointLight*>(lights[i])->GetPos();
 			}
 			lights_buffer->UnMap();
 
