@@ -26,6 +26,14 @@ Texture2D diffuse_tex;
 Texture2D specular_tex;
 Texture2D normal_tex;
 
+Texture2D mesh_diffuse;
+SamplerState MeshTextureSampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
 cbuffer cbPerFrame
 {
 	float4 g_light_color;
@@ -44,7 +52,8 @@ cbuffer cbPerObject
 struct VertexIn
 {
 	float3 pos  : POSITION;
-    float3 normal : NORMAL;
+    float3 normal : NORMAL;	
+	float2 tex_cood		: TEXCOORD;
 };
 
 struct VertexOut
@@ -52,6 +61,7 @@ struct VertexOut
 	float4 pos			: SV_POSITION;
 	float3 world_pos    : POSITION;
     float3 normal		: NORMAL;
+	float2 tex_cood		: TEXCOORD;
 };
 
 VertexOut GbufferVS(VertexIn vin)
@@ -65,9 +75,12 @@ VertexOut GbufferVS(VertexIn vin)
 	vout.normal = normalize(mul(vin.normal, (float3x3)g_world_inv_transpose));
 
 	vout.world_pos = mul(float4(vin.pos, 1.0f), world_matrix).xyz;
+
+	vout.tex_cood = vin.tex_cood;
     
     return vout;
 }
+
 
 struct GbufferPSOutput
 {
@@ -84,7 +97,7 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	float SpecularPower = 1;
 
 	output.Normal = float4(pin.normal.xyz, 0.0f);
-	output.DiffuseAlbedo = gMaterial.Diffuse;
+	output.DiffuseAlbedo = mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood);
 	output.SpecularAlbedo = float4( gMaterial.Specular.xyz, gMaterial.Shininess );
 	output.Position = float4( pin.world_pos, 1.0f );
 
@@ -109,11 +122,11 @@ LightingVout LightingVS(in LightingVin vin)
 
 float4 LightingPS( in LightingVout pin): SV_Target
 {
-	if(1)
+	if(0)
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 world_pos = normal_tex.Load( samplelndices ).xyz;
-	return float4(world_pos.r,world_pos.r, world_pos.r,1.0f);
+	float3 world_pos = mesh_diffuse.Load( samplelndices ).xyz;
+	return float4(world_pos,1.0f);
 	}
 	else{
 
@@ -127,7 +140,6 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	
 	// Start with a sum of zero. 
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-
 	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	uint lights_size, dummy;
     gLight.GetDimensions(lights_size, dummy);

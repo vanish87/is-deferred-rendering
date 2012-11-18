@@ -16,8 +16,9 @@
 
 #include "..\External\D3dx11effect.h"
 
+//old libs from DXSDK
 #pragma comment(lib, "..\\External\\Effects11.lib")
-#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "..\\External\\d3dcompiler.lib")
 
 
 namespace MocapGE
@@ -52,7 +53,8 @@ namespace MocapGE
 
 		ID3DX11EffectShaderResourceVariable* GetShaderRourceVariable(std::string name){return shader_resource_variable_.find(name)->second;};
 		void SetShaderResourceVariable(std::string name);
-		virtual void SetReource( std::string name, RenderBuffer* data, uint32_t size );
+		//type: 0 for RenderBuffer; 1 for ShaderResource
+		virtual void SetReource( std::string name, RenderBuffer* data, uint32_t type );
 
 
 

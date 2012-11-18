@@ -206,7 +206,8 @@ namespace MocapGE
 
 				vb[j].position = position;
 				vb[j].normal = normal;
-				vb[j].uv = uv;
+				//Convert opengl texture coord to Dx coord
+				vb[j].uv = float2(uv.x(),1-uv.y());
 				vb[j].tangent = tangent;
 				vb[j].bitangent = bitangent;
 				ib[j] = j;

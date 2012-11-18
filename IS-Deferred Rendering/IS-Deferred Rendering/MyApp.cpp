@@ -79,8 +79,9 @@ void MyApp::Update()
 	}
 
 	//for ship
+	//Math::XRotation(xrotation_matrix, Math::PI/4*Math::Sin(theta));
 	Math::YRotation(yrotation_matrix, Math::PI/2 );	
-	//ship_->SetModelMatrix(yrotation_matrix * model_matrix);
+	ship_->SetModelMatrix(yrotation_matrix* model_matrix);
 
 	//for cannons
 	Math::YRotation(yrotation_matrix, Math::PI+ Math::PI/6*Math::Sin(theta));

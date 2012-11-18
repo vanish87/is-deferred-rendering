@@ -78,6 +78,16 @@ namespace MocapGE
 			PRINT("Cannot create Texture 2D");
 	}
 
+	D3DTexture2D::D3DTexture2D( D3D11_TEXTURE2D_DESC desc, ID3D11Texture2D* & texture )
+		:d3d_rt_view_(nullptr), d3d_sr_view_(nullptr), d3d_ds_view_(nullptr)
+	{
+		//TODO : Use desc to Init
+		desc_ = desc;
+		usage_ = TU_SHADER_RES;
+		format_ = R8G8B8A8_U;
+		d3d_texture2D_ = texture;
+	}
+
 
 	D3DTexture2D::~D3DTexture2D(void)
 	{
