@@ -25,6 +25,8 @@ namespace MocapGE
 			return *win_;
 		}
 
+		Camera* GetCamera();
+
 		virtual void OnKeyDown(WPARAM key_para)
 		{
 		}

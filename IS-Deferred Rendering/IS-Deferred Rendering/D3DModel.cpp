@@ -102,8 +102,9 @@ namespace MocapGE
 			//init parameter here
 			d3d_shader_object->SetShaderResourceVariable("position_tex");
 			d3d_shader_object->SetShaderResourceVariable("normal_tex");
-			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
-			d3d_shader_object->SetShaderResourceVariable("specular_tex");
+
+			//lighting buffer
+			d3d_shader_object->SetShaderResourceVariable("lighting_tex");
 		}
 			
 	}

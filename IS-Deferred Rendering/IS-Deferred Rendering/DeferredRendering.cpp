@@ -5,6 +5,7 @@ namespace MocapGE
 	DeferredRendering::DeferredRendering( RenderSetting& render_setting )
 	{
 		gbuffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting);
+		lighting_buffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting);
 		//make a full screen qua for lighting pass
 		VertexType* vb = new VertexType[6];
 		uint32_t* ib = new uint32_t[6];
@@ -72,6 +73,16 @@ namespace MocapGE
 	Mesh* DeferredRendering::GetFullscreenQuad()
 	{
 		return fullscreen_mesh_;
+	}
+
+	void DeferredRendering::AddLightingBuffer( RenderView* render_view )
+	{
+		lighting_buffer_->AddRenderView(render_view);
+	}
+
+	void DeferredRendering::AddLightingBuffer( RenderBuffer* shader_resource)
+	{
+		lighting_srv_ = shader_resource;
 	}
 
 

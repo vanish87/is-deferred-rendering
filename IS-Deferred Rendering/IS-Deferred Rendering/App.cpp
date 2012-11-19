@@ -75,4 +75,9 @@ namespace MocapGE
 		return new Window(app_name,render_setting);
 	}
 
+	Camera* App::GetCamera()
+	{
+		return Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera();
+	}
+
 }

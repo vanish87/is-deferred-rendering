@@ -19,6 +19,9 @@ namespace MocapGE
 		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{	//do DR here
+/*
+			//Deferred Shading
+			//---------------------------------------------------------------------------
 			render_engine->SetNormalState();
 			//bind gbuffer
 			FrameBuffer* back_buffer = render_engine->CurrentFrameBuffer();
@@ -73,6 +76,82 @@ namespace MocapGE
 
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
 			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+			//End of Deferred Shading
+			//---------------------------------------------------------------------------
+*/
+
+
+			//Deferred Lighting
+			//pass 0
+			render_engine->SetNormalState();
+			//bind gbuffer
+			FrameBuffer* back_buffer = render_engine->CurrentFrameBuffer();
+			Camera* back_frame_camera = back_buffer->GetFrameCamera();
+			render_engine->GetGBuffer()->SetFrameCamera(back_frame_camera);
+			render_engine->BindFrameBuffer(render_engine->GetGBuffer());
+
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			std::vector<RenderElement*>::iterator re;
+			for(re = render_list_.begin() ; re < render_list_.end(); re++)
+			{
+				(*re)->SetRenderParameters();
+				//Render to Gbuffer
+				//(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render(0);
+				(*re)->EndRender();
+			}
+
+			//pass 1
+			//bind lighting buffer
+			render_engine->GetLightingBuffer()->SetFrameCamera(back_frame_camera);
+			render_engine->BindFrameBuffer(render_engine->GetLightingBuffer());
+			render_engine->SetDeferredRenderingState();
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			//set lights parameters
+			std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+			RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
+			LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
+			for (size_t i =0; i< lights.size(); i++)
+			{
+				l[i].color = lights[i]->GetColor();
+				l[i].position = static_cast<PointLight*>(lights[i])->GetPos();
+			}
+			lights_buffer->UnMap();
+			//set gbuffer as input textures
+			ShaderObject* shader_object = render_list_[0]->GetShaderObject();
+			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();	
+			FrameBuffer* gbuffer = render_engine->GetGBuffer();
+			RenderBuffer* depth_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 
+			shader_object->SetReource("position_tex", gbuffer_srv[1], 1);
+			shader_object->SetReource("normal_tex", gbuffer_srv[0], 1);
+			//do lighting
+			Mesh* quad = render_engine->GetFullscreenQuad();
+			//Set Shader file for quad
+			quad->SetShaderObject(shader_object);
+			quad->SetRenderParameters();
+			//quad->GetShaderObject()->Apply(1);
+			quad->Render(1);
+			quad->EndRender();
+
+			//pass 2
+			render_engine->SetNormalState();
+			render_engine->BindFrameBuffer(back_buffer);
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			RenderBuffer* lighting_srv= render_engine->GetLightingBufferSRV();
+			shader_object->SetReource("lighting_tex", lighting_srv, 1);
+			for(re = render_list_.begin() ; re < render_list_.end(); re++)
+			{
+				(*re)->SetRenderParameters();
+				//Render to Gbuffer
+				//(*re)->GetShaderObject()->Apply(0);
+				(*re)->Render(2);
+				(*re)->EndRender();
+			}
+
+
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
+			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+
 		}	
 		else
 		{

@@ -34,6 +34,7 @@ namespace MocapGE
 		light_buffer_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_CPU_WRITE, BU_SR_SB, size , sizeof(LightStruct));
 	}
 
+	//TODO : move it to DeferredRendering class
 	void RenderEngine::InitDeferredRendering( RenderSetting render_setting )
 	{
 		deferred_rendering_ = new DeferredRendering(render_setting);
@@ -49,6 +50,14 @@ namespace MocapGE
 			deferred_rendering_->AddGBuffer(render_view);
 			deferred_rendering_->AddGBuffer(shader_resource);
 		}
+		//init lighting buffer
+		Texture* texture_2d = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+		RenderView* render_view = Context::Instance().GetRenderFactory().MakeRenderView(texture_2d, 1, 0);
+		RenderBuffer* shader_resource = Context::Instance().GetRenderFactory().MakeRenderBuffer(texture_2d, AT_GPU_READ, BU_SHADER_RES);
+		deferred_rendering_->AddLightingBuffer(render_view);
+		deferred_rendering_->AddLightingBuffer(shader_resource);
+
 	}
 
 	FrameBuffer* RenderEngine::GetGBuffer()
@@ -63,6 +72,16 @@ namespace MocapGE
 	Mesh* RenderEngine::GetFullscreenQuad()
 	{
 		return deferred_rendering_->GetFullscreenQuad();
+	}
+
+	FrameBuffer* RenderEngine::GetLightingBuffer()
+	{
+		return deferred_rendering_->GetLighingBuffer();
+	}
+
+	RenderBuffer* RenderEngine::GetLightingBufferSRV()
+	{
+		return deferred_rendering_->GetLightingBufferSRV();
 	}
 
 }

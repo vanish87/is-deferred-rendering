@@ -27,11 +27,24 @@ namespace MocapGE
 
 		Mesh* GetQuadMesh(){return fullscreen_mesh_;};
 		Mesh* GetFullscreenQuad();
+
+		void AddLightingBuffer( RenderView* render_view );
+		void AddLightingBuffer( RenderBuffer* shader_resource);
+
+		FrameBuffer* & GetLighingBuffer(){return lighting_buffer_;};
+		RenderBuffer* & GetLightingBufferSRV(){return lighting_srv_;};
+
 	private:
 		//for Render Target
 		FrameBuffer* gbuffer_;
 		//for Shader Resource
 		std::vector<RenderBuffer*> gbuffer_srv_;
+		//for Lighting Buffer
+		FrameBuffer* lighting_buffer_;
+		RenderBuffer* lighting_srv_;
+
+
+
 
 		Mesh* fullscreen_mesh_;
 

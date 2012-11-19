@@ -17,18 +17,18 @@ void MyApp::InitObjects()
 	theta = 0;
 	ship_ = new D3DModel();
 	ship_->LoadFile("..\\Media\\spacecraft.dae");
-	ship_->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
+	ship_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	ship_->AddToScene();
 
 	cannon_1 = new D3DModel();
 	cannon_1->LoadFile("..\\Media\\gun.dae");
-	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
+	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//cannon_1->AddToScene();
 
 	cannon_2 = new D3DModel();
 	cannon_2->LoadFile("..\\Media\\gun.dae");
-	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredRendering.fxo");
+	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//cannon_2->AddToScene();
 	
 	point_light = new PointLight();
@@ -51,9 +51,8 @@ void MyApp::Update()
 {
 	//Example for changing Camera View
 	float3 pos = float3(0,1,3.5);
-	FrameBuffer* frame_buffer;
-	frame_buffer= Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer();
-	frame_buffer->GetFrameCamera()->SetView(pos ,float3(0,0,0),float3(0,1,0));
+	Camera* camera = GetCamera();
+	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
 	//frame_buffer->GetFrameCamera()->SetProjection(3.14f/4, 1280/800, 1, 1000);
 
 	//Example for changing model position

@@ -44,6 +44,8 @@ namespace MocapGE
 
 		FrameBuffer* GetGBuffer();
 		std::vector<RenderBuffer*> GetGBufferSRV();
+		FrameBuffer* GetLightingBuffer();
+		RenderBuffer* GetLightingBufferSRV();
 		Mesh* GetFullscreenQuad();
 	protected:
 		std::string name_;
