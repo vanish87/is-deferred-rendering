@@ -92,7 +92,7 @@ void MyApp::Update()
 	Math::Translate(translate_matrix, 3 + cannon_pos.x(), -0.5 + cannon_pos.y(), 3);//left
 	cannon_2->SetModelMatrix(yrotation_matrix* translate_matrix*scale_matrix* model_matrix);
 
-	point_light_1->SetPos(float3(55*Math::Cos(0),55*Math::Sin(theta),55*Math::Sin(0)));
+	point_light_1->SetPos(float3(55*Math::Cos(theta),55*Math::Sin(theta),55*Math::Sin(0)));
 
 
 

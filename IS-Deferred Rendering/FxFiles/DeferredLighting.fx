@@ -155,7 +155,7 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	float4 DiffuseAlbedo = mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood);
 	//float4 DiffuseAlbedo = gMaterial.Diffuse;
 
-	float3 diffuse = lighting.xyz ;
+	float3 diffuse = lighting.xyz *DiffuseAlbedo ;
 	float3 specular = lighting.w *  gMaterial.Specular.xyz;
 
 	//cal lighting
