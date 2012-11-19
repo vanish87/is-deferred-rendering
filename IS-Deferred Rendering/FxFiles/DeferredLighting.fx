@@ -71,7 +71,7 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 {
 	GbufferPSOutput output;
 
-	output.Normal = float4(pin.normal.xyz, gMaterial.Shininess);
+	output.Normal = float4(pin.normal, gMaterial.Shininess);
 	output.Position = float4( pin.world_pos, 1.0f );
 
 	return output;
@@ -112,6 +112,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 
 	//cal lighting
 	return CalPreLighting( normal, world_pos, shininess);
+	//return CalLighting( normal, world_pos, float4(1,1,1,1) , gMaterial.Specular.xyz, gMaterial.Specular.w);
 	}
 }
 
@@ -152,8 +153,9 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float4 lighting = lighting_tex.Load( samplelndices );
 	float4 DiffuseAlbedo = mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood);
+	//float4 DiffuseAlbedo = gMaterial.Diffuse;
 
-	float3 diffuse = lighting.xyz * DiffuseAlbedo.rgb;
+	float3 diffuse = lighting.xyz ;
 	float3 specular = lighting.w *  gMaterial.Specular.xyz;
 
 	//cal lighting

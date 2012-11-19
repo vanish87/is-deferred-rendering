@@ -33,10 +33,10 @@ void MyApp::InitObjects()
 	
 	point_light = new PointLight();
 	point_light->SetPos(float3(0 ,1000, 0));	
-	point_light->AddToScene();
+	//point_light->AddToScene();
 
 	point_light_1 = new PointLight();
-	point_light_1->SetPos(float3(50, 50, 50));
+	point_light_1->SetPos(float3(50, 50, 0));
 	point_light_1->AddToScene();
 }
 
@@ -60,12 +60,13 @@ void MyApp::Update()
 	float4x4 scale_matrix, xrotation_matrix, yrotation_matrix,zrotation_matrix,translate_matrix;
 	Math::Identity(model_matrix);
 
-	theta+= 0.001;
+	theta+= 0.0001;
 	float r = 0.6;
 	float3 cannon_pos;
 	
 	//for all part
-	if(theta > 3.14/2)
+	if(0)
+	//if(theta > 3.14/2)
 	{
 		Math::ZRotation(zrotation_matrix, Math::PI/4*Math::Sin(theta));
 		Math::Translate(translate_matrix, r * Math::PI/6*Math::Cos(theta) ,r*Math::PI/6*Math::Sin(theta* 2) , 0 );	
@@ -78,7 +79,7 @@ void MyApp::Update()
 	}
 
 	//for ship
-	//Math::XRotation(xrotation_matrix, Math::PI/4*Math::Sin(theta));
+	//Math::XRotation(xrotation_matrix, theta);
 	Math::YRotation(yrotation_matrix, Math::PI/2 );	
 	ship_->SetModelMatrix(yrotation_matrix* model_matrix);
 
@@ -91,7 +92,7 @@ void MyApp::Update()
 	Math::Translate(translate_matrix, 3 + cannon_pos.x(), -0.5 + cannon_pos.y(), 3);//left
 	cannon_2->SetModelMatrix(yrotation_matrix* translate_matrix*scale_matrix* model_matrix);
 
-	point_light_1->SetPos(float3(55*Math::Cos(theta),55*Math::Sin(theta),55*Math::Sin(0)));
+	point_light_1->SetPos(float3(55*Math::Cos(0),55*Math::Sin(theta),55*Math::Sin(0)));
 
 
 
