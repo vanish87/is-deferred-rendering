@@ -117,6 +117,8 @@ namespace MocapGE
 		for(unsigned int i = 0; i < meshes.size(); i++)
 		{
 			Material* mat = ProcessMaterial(meshes[i], meshes[i]->material);
+			if(i>textures_.size()-1)
+				PRINT("here");
 			//Get the <mesh> node
 			daeElement* mesh = meshes[i]->geometry->getDescendant("mesh");
 			//Get the <source> nodes

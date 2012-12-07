@@ -130,6 +130,7 @@ namespace MocapGE
 
 		//Make sure every Shader has a constant named view_proj_matrix
 		shader_object->SetMatrixVariable("g_view_proj_matrix", view_mat*proj_mat);
+		shader_object->SetMatrixVariable("g_inv_view_proj_matrix", Math::Inverse(view_mat*proj_mat));
 		shader_object->SetVectorVariable("g_eye_pos", camera_pos);
 		
 

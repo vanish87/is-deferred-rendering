@@ -121,8 +121,8 @@ namespace MocapGE
 			ShaderObject* shader_object = render_list_[0]->GetShaderObject();
 			std::vector<RenderBuffer*> gbuffer_srv = render_engine->GetGBufferSRV();	
 			FrameBuffer* gbuffer = render_engine->GetGBuffer();
-			RenderBuffer* depth_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 
-			shader_object->SetReource("position_tex", gbuffer_srv[1], 1);
+			RenderBuffer* depth_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 			
+			shader_object->SetReource("depth_tex", depth_srv, 1);
 			shader_object->SetReource("normal_tex", gbuffer_srv[0], 1);
 			//do lighting
 			Mesh* quad = render_engine->GetFullscreenQuad();
@@ -134,19 +134,18 @@ namespace MocapGE
 			quad->EndRender();
 
 			//pass 2
-			render_engine->SetNormalState();
 			render_engine->BindFrameBuffer(back_buffer);
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
 			RenderBuffer* lighting_srv= render_engine->GetLightingBufferSRV();
 			shader_object->SetReource("lighting_tex", lighting_srv, 1);
-			for(re = render_list_.begin() ; re < render_list_.end(); re++)
-			{
-				(*re)->SetRenderParameters();
-				//Render to Gbuffer
-				//(*re)->GetShaderObject()->Apply(0);
-				(*re)->Render(2);
-				(*re)->EndRender();
-			}
+			shader_object->SetReource("diffuse_tex", gbuffer_srv[1], 1);
+			quad = render_engine->GetFullscreenQuad();
+			//Set Shader file for quad
+			quad->SetShaderObject(shader_object);
+			quad->SetRenderParameters();
+			//quad->GetShaderObject()->Apply(1);
+			quad->Render(2);
+			quad->EndRender();
 
 
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();

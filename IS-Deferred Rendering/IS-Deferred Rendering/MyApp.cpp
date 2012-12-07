@@ -16,7 +16,7 @@ void MyApp::InitObjects()
 {
 	theta = 0;
 	ship_ = new D3DModel();
-	ship_->LoadFile("..\\Media\\spacecraft.dae");
+	ship_->LoadFile("..\\Media\\sphere.dae");
 	ship_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	ship_->AddToScene();
@@ -36,7 +36,7 @@ void MyApp::InitObjects()
 	//point_light->AddToScene();
 
 	point_light_1 = new PointLight();
-	point_light_1->SetPos(float3(50, 50, 0));
+	point_light_1->SetPos(float3(0, 15, -15));
 	point_light_1->AddToScene();
 }
 
@@ -50,7 +50,7 @@ void MyApp::ReleaseObjects()
 void MyApp::Update()
 {
 	//Example for changing Camera View
-	float3 pos = float3(0,1,3.5);
+	float3 pos = float3(0,0,-5);
 	Camera* camera = GetCamera();
 	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
 	//frame_buffer->GetFrameCamera()->SetProjection(3.14f/4, 1280/800, 1, 1000);
@@ -60,17 +60,17 @@ void MyApp::Update()
 	float4x4 scale_matrix, xrotation_matrix, yrotation_matrix,zrotation_matrix,translate_matrix;
 	Math::Identity(model_matrix);
 
-	theta+= 0.0001;
+	theta+= 0.001;
 	float r = 0.6;
 	float3 cannon_pos;
 	
 	//for all part
-	if(0)
-	//if(theta > 3.14/2)
+	//if(0)
+	if(theta > 3.14/2)
 	{
-		Math::ZRotation(zrotation_matrix, Math::PI/4*Math::Sin(theta));
-		Math::Translate(translate_matrix, r * Math::PI/6*Math::Cos(theta) ,r*Math::PI/6*Math::Sin(theta* 2) , 0 );	
-		model_matrix= zrotation_matrix* translate_matrix * model_matrix;
+		Math::YRotation(zrotation_matrix, Math::PI/4*theta);
+		Math::Translate(translate_matrix, Math::Cos(theta) ,0 , 0 );	
+		model_matrix= zrotation_matrix*  model_matrix;
 		cannon_pos = float3(0, 0, 0);
 	}
 	else
@@ -92,7 +92,7 @@ void MyApp::Update()
 	Math::Translate(translate_matrix, 3 + cannon_pos.x(), -0.5 + cannon_pos.y(), 3);//left
 	cannon_2->SetModelMatrix(yrotation_matrix* translate_matrix*scale_matrix* model_matrix);
 
-	point_light_1->SetPos(float3(55*Math::Cos(theta),55*Math::Sin(theta),55*Math::Sin(0)));
+	//point_light_1->SetPos(float3(55*Math::Cos(theta),55*Math::Sin(0),55*Math::Sin(theta)));
 
 
 
@@ -106,7 +106,7 @@ void MyApp::OnKeyDown( WPARAM key_para )
 
 void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
 {
-	std::cout<<"mouse move "<<x<<" "<<y<<std::endl;
+	//std::cout<<"mouse move "<<x<<" "<<y<<std::endl;
 }
 
 int main()
@@ -122,3 +122,4 @@ int main()
 	return 0;
 }
 
+ 

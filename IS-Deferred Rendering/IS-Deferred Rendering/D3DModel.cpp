@@ -48,7 +48,7 @@ namespace MocapGE
 			//set mesh's parameter
 			meshes_[i]->SetRenderParameters();
 			//set mesh's texture
-			if(textures_.size())
+			if(textures_.size()>i)
 			{
 				RenderBuffer* tex_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(textures_[i],AT_GPU_READ,BU_SHADER_RES);
 				shader_object_->SetReource("mesh_diffuse",tex_srv, 1);
@@ -86,6 +86,7 @@ namespace MocapGE
 		d3d_shader_object->SetMatrixVariable("g_world_matrix");
 		d3d_shader_object->SetMatrixVariable("g_world_inv_transpose");
 		d3d_shader_object->SetMatrixVariable("g_view_proj_matrix");
+		d3d_shader_object->SetMatrixVariable("g_inv_view_proj_matrix");
 		d3d_shader_object->SetMatrixVariable("g_model_matrix");
 		d3d_shader_object->SetVariable("gMaterial");
 		d3d_shader_object->SetShaderResourceVariable("mesh_diffuse");
@@ -100,7 +101,8 @@ namespace MocapGE
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{
 			//init parameter here
-			d3d_shader_object->SetShaderResourceVariable("position_tex");
+			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
+			d3d_shader_object->SetShaderResourceVariable("depth_tex");
 			d3d_shader_object->SetShaderResourceVariable("normal_tex");
 
 			//lighting buffer
@@ -115,6 +117,8 @@ namespace MocapGE
 		//if I have a original texture file loader, remove it, do Texture loading on Model Class
 		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());	
 		ID3D11Resource* texture;
+		if(file_name.find(".tga"))
+			file_name.replace(file_name.size()-4,file_name.size()-1,".jpg");
 		std::wstring widestr = std::wstring(file_name.begin(), file_name.end());
 		HRESULT result = DirectX::CreateWICTextureFromFile(d3d_re->D3DDevice(), NULL,
 											widestr.c_str(), &texture, NULL);

@@ -71,7 +71,7 @@ float4 CalPreLighting(	 in float3 normal,
 	float3 pos_eye = normalize(g_eye_pos - position);//V
 	
 	// Start with a sum of zero. 
-	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	float4 litColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	uint lights_size, dummy;
     gLight.GetDimensions(lights_size, dummy);
 
