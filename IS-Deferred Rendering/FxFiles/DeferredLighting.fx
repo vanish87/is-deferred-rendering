@@ -94,7 +94,11 @@ LightingVout LightingVS(in LightingVin vin)
 {
 	LightingVout vout;
 	vout.pos = vin.Position;
+<<<<<<< .mine
+	vout.view_ray = mul(vin.Position, g_inv_view_proj_matrix).xyz ;
+=======
 	vout.view_ray = mul(vin.Position, g_view_proj_matrix).xyz ;
+>>>>>>> .r36
 	return vout;
 }
 
@@ -108,6 +112,24 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	}
 	else{
 		
+<<<<<<< .mine
+	
+	int3 samplelndices = int3( pin.pos.xy, 0 );
+	float3 view_ray_vec = normalize(pin.view_ray - g_eye_pos);
+	float depth = depth_tex.Load( samplelndices ).r;
+	view_ray_vec = mul(view_ray_vec,depth);
+	float3 world_pos = g_eye_pos + mul(view_ray_vec,depth);
+
+	
+	float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
+    float py = (((-2.0f * pin.pos.y) / 800) + 1.0f);
+	view_ray_vec = float3(px,py,1.0f);
+	float4 vPositionCS = float4(px, py, depth, 1.0f);
+	float4 vPositionPS = mul(vPositionCS, g_inv_view_proj_matrix);
+	world_pos = g_eye_pos + mul(normalize(vPositionPS),depth);
+	//world_pos = vPositionWS.xyz/vPositionWS.w;
+	if(0) return float4(world_pos,1.0f);
+=======
 	
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float3 view_ray_vec = normalize(pin.view_ray - g_eye_pos);
@@ -116,6 +138,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float3 world_pos = g_eye_pos + mul(view_ray_vec,depth);
 
 	if(0) return float4(world_pos,1.0f);
+>>>>>>> .r36
 	//Get Infor from g-buffer
 	//float3 world_pos_1 = position_tex.Load( samplelndices ).xyz;
 	//if(0) return float4(world_pos_1,1.0f);
