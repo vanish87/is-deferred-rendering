@@ -16,7 +16,7 @@ void MyApp::InitObjects()
 {
 	theta = 0;
 	ship_ = new D3DModel();
-	ship_->LoadFile("..\\Media\\sphere.dae");
+	ship_->LoadFile("..\\Media\\spacecraft.dae");
 	ship_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
 	ship_->AddToScene();
@@ -32,8 +32,8 @@ void MyApp::InitObjects()
 	//cannon_2->AddToScene();
 	
 	point_light = new PointLight();
-	point_light->SetPos(float3(0 ,1000, 0));	
-	//point_light->AddToScene();
+	point_light->SetPos(float3(50 ,0, 0));	
+	point_light->AddToScene();
 
 	point_light_1 = new PointLight();
 	point_light_1->SetPos(float3(0, 15, -15));
@@ -50,10 +50,10 @@ void MyApp::ReleaseObjects()
 void MyApp::Update()
 {
 	//Example for changing Camera View
-	float3 pos = float3(0,0,-5);
+	float3 pos = float3(0,1,5);
 	Camera* camera = GetCamera();
 	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
-	//frame_buffer->GetFrameCamera()->SetProjection(3.14f/4, 1280/800, 1, 1000);
+	//camera->SetProjection(3.14f/4, 1280/800, 1, 100000);
 
 	//Example for changing model position
 	float4x4 model_matrix;

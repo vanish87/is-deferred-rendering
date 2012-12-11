@@ -86,7 +86,9 @@ namespace MocapGE
 		d3d_shader_object->SetMatrixVariable("g_world_matrix");
 		d3d_shader_object->SetMatrixVariable("g_world_inv_transpose");
 		d3d_shader_object->SetMatrixVariable("g_view_proj_matrix");
-		d3d_shader_object->SetMatrixVariable("g_inv_view_proj_matrix");
+		d3d_shader_object->SetMatrixVariable("g_view_matrix");
+		d3d_shader_object->SetMatrixVariable("g_inv_proj_matrix");
+		d3d_shader_object->SetMatrixVariable("g_inv_view_matrix");
 		d3d_shader_object->SetMatrixVariable("g_model_matrix");
 		d3d_shader_object->SetVariable("gMaterial");
 		d3d_shader_object->SetShaderResourceVariable("mesh_diffuse");
