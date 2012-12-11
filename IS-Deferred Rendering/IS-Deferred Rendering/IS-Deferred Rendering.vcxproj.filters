@@ -28,6 +28,12 @@
     <Filter Include="FxFiles">
       <UniqueIdentifier>{60ccf8dd-177e-4c34-bc8d-dfd4c1f8bf30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{846afc1d-695e-4fe3-9a9c-65cccdfc464d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{54b62e69-5d6f-4d60-aec3-3f7096a85bb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -263,6 +269,15 @@
     <ClInclude Include="D3DRenderState.h">
       <Filter>D3DRenderingLayer\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\External\d3dx11effect.h">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\rapidxml.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\WICTextureLoader.h">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml">
@@ -283,6 +298,12 @@
   <ItemGroup>
     <None Include="..\FxFiles\Rendering.fx">
       <Filter>FxFiles</Filter>
+    </None>
+    <None Include="..\Media\pumpkin.dae">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\spacecraft.dae">
+      <Filter>Media</Filter>
     </None>
   </ItemGroup>
 </Project>

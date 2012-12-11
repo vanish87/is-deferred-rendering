@@ -118,6 +118,9 @@
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\External\d3dx11effect.h" />
+    <ClInclude Include="..\External\rapidxml.hpp" />
+    <ClInclude Include="..\External\WICTextureLoader.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Configure.h" />
@@ -195,6 +198,8 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
+    <None Include="..\Media\pumpkin.dae" />
+    <None Include="..\Media\spacecraft.dae" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

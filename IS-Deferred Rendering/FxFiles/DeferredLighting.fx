@@ -45,7 +45,6 @@ struct VertexIn
 struct VertexOut
 {
 	float4 pos			: SV_POSITION;
-	float3 world_pos    : POSITION;
     float3 normal		: NORMAL;
 	float2 tex_cood		: TEXCOORD;
 };
@@ -58,9 +57,6 @@ VertexOut GbufferVS(VertexIn vin)
 	float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
 	vout.pos = mul(float4(vin.pos, 1.0f), mvp_matrix);
 	vout.normal = normalize(mul(vin.normal, (float3x3)g_world_inv_transpose));
-
-	vout.world_pos = mul(float4(vin.pos, 1.0f), world_matrix* g_view_matrix).xyz;
-
 	vout.tex_cood = vin.tex_cood;    
     return vout;
 }
@@ -155,11 +151,11 @@ FinalVout FinalVS(in FinalVin vin)
 
 float4 FinalPS( in FinalVout pin): SV_Target
 {
-	if(0)//for debugging
+	if(1)//for debugging
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float4 world_pos = lighting_tex.Load( samplelndices );
-	return float4(world_pos.xyz,1.0f);
+	return float4(world_pos.www,1.0f);
 	}
 	else{
 		
