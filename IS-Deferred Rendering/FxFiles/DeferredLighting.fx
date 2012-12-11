@@ -110,15 +110,15 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float3 view_ray_vec = normalize(pin.posVS);
 	float depth = depth_tex.Load( samplelndices ).r;
 	float3 world_pos;
-	if(depth==1.0f)world_pos=float3(0,0,0);
-	else{
+	//if(depth==1.0f)world_pos=float3(0,0,0);
+	//else{
 		float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
 		float py = (((-2.0f * pin.pos.y) / 800) + 1.0f);
 		float4 vPositionCS = float4(px, py, depth, 1.0f);
 		float4 vPositionPS = mul(vPositionCS, g_inv_proj_matrix);
 		vPositionPS = mul(vPositionPS, g_inv_view_matrix);
 		world_pos = vPositionPS.xyz/ vPositionPS.www;
-	}
+	//}
 	
 	if(0) return float4(world_pos,1.0f);
 
@@ -151,7 +151,7 @@ FinalVout FinalVS(in FinalVin vin)
 
 float4 FinalPS( in FinalVout pin): SV_Target
 {
-	if(1)//for debugging
+	if(0)//for debugging
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float4 world_pos = lighting_tex.Load( samplelndices );
