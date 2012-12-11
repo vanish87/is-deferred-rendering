@@ -75,10 +75,9 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 {
 	GbufferPSOutput output;
 
-	output.Normal = float4(pin.normal, gMaterial.Shininess);
-	
+	output.Normal = float4(pin.normal, gMaterial.Shininess);	
 	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb, gMaterial.Specular.x);	
-	//output.Diffuse = float4(gMaterial.Diffuse.xyz, gMaterial.Specular.x);
+
 	return output;
 }
 struct LightingVin
@@ -117,31 +116,23 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float3 world_pos;
 	if(depth==1.0f)world_pos=float3(0,0,0);
 	else{
-		//float m33 = 1000.0f/(1000.0f-1.0f);
-		//depth = m33* 1.0f /(m33- depth);
-		//float3 vPositionVS = view_ray_vec * (depth/view_ray_vec.z);
 		float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
 		float py = (((-2.0f * pin.pos.y) / 800) + 1.0f);
 		float4 vPositionCS = float4(px, py, depth, 1.0f);
 		float4 vPositionPS = mul(vPositionCS, g_inv_proj_matrix);
 		vPositionPS = mul(vPositionPS, g_inv_view_matrix);
-		world_pos = vPositionPS.xyz/ vPositionPS.www;//mul(normalize(vPositionPS),depth);
-		//world_pos.z = -world_pos.z;
+		world_pos = vPositionPS.xyz/ vPositionPS.www;
 	}
 	
-	//world_pos = vPositionWS.xyz/vPositionWS.w;
 	if(0) return float4(world_pos,1.0f);
 
 	//Get Infor from g-buffer
-	//float3 world_pos_1 = position_tex.Load( samplelndices ).xyz;
-	//if(0) return float4(world_pos_1,1.0f);
 	float4 normal_t = normal_tex.Load( samplelndices );
 	float3 normal = normal_t.xyz;
 	float shininess = normal_t.w;
 
 	//cal lighting
 	return CalPreLighting( normal, world_pos, shininess);
-	//return CalLighting( normal, world_pos, float4(1,1,1,1) , gMaterial.Specular.xyz, gMaterial.Specular.w);
 	}
 }
 
@@ -158,8 +149,6 @@ struct FinalVout
 FinalVout FinalVS(in FinalVin vin)
 {
 	FinalVout vout;
-	//float4x4 world_matrix = mul(g_model_matrix, g_world_matrix);		
-	//float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
 	vout.pos = vin.Position;
 	return vout;
 }
