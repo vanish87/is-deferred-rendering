@@ -59,6 +59,7 @@ namespace MocapGE
 				{
 					this->Update();//do user's update
 
+					Context::Instance().GetStateManager().Update();
 					Context::Instance().GetSceneManager().Update();
 
 					next_game_tick += UPDATE_INTERVAL;

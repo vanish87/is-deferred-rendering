@@ -1,4 +1,5 @@
 #include "SceneObject.h"
+#include "Context.h"
 
 namespace MocapGE
 {
@@ -19,6 +20,21 @@ namespace MocapGE
 	RenderElement* & SceneObject::GetRenderElement()
 	{
 		return render_element_;
+	}
+
+	bool SceneObject::Visiable()
+	{
+		return visiable_;
+	}
+
+	void SceneObject::SetVisiable( bool visiable )
+	{
+		visiable_ = visiable;
+	}
+
+	void SceneObject::AddToScene()
+	{
+		Context::Instance().GetSceneManager().AddSceneObject(this);
 	}
 
 }

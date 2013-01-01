@@ -2,6 +2,9 @@
 #include "App.h"
 #include "D3DModel.h"
 
+class StartMenu;
+class LoadingState;
+
 class MyApp :
 	public MocapGE:: App
 {
@@ -18,9 +21,15 @@ public:
 
 private:
 
-	MocapGE::D3DModel* ship_,*cannon_1, *cannon_2;
+	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
+	MocapGE::SceneObject* ship_;
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;
 	float theta;
+
+	MocapGE::Timer* timer_;
+
+	StartMenu* start_menu_;
+	LoadingState* loading_;
 };
 

@@ -13,7 +13,7 @@ namespace MocapGE
 	public:
 		SceneObject(void);
 		SceneObject(RenderElement* render_element)
-			:render_element_(render_element),model_matrix_(render_element->model_matrix_)
+			:render_element_(render_element),model_matrix_(render_element->model_matrix_), visiable_(true)
 		{
 			
 		};
@@ -23,10 +23,17 @@ namespace MocapGE
 		virtual void Update();
 		virtual RenderElement* & GetRenderElement();
 
+		virtual void AddToScene();
+
+		bool Visiable();
+		void SetVisiable(bool visiable);
+
 	protected:
 
 		RenderElement* render_element_;
 		float4x4 model_matrix_;
+
+		bool visiable_;
 	};
 
 }

@@ -58,7 +58,7 @@ namespace MocapGE
 		Model(void);
 		~Model(void);
 
-		virtual void AddToScene();
+		//virtual void AddToScene();
 
 		virtual RenderLayout* GetRenderLayout();
 

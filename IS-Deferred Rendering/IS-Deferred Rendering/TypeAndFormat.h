@@ -8,6 +8,12 @@
 
 namespace MocapGE
 {
+	enum StateOP
+	{
+		SOP_PUSH,
+		SOP_POP,
+	};
+
 	enum Format
 	{
 		A8_U,

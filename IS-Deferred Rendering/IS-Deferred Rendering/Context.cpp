@@ -76,7 +76,9 @@ namespace MocapGE
 			render_factory_= new D3DRenderFactory();
 		}
 
+		//TODO: make it Singleton
 		scene_manager_ = new SceneManager();
+		state_manager_ = new StateManager();
 		//resource_loader_ = new ResourceLoader();
 
 		context_config_ = cfg;
@@ -92,6 +94,12 @@ namespace MocapGE
 	{
 		if(scene_manager_ == nullptr)std::cout<< "no Scene Manager"<<std::endl;
 		return *scene_manager_;
+	}
+
+	StateManager& Context::GetStateManager()
+	{
+		if(state_manager_ == nullptr)std::cout<< "no State Manager"<<std::endl;
+		return *state_manager_;
 	}
 
 // 	ResourceLoader& Context::GetResourceLoader()

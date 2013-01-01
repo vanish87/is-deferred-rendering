@@ -18,7 +18,7 @@ namespace MocapGE
 			:RenderElement(model_matrix), name_(name), render_layout_(render_layout)
 		{};
 
-		virtual void AddToScene();
+		//virtual void AddToScene();
 
 		virtual RenderLayout* GetRenderLayout();
 

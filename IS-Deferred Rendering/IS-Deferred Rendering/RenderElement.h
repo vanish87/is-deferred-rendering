@@ -20,7 +20,7 @@ namespace MocapGE
 		};
 		~RenderElement(void);
 
-		virtual void AddToScene() = 0;
+		//virtual void AddToScene() = 0;
 		virtual RenderLayout* GetRenderLayout() = 0;
 
 		ShaderObject* GetShaderObject();

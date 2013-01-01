@@ -15,7 +15,13 @@ namespace MocapGE
 
 	void SceneManager::Flush()
 	{
-
+		if(render_list_.empty()) 
+		{
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
+			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
+			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+			return;
+		}
 		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{	//do DR here
@@ -194,7 +200,8 @@ namespace MocapGE
 		for(so = scene_object_list.begin() ; so < scene_object_list.end(); so++)
 		{
 			(*so)->Update();//do update aabb and set model_matrix equals to its render_element_'s
-			render_list_.push_back((*so)->GetRenderElement());
+			if((*so)->Visiable())
+				render_list_.push_back((*so)->GetRenderElement());
 		}
 	}
 

@@ -1,5 +1,10 @@
 #include "MyApp.h"
 #include "Context.h"
+#include "Timer.h"
+
+#include "StartMenu.h"
+#include "LoadingState.h"
+
 
 using namespace MocapGE;
 MyApp::MyApp(void) : App("The CentBebop Design")
@@ -15,10 +20,10 @@ MyApp::~MyApp(void)
 void MyApp::InitObjects()
 {
 	theta = 0;
-	ship_ = new D3DModel();
-	ship_->LoadFile("..\\Media\\spacecraft.dae");
-	ship_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	//scene->LoadShaderFile("..\\FxFiles\\color.fxo");
+	ship_model = new D3DModel();
+	ship_model->LoadFile("..\\Media\\spacecraft.dae");
+	ship_model->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	ship_ = new SceneObject(ship_model);
 	ship_->AddToScene();
 
 	cannon_1 = new D3DModel();
@@ -38,11 +43,17 @@ void MyApp::InitObjects()
 	point_light_1 = new PointLight();
 	point_light_1->SetPos(float3(0, 15, -15));
 	point_light_1->AddToScene();
+
+	timer_ = new Timer();
+	timer_->Retart();
+	
+	start_menu_ = new StartMenu();
+	Context::Instance().GetStateManager().ChangeState(start_menu_,MocapGE::SOP_PUSH);
 }
 
 void MyApp::ReleaseObjects()
 {
-	delete ship_;
+	delete ship_model;
 	delete cannon_1;
 	delete cannon_2;
 }
@@ -81,7 +92,7 @@ void MyApp::Update()
 	//for ship
 	//Math::XRotation(xrotation_matrix, theta);
 	Math::YRotation(yrotation_matrix, Math::PI/2 );	
-	ship_->SetModelMatrix(yrotation_matrix* model_matrix);
+	ship_model->SetModelMatrix(yrotation_matrix* model_matrix);
 
 	//for cannons
 	Math::YRotation(yrotation_matrix, Math::PI+ Math::PI/6*Math::Sin(theta));
@@ -93,15 +104,28 @@ void MyApp::Update()
 	cannon_2->SetModelMatrix(yrotation_matrix* translate_matrix*scale_matrix* model_matrix);
 
 	//point_light_1->SetPos(float3(55*Math::Cos(theta),55*Math::Sin(0),55*Math::Sin(theta)));
-
-
-
 	//std::cout<<"light zpos"<< 5*Math::Sin(theta)<< std::endl;
+
+	//PRINT(timer_->Time());
 }
 
 void MyApp::OnKeyDown( WPARAM key_para )
 {
-	std::cout<<"key down"<<std::endl;
+	switch (key_para) 
+	{ 
+		case 65://ascii A = 65
+			std::cout<<"A key down"<<std::endl;
+			ship_->SetVisiable(false);
+			Context::Instance().GetStateManager().ChangeState(start_menu_, SOP_POP);
+			delete start_menu_;
+			start_menu_ = 0;
+			loading_ = new LoadingState();
+			Context::Instance().GetStateManager().ChangeState(loading_, SOP_PUSH);
+			break;
+		default:
+			break;
+	
+	}
 }
 
 void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )

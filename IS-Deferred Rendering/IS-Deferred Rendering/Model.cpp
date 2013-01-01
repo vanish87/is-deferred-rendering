@@ -12,10 +12,10 @@ namespace MocapGE
 	{
 	}
 
-	void Model::AddToScene()
-	{
-		Context::Instance().GetSceneManager().AddSceneObject(new SceneObject(this));
-	}
+// 	void Model::AddToScene()
+// 	{
+// 		Context::Instance().GetSceneManager().AddSceneObject(new SceneObject(this));
+// 	}
 
 	RenderLayout* Model::GetRenderLayout()
 	{
