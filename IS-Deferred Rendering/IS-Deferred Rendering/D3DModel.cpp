@@ -4,7 +4,7 @@ namespace MocapGE
 {
 	D3DModel::D3DModel(void)
 	{
-		theta =0;
+		theta = 0;
 	} 
 
 

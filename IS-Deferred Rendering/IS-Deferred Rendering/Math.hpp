@@ -53,7 +53,15 @@ namespace MocapGE
 		template <typename T>
 		Vec3<T> Transform(const Vec3<T> & lhs, const Matrix<T> & rhs)
 		{
-
+			Vec3<T> ret;
+			ret.x() = lhs.x() * rhs[0][0] + lhs.y() * rhs[1][0] + lhs.z() * rhs[2][0] + 1 * rhs[3][0];
+			ret.y() = lhs.x() * rhs[0][1] + lhs.y() * rhs[1][1] + lhs.z() * rhs[2][1] + 1 * rhs[3][1];
+			ret.z() = lhs.x() * rhs[0][2] + lhs.y() * rhs[1][2] + lhs.z() * rhs[2][2] + 1 * rhs[3][2];
+			T w		= lhs.x() * rhs[0][3] + lhs.y() * rhs[1][3] + lhs.z() * rhs[2][3] + 1 * rhs[3][3];
+			ret.x() = ret.x() / w;
+			ret.y() = ret.y() / w;
+			ret.z() = ret.z() / w;
+			return ret;
 		}
 
 		template <typename T>
@@ -127,6 +135,7 @@ namespace MocapGE
 
 				return dst;*/
 
+			//from KlayGE
 			T const _2132_2231(rhs(1, 0) * rhs(2, 1) - rhs(1, 1) * rhs(2, 0));
 			T const _2133_2331(rhs(1, 0) * rhs(2, 2) - rhs(1, 2) * rhs(2, 0));
 			T const _2134_2431(rhs(1, 0) * rhs(2, 3) - rhs(1, 3) * rhs(2, 0));
@@ -182,6 +191,7 @@ namespace MocapGE
 		template <typename T>
 		T determinant(Matrix<T> const & rhs)
 		{
+			//from KlayGE
 			T const _3142_3241(rhs(2, 0) * rhs(3, 1) - rhs(2, 1) * rhs(3, 0));
 			T const _3143_3341(rhs(2, 0) * rhs(3, 2) - rhs(2, 2) * rhs(3, 0));
 			T const _3144_3441(rhs(2, 0) * rhs(3, 3) - rhs(2, 3) * rhs(3, 0));
@@ -259,6 +269,26 @@ namespace MocapGE
 			lhs[0][0] = scale;
 			lhs[1][1] = scale;
 			lhs[2][2] = scale;
+		}
+
+		template <typename T>
+		Vec3<T> Max(Vec3<T> & lhs, Vec3<T> & rhs)
+		{
+			Vec3<T> ret;
+			ret.x() = std::max(lhs.x(), rhs.x());
+			ret.y() = std::max(lhs.y(), rhs.y());
+			ret.z() = std::max(lhs.z(), rhs.z());
+			return ret;
+		}
+
+		template <typename T>
+		Vec3<T> Min(Vec3<T> & lhs, Vec3<T> & rhs)
+		{
+			Vec3<T> ret;
+			ret.x() = std::min(lhs.x(), rhs.x());
+			ret.y() = std::min(lhs.y(), rhs.y());
+			ret.z() = std::min(lhs.z(), rhs.z());
+			return ret;
 		}
 	}
 }

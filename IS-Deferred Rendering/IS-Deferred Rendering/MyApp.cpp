@@ -4,7 +4,7 @@
 
 #include "StartMenu.h"
 #include "LoadingState.h"
-
+#include "Picking.h"
 
 using namespace MocapGE;
 MyApp::MyApp(void) : App("The CentBebop Design")
@@ -27,13 +27,13 @@ void MyApp::InitObjects()
 	ship_->AddToScene();
 
 	cannon_1 = new D3DModel();
-	cannon_1->LoadFile("..\\Media\\gun.dae");
-	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	//cannon_1->LoadFile("..\\Media\\gun.dae");
+	//cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//cannon_1->AddToScene();
 
 	cannon_2 = new D3DModel();
-	cannon_2->LoadFile("..\\Media\\gun.dae");
-	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	//cannon_2->LoadFile("..\\Media\\gun.dae");
+	//cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	//cannon_2->AddToScene();
 	
 	point_light = new PointLight();
@@ -49,6 +49,8 @@ void MyApp::InitObjects()
 	
 	start_menu_ = new StartMenu();
 	Context::Instance().GetStateManager().ChangeState(start_menu_,MocapGE::SOP_PUSH);
+
+	picking_ = new Picking();
 }
 
 void MyApp::ReleaseObjects()
@@ -128,9 +130,13 @@ void MyApp::OnKeyDown( WPARAM key_para )
 	}
 }
 
-void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
+void MyApp::OnMouseDown( WPARAM mouse_para, int x, int y )
 {
 	//std::cout<<"mouse move "<<x<<" "<<y<<std::endl;
+	float2 screen_pos(x, y);
+	float3 picked_pos;
+	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
+	picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
 }
 
 int main()

@@ -12,5 +12,5 @@ LoadingState::~LoadingState(void)
 
 void LoadingState::Update()
 {
-	PRINT("loading");
+	//PRINT("loading");
 }

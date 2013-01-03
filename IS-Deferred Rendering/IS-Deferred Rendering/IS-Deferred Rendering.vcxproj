@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AABBox.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="Picking.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="RenderElement.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
@@ -126,6 +128,7 @@
     <ClInclude Include="..\External\d3dx11effect.h" />
     <ClInclude Include="..\External\rapidxml.hpp" />
     <ClInclude Include="..\External\WICTextureLoader.h" />
+    <ClInclude Include="AABBox.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Configure.h" />
@@ -153,7 +156,9 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="Picking.h" />
     <ClInclude Include="PreDec.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="RenderElement.h" />
     <ClInclude Include="RenderEngine.h" />
@@ -164,6 +169,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderObject.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Texture.h" />

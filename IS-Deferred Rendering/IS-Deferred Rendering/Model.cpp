@@ -151,14 +151,14 @@ namespace MocapGE
 			i_size = 36;
 			v_size = 8;
 			VertexType vb[] = {
-			{ float3(-1.0f, -1.0f, -1.0f ),float4(1.0f, 0.0f, 0.0f ,1.0f)  },
-			{ float3(-1.0f, +1.0f, -1.0f), float4(1.0f, 1.0f, 0.0f ,1.0f)  },
-			{ float3(+1.0f, +1.0f, -1.0f), float4(1.0f, 1.0f, 1.0f ,1.0f)  },
-			{ float3(+1.0f, -1.0f, -1.0f), float4(0.0f, 0.0f, 0.0f ,1.0f)  },
-			{ float3(-1.0f, -1.0f, +1.0f), float4(0.0f, 1.0f, 0.0f ,1.0f)  },
-			{ float3(-1.0f, +1.0f, +1.0f), float4(1.0f, 1.0f, 1.0f ,1.0f)  },
-			{ float3(+1.0f, +1.0f, +1.0f), float4(1.0f, 0.0f, 1.0f ,1.0f)  },
-			{ float3(+1.0f, -1.0f, +1.0f), float4(1.0f, 0.0f, 0.0f ,1.0f)  }
+			{ float3(-1.0f, -1.0f, -1.0f ),float3(1.0f, 0.0f, 0.0f )  },
+			{ float3(-1.0f, +1.0f, -1.0f), float3(1.0f, 1.0f, 0.0f )  },
+			{ float3(+1.0f, +1.0f, -1.0f), float3(1.0f, 1.0f, 1.0f )  },
+			{ float3(+1.0f, -1.0f, -1.0f), float3(0.0f, 0.0f, 0.0f )  },
+			{ float3(-1.0f, -1.0f, +1.0f), float3(0.0f, 1.0f, 0.0f )  },
+			{ float3(-1.0f, +1.0f, +1.0f), float3(1.0f, 1.0f, 1.0f )  },
+			{ float3(+1.0f, +1.0f, +1.0f), float3(1.0f, 0.0f, 1.0f )  },
+			{ float3(+1.0f, -1.0f, +1.0f), float3(1.0f, 0.0f, 0.0f )  }
 			};
 
 			uint32_t ib[] = 	{
@@ -241,7 +241,7 @@ namespace MocapGE
 			init_data.data = vb;
 			init_data.row_pitch = 0;
 			init_data.slice_pitch = 0;
-			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_GPU_READ, BU_VERTEX, v_size ,sizeof(VertexType));
+			RenderBuffer* vertex_buffer = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_CPU_WRITE, BU_VERTEX, v_size ,sizeof(VertexType));
 			//delete[] vb;
 			//call MakeRenderBuffer(Index)
 			init_data.data = ib;

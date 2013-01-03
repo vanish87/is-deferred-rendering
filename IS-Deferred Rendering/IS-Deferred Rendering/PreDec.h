@@ -66,6 +66,13 @@ namespace MocapGE
 	class Matrix;
 	typedef Matrix<float> float4x4;
 
+	template <typename T>
+	class Sphere;
+	typedef Sphere<float> shpere;
+	class Ray;
+
+	class AABBox;
+
 	class Context;
 	
 

@@ -165,6 +165,12 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Picking.cpp">
+      <Filter>GameDemo\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AABBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -315,6 +321,18 @@
       <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Picking.h">
+      <Filter>GameDemo\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

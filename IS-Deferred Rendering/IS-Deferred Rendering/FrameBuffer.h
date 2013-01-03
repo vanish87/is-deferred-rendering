@@ -20,6 +20,8 @@ namespace MocapGE
 
 		Camera* GetFrameCamera();
 		void SetFrameCamera(Camera* camera);
+		Viewport* GetViewport();
+		void SetViewPort(Viewport* viewport);
 		virtual void OnBind() = 0;
 		virtual void AddRenderView(RenderView* render_view);
 		virtual RenderView* GetRenderView(size_t index){return render_views_[index];};

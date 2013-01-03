@@ -34,5 +34,15 @@ namespace MocapGE
 		viewport_->SetCamera(camera);
 	}
 
+	Viewport* FrameBuffer::GetViewport()
+	{
+		return viewport_;
+	}
+
+	void FrameBuffer::SetViewPort( Viewport* viewport )
+	{
+		viewport_ = viewport;
+	}
+
 
 }

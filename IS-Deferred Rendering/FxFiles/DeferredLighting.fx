@@ -162,7 +162,7 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	float3 DiffuseAlbedo = material.rgb;
 	//float4 DiffuseAlbedo = gMaterial.Diffuse;
 
-	float3 diffuse = lighting.xyz * DiffuseAlbedo ;
+	float3 diffuse = lighting.xyz ;
 	float3 specular = lighting.w *  float3(material.w,material.w,material.w);
 
 	//cal lighting

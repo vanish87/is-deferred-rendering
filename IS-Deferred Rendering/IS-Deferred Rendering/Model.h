@@ -72,6 +72,8 @@ namespace MocapGE
 		virtual void LoadShaderFile(std::string file_name);
 
 		virtual Texture* LoadTexture(std::string file_name) = 0;
+
+		std::vector<Mesh*> GetMesh(){return meshes_;};
 		
 
 	protected:

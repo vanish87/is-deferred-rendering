@@ -76,6 +76,15 @@ namespace MocapGE
 		template <typename T>
 		void Scale(Matrix<T> & lhs, float scale);
 
+		template <typename T>
+		Vec3<T> Max(Vec3<T> & lhs, Vec3<T> & rhs);
+
+		template <typename T>
+		Vec3<T> Min(Vec3<T> & lhs, Vec3<T> & rhs);
+
+		bool IntersectRayAABB(Ray* ray, AABBox* aabb);
+		bool IntersectRayTriangle(Ray* ray, float3 a, float3 b, float3 c);
+
 	}
 
 }

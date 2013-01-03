@@ -19,7 +19,7 @@ namespace MocapGE
 
 	RenderLayout* Mesh::GetRenderLayout()
 	{
-		throw std::exception("The method or operation is not implemented.");
+		return render_layout_;
 	}
 
 	void Mesh::SetRenderParameters()

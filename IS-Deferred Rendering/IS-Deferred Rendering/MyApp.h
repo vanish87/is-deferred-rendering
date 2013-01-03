@@ -2,8 +2,12 @@
 #include "App.h"
 #include "D3DModel.h"
 
+
+
 class StartMenu;
 class LoadingState;
+
+class Picking;
 
 class MyApp :
 	public MocapGE:: App
@@ -17,7 +21,7 @@ public:
 
 	virtual void OnKeyDown( WPARAM key_para );
 
-	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
+	virtual void OnMouseDown( WPARAM mouse_para, int x, int y );
 
 private:
 
@@ -31,5 +35,6 @@ private:
 
 	StartMenu* start_menu_;
 	LoadingState* loading_;
+	Picking* picking_;
 };
 

@@ -12,5 +12,5 @@ StartMenu::~StartMenu(void)
 
 void StartMenu::Update()
 {
-	PRINT("start menu");
+	//PRINT("start menu");
 }
