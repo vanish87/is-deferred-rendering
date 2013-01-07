@@ -24,7 +24,8 @@ namespace MocapGE
 		float4x4 GetProjMatrix(){return proj_matrix_;};
 
 		float3 GetPos(){return eye_;};
-		
+		float3 GetLookAt();
+		float3 GetUp();
 
 	private:
 		Frustum	frustum_;

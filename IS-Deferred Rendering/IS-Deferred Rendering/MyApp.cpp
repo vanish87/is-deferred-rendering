@@ -52,6 +52,13 @@ void MyApp::InitObjects()
 
 	picking_ = new Picking();
 	mouse_down_ = false;
+
+	speed_ = 1;
+
+	//Example for changing Camera View
+	float3 pos = float3(0,1,5);
+	Camera* camera = GetCamera();
+	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
 }
 
 void MyApp::ReleaseObjects()
@@ -63,10 +70,7 @@ void MyApp::ReleaseObjects()
 
 void MyApp::Update()
 {
-	//Example for changing Camera View
-	float3 pos = float3(0,1,5);
-	Camera* camera = GetCamera();
-	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
+
 	//camera->SetProjection(3.14f/4, 1280/800, 1, 100000);
 
 	//Example for changing model position
@@ -95,7 +99,7 @@ void MyApp::Update()
 	//for ship
 	//Math::XRotation(xrotation_matrix, theta);
 	Math::YRotation(yrotation_matrix, Math::PI/2 );	
-	ship_model->SetModelMatrix(yrotation_matrix* model_matrix);
+	//ship_model->SetModelMatrix(yrotation_matrix* model_matrix);
 
 	//for cannons
 	Math::YRotation(yrotation_matrix, Math::PI+ Math::PI/6*Math::Sin(theta));
@@ -116,14 +120,46 @@ void MyApp::OnKeyDown( WPARAM key_para )
 {
 	switch (key_para) 
 	{ 
-		case 'A'://ascii A = 65
-			std::cout<<"A key down"<<std::endl;
+		case 'P'://ascii P 
+			
 			ship_->SetVisiable(false);
 			Context::Instance().GetStateManager().ChangeState(start_menu_, SOP_POP);
 			delete start_menu_;
 			start_menu_ = 0;
 			loading_ = new LoadingState();
 			Context::Instance().GetStateManager().ChangeState(loading_, SOP_PUSH);
+			break;
+		case 'A':
+			{
+				std::cout<<"A key down"<<std::endl;
+				Camera* camera = GetCamera();
+				float3 pos = camera->GetPos();
+				float3 at = camera->GetLookAt();
+				float3 dir =  at - pos;
+				float3 up = camera->GetUp();
+				float3 left = Math::Cross(dir,up);
+				left = Math::Normalize(left);
+				left = left * speed_;
+				camera->SetView(pos + left, at + left, up);
+				break;
+			}
+		case 'D':
+			{
+				std::cout<<"D key down"<<std::endl;
+				Camera* camera = GetCamera();
+				float3 pos = camera->GetPos();
+				float3 at = camera->GetLookAt();
+				float3 dir =  at - pos;
+				float3 up = camera->GetUp();
+				float3 left = Math::Cross(dir,up);
+				left = Math::Normalize(left);
+				left = left * speed_;
+				camera->SetView(pos - left, at - left, up);
+				break;
+			}
+		case 'S':
+			break;
+		case 'W':
 			break;
 		default:
 			break;

@@ -39,6 +39,9 @@ private:
 	LoadingState* loading_;
 	Picking* picking_;
 
+
+	int speed_;
+
 	bool mouse_down_;
 };
 

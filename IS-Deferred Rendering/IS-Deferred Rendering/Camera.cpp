@@ -40,4 +40,14 @@ namespace MocapGE
 		proj_matrix_ = Math::PerspectiveFovLH(fovy_, aspect_, zn_, zf_);
 	}
 
+	float3 Camera::GetLookAt()
+	{
+		return at_;
+	}
+
+	float3 Camera::GetUp()
+	{
+		return up_;
+	}
+
 }

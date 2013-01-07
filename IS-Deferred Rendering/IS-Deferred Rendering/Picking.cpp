@@ -15,7 +15,6 @@ Picking::~Picking(void)
 
 bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point )
 {
-
 	Camera* camera = viewport->GetCamera();
 	float4x4 proj_matrix = camera->GetProjMatrix();
 	float4x4 view_matrix = camera->GetViewMatirx();
@@ -49,26 +48,41 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		RenderLayout* rl = meshes_[i]->GetRenderLayout();
 		RenderBuffer* rb = rl->GetBuffer(VBU_VERTEX);
 		VertexType* vertice_gpu = static_cast<VertexType*>(rb->Map(AT_CPU_WRITE));
-		
+
+		std::vector<MocapGE::VertexType*> vertice_cpu;
 		size_t vsize = rl->GetIndexCount();
 
 		for(size_t j =0; j < vsize; j++)
 		{			
 			vertice_cpu.push_back(new VertexType());
-			vertice_cpu[j]->position = Math::Transform(vertice_gpu[j].position, mw_matrix);
+			vertice_cpu[j]->position = Math::Transform(vertice_gpu[j].position, model_matrix);
 		}
 		AABBox* aabb = new AABBox(vertice_cpu, vsize);
 		std::cout<<"aabb_max " <<aabb->Max().x() << " " << aabb->Max().y() << " " << aabb->Max().z()<<std::endl;
 		std::cout<<"aabb_min " <<aabb->Min().x() << " " << aabb->Min().y() << " " << aabb->Min().z()<<std::endl;
 
-		/*VertexType* vb = new VertexType[6];
+		VertexType* vb = new VertexType[6];
+		float3 n = float3(0,1,0);
+		float2 t = float2(0,0);
 		int* ib = new int[6];
 		vb[0].position = aabb->Min();
+		vb[0].normal = n;
+		vb[0].uv = t;
 		vb[1].position = float3(aabb->Min().x(), aabb->Min().y(), aabb->Max().z());
+		vb[1].normal = n;
+		vb[1].uv = t;
 		vb[2].position = aabb->Max();
+		vb[2].normal = n;
+		vb[2].uv = t;
 		vb[3].position = aabb->Min();
+		vb[3].normal = n;
+		vb[3].uv = t;
 		vb[4].position = aabb->Max();
+		vb[4].normal = n;
+		vb[4].uv = t;
 		vb[5].position = float3(aabb->Max().x(), aabb->Max().y(), aabb->Min().z());
+		vb[5].normal = n;
+		vb[5].uv = t;
 
 		ib[0] = 0;
 		ib[1] = 1;
@@ -102,6 +116,8 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		//set Input layout Semi
 		std::vector<VertexUsage> inputlayout;
 		inputlayout.push_back(VU_POSITION);
+		inputlayout.push_back(VU_NORMAL);
+		inputlayout.push_back(VU_TEXCOORD);
 		render_layout->SetInputLayout(inputlayout);
 		float4x4 model_matrix_;
 		Math::Identity(model_matrix_);
@@ -110,7 +126,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 
 		SceneObject* aabb_obj = new SceneObject(aabb_mesh);
 		aabb_obj->AddToScene();
-*/
+
 
 //  		PRINT(" ");
 // 		for(size_t j =0; j < vsize; j++)
