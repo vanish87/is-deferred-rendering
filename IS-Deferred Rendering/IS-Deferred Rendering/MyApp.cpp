@@ -51,6 +51,7 @@ void MyApp::InitObjects()
 	Context::Instance().GetStateManager().ChangeState(start_menu_,MocapGE::SOP_PUSH);
 
 	picking_ = new Picking();
+	mouse_down_ = false;
 }
 
 void MyApp::ReleaseObjects()
@@ -83,7 +84,7 @@ void MyApp::Update()
 	{
 		Math::YRotation(zrotation_matrix, Math::PI/4*theta);
 		Math::Translate(translate_matrix, Math::Cos(theta) ,0 , 0 );	
-		model_matrix= zrotation_matrix*  model_matrix;
+		//model_matrix= zrotation_matrix*  model_matrix;
 		cannon_pos = float3(0, 0, 0);
 	}
 	else
@@ -115,7 +116,7 @@ void MyApp::OnKeyDown( WPARAM key_para )
 {
 	switch (key_para) 
 	{ 
-		case 65://ascii A = 65
+		case 'A'://ascii A = 65
 			std::cout<<"A key down"<<std::endl;
 			ship_->SetVisiable(false);
 			Context::Instance().GetStateManager().ChangeState(start_menu_, SOP_POP);
@@ -136,7 +137,24 @@ void MyApp::OnMouseDown( WPARAM mouse_para, int x, int y )
 	float2 screen_pos(x, y);
 	float3 picked_pos;
 	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
+	mouse_down_= true;
 	picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
+}
+
+void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
+{
+	if(mouse_down_)
+	{
+		float2 screen_pos(x, y);
+		float3 picked_pos;
+		Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
+		//picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
+	}
+}
+
+void MyApp::OnMouseUp( WPARAM mouse_para, int x, int y )
+{
+	mouse_down_= false;
 }
 
 int main()
