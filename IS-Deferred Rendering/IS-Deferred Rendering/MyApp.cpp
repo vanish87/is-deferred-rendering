@@ -52,6 +52,7 @@ void MyApp::InitObjects()
 
 	picking_ = new Picking();
 	mouse_down_ = false;
+	ship_pos = float3(0,0,0);
 
 	speed_ = 1;
 
@@ -182,7 +183,7 @@ void MyApp::OnMouseDown( WPARAM mouse_para, int x, int y )
 	float3 picked_pos;
 	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	mouse_down_= true;
-	picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
+	picked = picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
 }
 
 void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
@@ -190,15 +191,29 @@ void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
 	if(mouse_down_)
 	{
 		float2 screen_pos(x, y);
+		//std::cout<<screen_pos.x()<<" "<<screen_pos.y()<<std::endl;
+		//std::cout<<pre_pos.x()<<" "<<pre_pos.y()<<std::endl;
 		float3 picked_pos;
 		Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
-		//picking_->GetIntersection(ship_model, viewport, screen_pos, picked_pos);
+		if(picked)
+		{
+			float4x4 model_matrix = ship_model->GetModelMatrix();
+			float2 delta = screen_pos - pre_pos;
+			std::cout<<delta.x()<<"d "<<delta.y()<<std::endl;
+			ship_pos = ship_pos + float3(delta.x(), delta.y(), 0) / 10.0f;
+			std::cout<<ship_pos.x()<<" "<<ship_pos.y()<<std::endl;
+			Math::Translate(model_matrix, -ship_pos.x(), -ship_pos.y(), 0);
+			ship_model->SetModelMatrix(model_matrix);
+		}
+	
 	}
+	pre_pos = float2(x,y);
 }
 
 void MyApp::OnMouseUp( WPARAM mouse_para, int x, int y )
 {
 	mouse_down_= false;
+	picked = false;
 }
 
 int main()

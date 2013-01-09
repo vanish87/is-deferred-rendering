@@ -39,10 +39,13 @@ private:
 	LoadingState* loading_;
 	Picking* picking_;
 	MocapGE::Mesh* aabb_mesh_;
+	MocapGE::float2 pre_pos;
+	MocapGE::float3 ship_pos;
 
 
 	int speed_;
 
 	bool mouse_down_;
+	bool picked;
 };
 

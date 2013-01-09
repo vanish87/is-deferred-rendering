@@ -84,6 +84,7 @@
     <ClCompile Include="AABBox.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="D3DFrameBuffer.cpp" />
     <ClCompile Include="D3DModel.cpp" />
@@ -117,6 +118,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderObject.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="StartMenu.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -132,6 +134,7 @@
     <ClInclude Include="AABBox.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cannon.h" />
     <ClInclude Include="Configure.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="D3DFrameBuffer.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderObject.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="StateManager.h" />

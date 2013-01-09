@@ -171,6 +171,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		if(Math::IntersectRayAABB(ray, aabb))
 		{
 			PRINT("AABB clicked");	
+			return true;
 			for(size_t j =0; j < mesh_vertice.size()/3; j++)
 	 		{
 				if(Math::IntersectRayTriangle(ray, mesh_vertice[j+2]->position, mesh_vertice[j+1]->position, mesh_vertice[j]->position))
@@ -180,7 +181,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 				}
 			}
 		}
-		
+		return false;
 		
 	}
 	// 	pos = pos * view_matrix;
