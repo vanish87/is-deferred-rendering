@@ -62,7 +62,8 @@ namespace MocapGE
 	enum PrimitiveType
 	{
 		PT_POINTLIST,
-		PT_TRIANGLELIST
+		PT_TRIANGLELIST,
+		PT_LINELIST
 	};
 	enum VertexUsage
 	{

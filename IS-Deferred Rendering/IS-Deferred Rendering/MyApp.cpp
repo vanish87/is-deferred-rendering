@@ -59,6 +59,7 @@ void MyApp::InitObjects()
 	float3 pos = float3(0,1,5);
 	Camera* camera = GetCamera();
 	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
+
 }
 
 void MyApp::ReleaseObjects()
@@ -140,7 +141,10 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				float3 left = Math::Cross(dir,up);
 				left = Math::Normalize(left);
 				left = left * speed_;
-				camera->SetView(pos + left, at + left, up);
+				camera->SetView(pos + left, at, up);
+				float4x4 m = ship_model->GetModelMatrix();
+				Math::Translate(m, 1,0,0);
+				//ship_model->SetModelMatrix(m);
 				break;
 			}
 		case 'D':
@@ -154,7 +158,11 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				float3 left = Math::Cross(dir,up);
 				left = Math::Normalize(left);
 				left = left * speed_;
-				camera->SetView(pos - left, at - left, up);
+
+				float4x4 m = ship_model->GetModelMatrix();
+				Math::Translate(m, -1,0,0);
+				//ship_model->SetModelMatrix(m);
+				camera->SetView(pos - left, at, up);
 				break;
 			}
 		case 'S':

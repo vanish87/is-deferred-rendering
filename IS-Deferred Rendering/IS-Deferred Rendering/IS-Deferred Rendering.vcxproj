@@ -99,6 +99,7 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GamingState.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GamingState.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="Math.h" />

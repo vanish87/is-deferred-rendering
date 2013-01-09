@@ -67,7 +67,12 @@ namespace MocapGE
 		template <typename T>
 		Vec4<T>	Transform( const Vec4<T> & lhs, const Matrix<T> & rhs )
 		{
-
+			Vec4<T> ret;
+			ret.x() = lhs.x() * rhs[0][0] + lhs.y() * rhs[1][0] + lhs.z() * rhs[2][0] + 1 * rhs[3][0];
+			ret.y() = lhs.x() * rhs[0][1] + lhs.y() * rhs[1][1] + lhs.z() * rhs[2][1] + 1 * rhs[3][1];
+			ret.z() = lhs.x() * rhs[0][2] + lhs.y() * rhs[1][2] + lhs.z() * rhs[2][2] + 1 * rhs[3][2];
+			ret.w()	= lhs.x() * rhs[0][3] + lhs.y() * rhs[1][3] + lhs.z() * rhs[2][3] + 1 * rhs[3][3];
+			return ret;
 		}
 		template <typename T>
 		Matrix<T> LookAtLH( const Vec3<T> & eye, const Vec3<T> & at, const Vec3<T> & up )

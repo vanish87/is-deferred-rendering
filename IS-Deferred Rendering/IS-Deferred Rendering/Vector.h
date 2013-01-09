@@ -205,6 +205,10 @@ namespace MocapGE
 			return Vec3(vec_[0] * (1.0f / rhs) , vec_[1]* (1.0f  / rhs) , vec_[2]* (1.0f  / rhs));
 		}
 
+		void Print()
+		{
+			std::cout<< vec_[0] <<" " << vec_[1] <<" " << vec_[2] <<std::endl;
+		}
 
 	};
 
@@ -324,6 +328,8 @@ namespace MocapGE
 			assert( rhs != 0);
 			return Vec4(vec_[0] * (1.0f / rhs) , vec_[1]* (1.0f  / rhs) , vec_[2]* (1.0f  / rhs),vec_[3]* (1.0f  / rhs));
 		}
+
+
 
 
 	};

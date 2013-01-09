@@ -171,6 +171,9 @@
     <ClCompile Include="AABBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GamingState.cpp">
+      <Filter>GameDemo\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="AABBox.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GamingState.h">
+      <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

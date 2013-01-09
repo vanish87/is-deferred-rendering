@@ -38,6 +38,7 @@ private:
 	StartMenu* start_menu_;
 	LoadingState* loading_;
 	Picking* picking_;
+	MocapGE::Mesh* aabb_mesh_;
 
 
 	int speed_;

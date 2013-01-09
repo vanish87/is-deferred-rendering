@@ -206,6 +206,9 @@ namespace MocapGE
 		case MocapGE::PT_TRIANGLELIST:
 			d3d_imm_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			break;
+		case MocapGE::PT_LINELIST:
+			d3d_imm_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+			break;
 		default:
 			break;
 		}
