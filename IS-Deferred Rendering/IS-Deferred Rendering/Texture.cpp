@@ -23,5 +23,10 @@ namespace MocapGE
 		usage_ = usage;
 	}
 
+	TextureType Texture::GetType()
+	{
+		return type_;
+	}
+
 
 }

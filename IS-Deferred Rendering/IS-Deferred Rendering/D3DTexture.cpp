@@ -93,7 +93,7 @@ namespace MocapGE
 	{
 	}
 
-	ID3D11RenderTargetView* D3DTexture2D::GetRenderTargetView( int array_size, int mip_level )
+	ID3D11RenderTargetView* D3DTexture2D::GetRenderTargetView( int array_size, int mip_level , TextureType type)
 	{
 		if(d3d_rt_view_ == nullptr)
 		{
@@ -134,13 +134,26 @@ namespace MocapGE
 		this->d3d_texture2D_ = d3d_texture;
 	}
 
-	ID3D11ShaderResourceView* D3DTexture2D::GetShaderResourceView( int array_size, int mip_level )
+	ID3D11ShaderResourceView* D3DTexture2D::GetShaderResourceView( int array_size, int mip_level , TextureType type)
 	{
 		if( d3d_sr_view_== nullptr)
 		{
 			D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
 			D3D11_SHADER_RESOURCE_VIEW_DESC sr_desc;
-			sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			switch (type)
+			{
+			case TEXTURE1D:
+				break;
+			case TEXTURE2D:
+				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+				break;
+			case TEXTURE3D:
+				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+				break;
+			default:
+				break;
+			}
+			
 			sr_desc.Texture2D.MipLevels = mip_level;
 			sr_desc.Texture2D.MostDetailedMip = 0;
 			sr_desc.Format = d3d_re->MapFormat(format_);

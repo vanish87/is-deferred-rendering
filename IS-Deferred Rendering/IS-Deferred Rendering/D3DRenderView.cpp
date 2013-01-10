@@ -12,7 +12,7 @@ namespace MocapGE
 	{
 		texture_ = &texture;
 		D3DTexture2D* d3d_t2d = static_cast<D3DTexture2D*>(&texture);
-		render_target_view_ = d3d_t2d->GetRenderTargetView( array_size, mip_level );
+		render_target_view_ = d3d_t2d->GetRenderTargetView( array_size, mip_level ,texture_->GetType());
 		width_ = d3d_t2d->GetWidth();
 		height_ = d3d_t2d->GetHeight();
 

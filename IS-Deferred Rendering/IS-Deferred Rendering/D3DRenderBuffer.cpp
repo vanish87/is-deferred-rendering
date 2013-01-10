@@ -66,7 +66,7 @@ namespace MocapGE
 	D3DShaderResourceView::D3DShaderResourceView( Texture& texture, int array_size, int mip_level )
 	{
 		d3d_texture_= static_cast<D3DTexture2D*>(&texture);
-		shader_resource_view_ = d3d_texture_->GetShaderResourceView(array_size, mip_level);
+		shader_resource_view_ = d3d_texture_->GetShaderResourceView(array_size, mip_level, texture.GetType());
 	}
 
 }

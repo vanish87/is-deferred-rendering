@@ -17,7 +17,7 @@ namespace MocapGE
 		~Texture(void);
 
 		void SetUsage(TextureUsage usage);
-
+		TextureType GetType();
 	protected:
 		AccessType access_type_;
 		uint32_t array_size_;

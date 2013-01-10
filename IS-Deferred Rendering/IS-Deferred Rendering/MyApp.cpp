@@ -200,9 +200,31 @@ void MyApp::OnMouseMove( WPARAM mouse_para, int x, int y )
 			float4x4 model_matrix = ship_model->GetModelMatrix();
 			float2 delta = screen_pos - pre_pos;
 			std::cout<<delta.x()<<"d "<<delta.y()<<std::endl;
-			ship_pos = ship_pos + float3(delta.x(), delta.y(), 0) / 10.0f;
+			Camera* camera = GetCamera();
+			float3 pos = camera->GetPos();
+			float3 at = camera->GetLookAt();
+			float3 dir =  at - pos;
+			float3 up = camera->GetUp();
+			float3 left = Math::Cross(dir,up);
+			left = Math::Normalize(left);
+			float3 right = float3(-left.x(), -left.y(), -left.z());
+			float3 real_up = Math::Cross(dir, right);
+			real_up = Math::Normalize(real_up);
+			float3 down = float3(-real_up.x(), -real_up.y(), -real_up.z());
+			if(delta.x() > 0)
+				ship_pos = ship_pos + right / 50;
+			else
+				if(delta.x() < 0)
+					ship_pos = ship_pos + left / 50;
+			if(delta.y() > 0 )
+				ship_pos = ship_pos + down/ 50;
+			else
+				if(delta.y() < 0 )
+					ship_pos = ship_pos + real_up/ 50;
+			
+			//ship_pos = ship_pos + float3(delta.x()/320, delta.y()/200, 0) ;
 			std::cout<<ship_pos.x()<<" "<<ship_pos.y()<<std::endl;
-			Math::Translate(model_matrix, -ship_pos.x(), -ship_pos.y(), 0);
+			Math::Translate(model_matrix, ship_pos.x(), ship_pos.y(), ship_pos.z());
 			ship_model->SetModelMatrix(model_matrix);
 		}
 	
