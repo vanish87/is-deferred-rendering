@@ -56,7 +56,7 @@ void MyApp::InitObjects()
 
 	speed_ = 1;
 
-	//Example for changing Camera View
+	//Example of changing Camera View
 	float3 pos = float3(0,1,5);
 	Camera* camera = GetCamera();
 	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
@@ -75,7 +75,7 @@ void MyApp::Update()
 
 	//camera->SetProjection(3.14f/4, 1280/800, 1, 100000);
 
-	//Example for changing model position
+	//Example of changing model position
 	float4x4 model_matrix;
 	float4x4 scale_matrix, xrotation_matrix, yrotation_matrix,zrotation_matrix,translate_matrix;
 	Math::Identity(model_matrix);
