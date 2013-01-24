@@ -223,6 +223,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
     <None Include="..\Media\pumpkin.dae" />
+    <None Include="..\Media\sky.dds" />
     <None Include="..\Media\spacecraft.dae" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
