@@ -43,6 +43,17 @@ namespace MocapGE
 		size_t	height_;
 	};
 
+	class D3DTextureCube :public Texture
+	{
+	public:
+		D3DTextureCube(D3D11_TEXTURE2D_DESC desc,	ID3D11Texture2D* & texture);
+
+	private:
+		D3D11_TEXTURE2D_DESC desc_;
+		ID3D11Texture2D* d3d_texture2D_;
+
+	};
+
 
 
 }

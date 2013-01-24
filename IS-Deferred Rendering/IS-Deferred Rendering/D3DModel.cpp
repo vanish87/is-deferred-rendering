@@ -119,7 +119,7 @@ namespace MocapGE
 		//if I have a original texture file loader, remove it, do Texture loading on Model Class
 		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());	
 		ID3D11Resource* texture;
-		if(file_name.find(".tga"))
+		if(file_name.find(".tga") != std::string::npos)
 			file_name.replace(file_name.size()-4,file_name.size()-1,".jpg");
 		std::wstring widestr = std::wstring(file_name.begin(), file_name.end());
 		HRESULT result = DirectX::CreateWICTextureFromFile(d3d_re->D3DDevice(), NULL,

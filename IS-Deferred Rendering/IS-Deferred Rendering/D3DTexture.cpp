@@ -147,7 +147,7 @@ namespace MocapGE
 			case TEXTURE2D:
 				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 				break;
-			case TEXTURE3D:
+			case TEXTURECUBE:
 				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 				break;
 			default:
@@ -170,6 +170,16 @@ namespace MocapGE
 				PRINT("Cannot create Shader Resource View");
 		}
 		return d3d_sr_view_;
+	}
+
+
+	D3DTextureCube::D3DTextureCube( D3D11_TEXTURE2D_DESC desc, ID3D11Texture2D* & texture )
+	{
+		//TODO : Use desc to Init
+		desc_ = desc;
+		usage_ = TU_SHADER_RES;
+		format_ = R8G8B8A8_U;
+		d3d_texture2D_ = texture;
 	}
 
 }

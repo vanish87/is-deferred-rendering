@@ -28,7 +28,7 @@ namespace MocapGE
 	{
 		TEXTURE1D,
 		TEXTURE2D,
-		TEXTURE3D
+		TEXTURECUBE
 	};
 	enum TextureUsage
 	{

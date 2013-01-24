@@ -95,6 +95,7 @@
     <ClCompile Include="D3DRenderState.cpp" />
     <ClCompile Include="D3DRenderView.cpp" />
     <ClCompile Include="D3DShaderobject.cpp" />
+    <ClCompile Include="D3DSkyDome.cpp" />
     <ClCompile Include="D3DTexture.cpp" />
     <ClCompile Include="DeferredRendering.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="D3DRenderState.h" />
     <ClInclude Include="D3DRenderView.h" />
     <ClInclude Include="D3DShaderobject.h" />
+    <ClInclude Include="D3DSkyDome.h" />
     <ClInclude Include="D3DTexture.h" />
     <ClInclude Include="DeferredRendering.h" />
     <ClInclude Include="FrameBuffer.h" />

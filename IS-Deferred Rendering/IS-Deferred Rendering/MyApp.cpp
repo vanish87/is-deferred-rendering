@@ -6,6 +6,8 @@
 #include "LoadingState.h"
 #include "Picking.h"
 
+#include "D3DSkyDome.h"
+
 using namespace MocapGE;
 MyApp::MyApp(void) : App("The CentBebop Design")
 {
@@ -19,6 +21,9 @@ MyApp::~MyApp(void)
 
 void MyApp::InitObjects()
 {
+
+	D3DSkyDome* sky = new D3DSkyDome();
+	sky->LoadTexture("..\\Media\\sky.dds");
 	theta = 0;
 	ship_model = new D3DModel();
 	ship_model->LoadFile("..\\Media\\spacecraft.dae");
