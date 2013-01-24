@@ -386,5 +386,8 @@
     <None Include="..\Media\spacecraft.dae">
       <Filter>Media</Filter>
     </None>
+    <None Include="..\Media\sky.dds">
+      <Filter>Media</Filter>
+    </None>
   </ItemGroup>
 </Project>
