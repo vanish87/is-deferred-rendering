@@ -146,16 +146,19 @@ namespace MocapGE
 				break;
 			case TEXTURE2D:
 				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+				sr_desc.Texture2D.MipLevels = mip_level;
+				sr_desc.Texture2D.MostDetailedMip = 0;
 				break;
 			case TEXTURECUBE:
 				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+				sr_desc.TextureCube.MipLevels = mip_level;
+				sr_desc.TextureCube.MostDetailedMip = 0;
 				break;
 			default:
 				break;
 			}
 			
-			sr_desc.Texture2D.MipLevels = mip_level;
-			sr_desc.Texture2D.MostDetailedMip = 0;
+
 			sr_desc.Format = d3d_re->MapFormat(format_);
 			switch (usage_)
 			{
