@@ -173,13 +173,4 @@ namespace MocapGE
 	}
 
 
-	D3DTextureCube::D3DTextureCube( D3D11_TEXTURE2D_DESC desc, ID3D11Texture2D* & texture )
-	{
-		//TODO : Use desc to Init
-		desc_ = desc;
-		usage_ = TU_SHADER_RES;
-		format_ = R8G8B8A8_U;
-		d3d_texture2D_ = texture;
-	}
-
 }

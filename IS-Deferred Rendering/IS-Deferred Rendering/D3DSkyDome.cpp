@@ -30,7 +30,7 @@ namespace MocapGE
 		D3D11_TEXTURE2D_DESC desc;
 		texture_2d->GetDesc(&desc);
 		//TODO: use unified routine to Create Texture
-		D3DTextureCube* d3d_tex = new D3DTextureCube(desc,texture_2d);
+		D3DTexture2D* d3d_tex = new D3DTexture2D(desc,texture_2d);
 
 		return d3d_tex;
 	}
