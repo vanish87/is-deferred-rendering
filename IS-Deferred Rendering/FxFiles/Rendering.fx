@@ -71,14 +71,15 @@ float4 CalPreLighting(	 in float3 normal,
 	float3 pos_eye = normalize(g_eye_pos - position);//V
 	
 	// Start with a sum of zero. 
-	float4 litColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	// Default ambeint color = (0.2, 0.2 0.2)
+	float4 litColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
 	uint lights_size, dummy;
     gLight.GetDimensions(lights_size, dummy);
 
 	for(uint i = 0; i < lights_size; i++)
 	{
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float spec    = 0.0f;
+		float  spec    = 0.0f;
 		float4 light_color = gLight[i].color;
 		float3 light_position = gLight[i].position;//world_pos
 		// The vector from the surface to the light.

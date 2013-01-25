@@ -375,6 +375,9 @@
     <CustomBuild Include="..\FxFiles\DeferredLighting.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\FxFiles\SkyDome.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FxFiles\Rendering.fx">

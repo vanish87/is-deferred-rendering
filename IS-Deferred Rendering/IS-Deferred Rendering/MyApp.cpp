@@ -22,8 +22,6 @@ MyApp::~MyApp(void)
 void MyApp::InitObjects()
 {
 
-	D3DSkyDome* sky = new D3DSkyDome();
-	sky->LoadTexture("..\\Media\\sky.dds");
 	theta = 0;
 	ship_model = new D3DModel();
 	ship_model->LoadFile("..\\Media\\spacecraft.dae");
@@ -49,6 +47,7 @@ void MyApp::InitObjects()
 	point_light_1->SetPos(float3(0, 15, -15));
 	point_light_1->AddToScene();
 
+
 	timer_ = new Timer();
 	timer_->Retart();
 	
@@ -65,6 +64,12 @@ void MyApp::InitObjects()
 	float3 pos = float3(0,1,5);
 	Camera* camera = GetCamera();
 	camera->SetView(pos ,float3(0,0,0),float3(0,1,0));
+
+
+	D3DSkyDome* sky = new D3DSkyDome("..\\Media\\sky.dds");
+	sky->LoadShaderFile("..\\FxFiles\\SkyDome.fxo");
+	SceneObject* sky_scene = new SceneObject(sky);
+	sky_scene->AddToScene();
 
 }
 

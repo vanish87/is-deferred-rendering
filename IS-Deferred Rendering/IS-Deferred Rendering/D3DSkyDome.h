@@ -16,13 +16,26 @@ namespace MocapGE
 	class D3DSkyDome : public Model
 	{
 	public:
-		D3DSkyDome(void);
+		D3DSkyDome(std::string file_name);
 		~D3DSkyDome(void);
 
 		virtual Texture* LoadTexture(std::string file_name);
+		//use this to load .fxo file only
+		virtual void LoadShaderFile(std::string file_name);
 
+		virtual void Render( int pass_index );
+
+		virtual void SetRenderParameters();
+
+		virtual void EndRender();
+	private:
+		typedef std::vector<VertexType> VertexList;
+		typedef std::vector<int> IndexList;
+		void BuildGeoSphere( int numSubdivisions, float radius, VertexList& vertices, IndexList& indices);
+		void Subdivide(VertexList& vertices, IndexList& indices);
 	private:
 		Texture* cube_texture_;
+		Mesh* sky_mesh_;
 	};
 
 }

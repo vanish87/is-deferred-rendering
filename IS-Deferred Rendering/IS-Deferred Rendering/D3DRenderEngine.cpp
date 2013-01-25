@@ -186,10 +186,8 @@ namespace MocapGE
 		}
 		// Create the input layout
 		D3DX11_PASS_DESC pass_desc;
-		if(vertex_layout.size() == 1)
-			result = d3d_shader_object->GetTechnique()->GetPassByIndex(1)->GetDesc( &pass_desc );
-		else
-			d3d_shader_object->GetTechnique()->GetPassByIndex(0)->GetDesc( &pass_desc );
+		result = d3d_shader_object->GetTechnique()->GetPassByIndex(pass_index)->GetDesc( &pass_desc );
+		if(FAILED(result))PRINT("Cannot Get Pass Desc");
 		ID3D11InputLayout* input_layout;
 		result = d3d_device_->CreateInputLayout(input_layout_desc, vertex_layout.size(), pass_desc.pIAInputSignature, 
 			pass_desc.IAInputSignatureSize, &input_layout);
@@ -374,7 +372,7 @@ namespace MocapGE
 
 		D3D11_RASTERIZER_DESC wireframeDesc;
 		ZeroMemory(&wireframeDesc, sizeof(D3D11_RASTERIZER_DESC));
-		wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
+		wireframeDesc.FillMode = D3D11_FILL_SOLID;
 		wireframeDesc.CullMode = D3D11_CULL_BACK;
 		wireframeDesc.FrontCounterClockwise = false;
 		wireframeDesc.DepthClipEnable = true;
@@ -382,6 +380,38 @@ namespace MocapGE
 		wire_frame_ = new D3DRenderState(wireframeDesc);
 
 
+		depthDisabledStencilDesc.DepthEnable = false;
+		depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+		depthDisabledStencilDesc.StencilEnable = true;
+		depthDisabledStencilDesc.StencilReadMask = 0xFF;
+		depthDisabledStencilDesc.StencilWriteMask = 0xFF;
+		depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+		depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+		depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+		cull_depth_ = new D3DRenderState(depthDisabledStencilDesc);
+
+		D3D11_RASTERIZER_DESC cull_Desc;
+		ZeroMemory(&cull_Desc, sizeof(D3D11_RASTERIZER_DESC));
+		cull_Desc.FillMode = D3D11_FILL_SOLID;
+		cull_Desc.CullMode = D3D11_CULL_NONE;
+		cull_Desc.FrontCounterClockwise = false;
+		cull_Desc.DepthClipEnable = true;
+		cull_Desc.DepthBias = 0;
+		cull_Desc.DepthBiasClamp = 0.0f;
+		cull_Desc.DepthClipEnable = true;
+		cull_Desc.FillMode = D3D11_FILL_SOLID;
+		cull_Desc.FrontCounterClockwise = false;
+		cull_Desc.MultisampleEnable = false;
+		cull_Desc.ScissorEnable = false;
+		cull_Desc.SlopeScaledDepthBias = 0.0f;
+		cull_back_ = new D3DRenderState(cull_Desc);
 
 	}
 
@@ -453,6 +483,18 @@ namespace MocapGE
 		ID3D11DepthStencilState* depth_state= depth_on_->GetDepthStencilState();
 		d3d_imm_context_->OMSetDepthStencilState(depth_state, 1);
 
+		ID3D11RasterizerState* res_state = wire_frame_->GetRasterizerState();
+		d3d_imm_context_->RSSetState(res_state);
+
+	}
+
+	void D3DRenderEngine::TrunoffCull()
+	{
+		ID3D11DepthStencilState* depth_state= cull_depth_->GetDepthStencilState();
+		d3d_imm_context_->OMSetDepthStencilState(depth_state, 1);
+
+		ID3D11RasterizerState* res_state = cull_back_->GetRasterizerState();
+		d3d_imm_context_->RSSetState(res_state);
 	}
 
 

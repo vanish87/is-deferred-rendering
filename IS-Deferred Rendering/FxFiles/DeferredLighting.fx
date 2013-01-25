@@ -121,6 +121,9 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	//Get Infor from g-buffer
 	float4 normal_t = normal_tex.Load( samplelndices );
 	float3 normal = normal_t.xyz;
+	//set for those mesh that do not want to do lighting
+	if(normal.x ==0 && normal.y ==0&& normal.z ==0)
+		return float4(1,1,1,0);
 	float shininess = normal_t.w;
 
 	//cal lighting
@@ -153,7 +156,8 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	float4 world_pos = lighting_tex.Load( samplelndices );
 	return float4(world_pos.www,1.0f);
 	}
-	else{
+	else
+	{
 		
 	//Get Infor from g-buffer
 	int3 samplelndices = int3( pin.pos.xy, 0 );
@@ -161,13 +165,16 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	float4 material = diffuse_tex.Load( samplelndices );
 	float3 DiffuseAlbedo = material.rgb;
 	//float4 DiffuseAlbedo = gMaterial.Diffuse;
-
-	float3 diffuse = lighting.xyz ;
-	float3 specular = lighting.w *  float3(material.w,material.w,material.w);
-
+		float3 diffuse = lighting.xyz * DiffuseAlbedo;
+		float3 specular = lighting.w *  float3(material.w,material.w,material.w);
+		
 	//cal lighting
 	return float4(diffuse + specular , 1.0f);
+	//return float4(DiffuseAlbedo , 1.0f);
+
 	}
+
+	
 }
 
 

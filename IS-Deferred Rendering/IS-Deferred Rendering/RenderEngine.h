@@ -41,6 +41,7 @@ namespace MocapGE
 		//TODO : Use ShaderState to set State
 		virtual void SetDeferredRenderingState() = 0;
 		virtual void SetNormalState() = 0;
+		virtual void TrunoffCull() = 0;
 
 		FrameBuffer* GetGBuffer();
 		std::vector<RenderBuffer*> GetGBufferSRV();

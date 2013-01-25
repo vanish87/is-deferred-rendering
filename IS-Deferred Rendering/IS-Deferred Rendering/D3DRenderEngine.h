@@ -50,6 +50,8 @@ namespace MocapGE
 
 		virtual void SetNormalState();
 
+		virtual void TrunoffCull();
+
 	private:
 		ID3D11Device*		d3d_device_;
 		ID3D11DeviceContext* d3d_imm_context_;
@@ -59,6 +61,8 @@ namespace MocapGE
 		D3DRenderState* depth_on_;
 		D3DRenderState* depth_off_;
 		D3DRenderState* wire_frame_;
+		D3DRenderState* cull_back_;
+		D3DRenderState* cull_depth_;
 
 	};
 }

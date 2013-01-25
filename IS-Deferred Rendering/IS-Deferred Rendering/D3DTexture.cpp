@@ -8,6 +8,7 @@ namespace MocapGE
 	D3DTexture2D::D3DTexture2D(void)
 		:d3d_texture2D_(nullptr),d3d_rt_view_(nullptr), d3d_sr_view_(nullptr), d3d_ds_view_(nullptr)
 	{
+		type_ = TEXTURE2D;
 	}
 
 	D3DTexture2D::D3DTexture2D( uint32_t width, uint32_t height, AccessType access_type, uint32_t array_size, 
@@ -78,7 +79,7 @@ namespace MocapGE
 			PRINT("Cannot create Texture 2D");
 	}
 
-	D3DTexture2D::D3DTexture2D( D3D11_TEXTURE2D_DESC desc, ID3D11Texture2D* & texture )
+	D3DTexture2D::D3DTexture2D( D3D11_TEXTURE2D_DESC desc, ID3D11Texture2D* & texture , TextureType type)
 		:d3d_rt_view_(nullptr), d3d_sr_view_(nullptr), d3d_ds_view_(nullptr)
 	{
 		//TODO : Use desc to Init
@@ -86,6 +87,7 @@ namespace MocapGE
 		usage_ = TU_SHADER_RES;
 		format_ = R8G8B8A8_U;
 		d3d_texture2D_ = texture;
+		type_ = type;
 	}
 
 
@@ -153,13 +155,15 @@ namespace MocapGE
 				sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 				sr_desc.TextureCube.MipLevels = mip_level;
 				sr_desc.TextureCube.MostDetailedMip = 0;
+				
 				break;
 			default:
 				break;
 			}
 			
-
-			sr_desc.Format = d3d_re->MapFormat(format_);
+			//TODO: init format
+			//sr_desc.Format = d3d_re->MapFormat(format_);
+			sr_desc.Format = desc_.Format;
 			switch (usage_)
 			{
 			case TU_DEPTH_SR:

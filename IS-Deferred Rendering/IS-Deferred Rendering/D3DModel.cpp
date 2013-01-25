@@ -22,7 +22,6 @@ namespace MocapGE
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
 		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
 
-
 		//if(deferred_rendering)
 			//set parameter here
 			//
@@ -98,7 +97,6 @@ namespace MocapGE
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
 
 		d3d_shader_object->SetShaderResourceVariable("gLight");
-
 		
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{
@@ -130,7 +128,7 @@ namespace MocapGE
 		D3D11_TEXTURE2D_DESC desc;
 		texture_2d->GetDesc(&desc);
 		//TODO: use unified routine to Create Texture
-		D3DTexture2D* d3d_tex = new D3DTexture2D(desc,texture_2d);
+		D3DTexture2D* d3d_tex = new D3DTexture2D(desc,texture_2d, TEXTURE2D);
 		
 		return d3d_tex;
 		

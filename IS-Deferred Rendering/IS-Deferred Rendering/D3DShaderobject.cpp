@@ -72,6 +72,7 @@ namespace MocapGE
 		ID3DX11EffectVectorVariable* vec4_var = GetVectorVariable(name);
 		float data[4] = {vec4[0], vec4[1], vec4[2], vec4[3]};
 		HRESULT res = vec4_var->SetFloatVector(data);
+		if(FAILED(res))PRINT("Fail to SetVectorVariable: " + name);
 	}
 
 	void D3DShaderobject::SetTechnique( std::string name )
