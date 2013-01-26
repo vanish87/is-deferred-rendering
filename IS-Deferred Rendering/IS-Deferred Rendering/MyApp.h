@@ -1,11 +1,11 @@
 #pragma once
 #include "App.h"
-#include "D3DModel.h"
-
+#include "Vector.h"
 
 
 class StartMenu;
 class LoadingState;
+class GamingState;
 
 class Picking;
 
@@ -27,8 +27,7 @@ public:
 
 private:
 
-	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
-	MocapGE::SceneObject* ship_;
+
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;
 	float theta;
@@ -36,16 +35,8 @@ private:
 	MocapGE::Timer* timer_;
 
 	StartMenu* start_menu_;
-	LoadingState* loading_;
-	Picking* picking_;
+	GamingState* gaming_;
 	MocapGE::Mesh* aabb_mesh_;
-	MocapGE::float2 pre_pos;
-	MocapGE::float3 ship_pos;
 
-
-	int speed_;
-
-	bool mouse_down_;
-	bool picked;
 };
 

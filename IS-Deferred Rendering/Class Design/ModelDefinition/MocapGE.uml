@@ -4819,6 +4819,126 @@
         </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="3d954bb5-1820-4a92-8aa8-d41e58f876f3"
+        name="ResemblingSystem"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="16d5902e-57d4-4e20-89e2-520f027071c7"
+            name="attach_distence_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="1382d727-9da0-47cf-8e58-467b0b262232"
+            name="shiip_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="39a0f079-4e8e-4bd8-a0d7-7ba12ed35f98"
+            name="std::vector&lt;&gt; nearby_parts_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="2eeb2a8b-9356-4d6b-8e5a-840cecdec295"
+            name="nearby_distence_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="70b3922f-f8d5-465c-83a2-47f81a009921"
+            name="TryToAttach"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="288ec1d6-0577-41e5-822f-234532e17735"
+                  name="model_parts"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="2d843fd1-95e4-4a40-9ef6-42aa3525090b"
+            name="GetPickedObject"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f3eb149e-fc77-40eb-ac66-d3ad596d95eb"
+                  name="screen_pos"
+                  direction="In" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="57005d32-07a0-49e3-b529-100f808074e9"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="e0e833b0-35a6-493e-95c0-8d5e4beff7fc"
+                      LastKnownName="D3DModel"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="827aca71-1777-4ec8-b225-81a066007fc8"
+            name="AddPart"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="87627bc2-c6a4-447b-9942-67550aa64422"
+            name="SetShip"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

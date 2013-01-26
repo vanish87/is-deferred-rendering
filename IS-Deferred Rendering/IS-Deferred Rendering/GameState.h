@@ -3,6 +3,7 @@
 
 #pragma once
 #include "PreDec.h"
+#include <windows.h>
 
 namespace MocapGE
 {
@@ -17,15 +18,24 @@ namespace MocapGE
 
 		virtual void Update() = 0;
 
-		int GetStateOP() const { return state_op_; }
-		int GetNextPhase() const { return phase_to_load_; }  
+		virtual void OnKeyDown(WPARAM key_para)
+		{
+		}
+		virtual void OnKeyUp(WPARAM key_para)
+		{
+		}
+		virtual void OnMouseDown(WPARAM mouse_para,  int x, int y)
+		{
+		}
+		virtual void OnMouseUp(WPARAM mouse_para,  int x, int y)
+		{
+		}
+		virtual void OnMouseMove(WPARAM mouse_para,  int x, int y)
+		{
+		}
 
 	private:
 		GameState* parent_;
-
-	protected:
-		int state_op_;
-		int phase_to_load_;
 	};
 
 

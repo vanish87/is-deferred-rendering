@@ -18,6 +18,7 @@ namespace MocapGE
 
 		void Update();
 		void ChangeState(GameState* game_state, StateOP op);
+		GameState* CurrentState();
 
 	private:
 		std::vector<GameState*> states_;

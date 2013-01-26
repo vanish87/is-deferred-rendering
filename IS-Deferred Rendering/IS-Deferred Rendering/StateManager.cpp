@@ -33,4 +33,9 @@ namespace MocapGE
 		}
 	}
 
+	GameState* StateManager::CurrentState()
+	{
+		return current_state_;
+	}
+
 }

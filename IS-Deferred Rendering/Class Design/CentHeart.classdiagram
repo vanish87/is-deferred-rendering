@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="e0f4d11d-788d-48fd-a88a-48716ffc8112" name="UMLClassDiagram2" linkedPackageId="28303d9e-cc41-4464-a779-a173503ade68" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="44ea134e-38bf-4865-bff6-43ba51a7639d">
+      <profileInstance Id="91424165-86f5-455e-91ee-968370a97322" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="ee5320a1-4fd2-4904-9df0-d1b5ca4ed885">
+      <profileInstance Id="148b2847-57c4-4ea7-b8c9-4f46b0387a84" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="2ed55c9f-36b8-4d70-af2c-e93df5fe0206" name="ResemblingSystem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="3d954bb5-1820-4a92-8aa8-d41e58f876f3" />
+        <ownedAttributesInternal>
+          <property Id="3eb57e34-feac-4dad-83dd-068cdc833d17" name="attach_distence_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="16d5902e-57d4-4e20-89e2-520f027071c7" />
+          </property>
+          <property Id="a53300a2-f5f9-4e98-8544-db276629a5eb" name="shiip_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1382d727-9da0-47cf-8e58-467b0b262232" />
+          </property>
+          <property Id="7614f612-2b13-4bcf-8b36-90d851beb936" name="std::vector&lt;&gt; nearby_parts_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="39a0f079-4e8e-4bd8-a0d7-7ba12ed35f98" />
+          </property>
+          <property Id="ee22b314-3d51-4492-bc5a-749b7fc9e468" name="nearby_distence_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2eeb2a8b-9356-4d6b-8e5a-840cecdec295" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="e638bba5-b959-41e0-a59c-5644e6a9149b" name="TryToAttach" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="70b3922f-f8d5-465c-83a2-47f81a009921" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f3d4f419-1f16-44ed-aa37-b6cdbc845a17" name="model_parts" direction="In" isUnique="false">
+                  <elementDefinition Id="288ec1d6-0577-41e5-822f-234532e17735" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="30e377b2-8cad-493b-8a0e-753783a0393c" name="GetPickedObject" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="2d843fd1-95e4-4a40-9ef6-42aa3525090b" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2eda4669-1870-4949-9d98-a46c1b35f9b9" name="screen_pos" direction="In">
+                  <elementDefinition Id="f3eb149e-fc77-40eb-ac66-d3ad596d95eb" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="23ab2a99-2aeb-490e-97bb-0253f11c3288" direction="Return">
+                  <elementDefinition Id="57005d32-07a0-49e3-b529-100f808074e9" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="d662f17d-a589-4182-adc7-fd5ab881a621" LastKnownName="D3DModel" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="ffee4ab5-8d98-437c-94f4-166c0d057ec4" name="AddPart" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="827aca71-1777-4ec8-b225-81a066007fc8" />
+          </operation>
+          <operation Id="78162fb5-d3ad-4882-a9bc-e37650f86e2b" name="SetShip" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="87627bc2-c6a4-447b-9942-67550aa64422" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="d662f17d-a589-4182-adc7-fd5ab881a621" name="D3DModel" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::D3DModel">
+        <elementDefinition Id="e0e833b0-35a6-493e-95c0-8d5e4beff7fc" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="28303d9e-cc41-4464-a779-a173503ade68" name="MocapGE">
+    <elementDefinition Id="d0bbf3ca-4bd9-4edb-bdbd-bb73c74d45f2" />
+  </package>
+</logicalClassDesignerModel>
