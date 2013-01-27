@@ -4,7 +4,7 @@
 
 
 class StartMenu;
-class LoadingState;
+class ResembleState;
 class GamingState;
 
 class Picking;

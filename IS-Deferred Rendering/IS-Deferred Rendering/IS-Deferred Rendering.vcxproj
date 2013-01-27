@@ -103,7 +103,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GamingState.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="ResembleState.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -157,7 +157,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GamingState.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="ResembleState.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Math.hpp" />
     <ClInclude Include="Matrix.h" />

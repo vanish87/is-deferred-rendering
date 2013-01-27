@@ -113,14 +113,16 @@ namespace MocapGE
 		sky_mesh_->SetRenderParameters();
 		sky_mesh_->Render(pass_index);
 		sky_mesh_->EndRender();
-		//throw std::exception("The method or operation is not implemented.");
 	}
 
 	void D3DSkyDome::SetRenderParameters()
 	{
-		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
-		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
+
 		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());	
+		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
+		float3 cam_pos = d3d_re->CurrentFrameBuffer()->GetFrameCamera()->GetPos();
+		Math::Translate(model_matrix_, cam_pos.x(), cam_pos.y(), cam_pos.z());
+		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
 		d3d_re->TrunoffCull();
 		RenderBuffer* cude_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(cube_texture_, AT_GPU_READ, BU_SHADER_RES); 
 		shader_object_->SetReource("background_tex", cude_srv , 1);

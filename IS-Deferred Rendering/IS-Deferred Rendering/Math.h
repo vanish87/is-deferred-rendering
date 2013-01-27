@@ -24,6 +24,7 @@ namespace MocapGE
 		float Sin(float x);
 		float Cos(float x);
 		float Tan(float x);
+		float ArcTan( float x );
 		float Cot(float x);
 		float InvSqrt(float number);
 
@@ -84,7 +85,6 @@ namespace MocapGE
 
 		bool IntersectRayAABB(Ray* ray, AABBox* aabb);
 		bool IntersectRayTriangle(Ray* ray, float3 a, float3 b, float3 c);
-
 	}
 
 }

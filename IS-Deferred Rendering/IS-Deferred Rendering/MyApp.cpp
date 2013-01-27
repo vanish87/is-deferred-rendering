@@ -35,8 +35,10 @@ void MyApp::InitObjects()
 	timer_ = new Timer();
 	timer_->Retart();
 	
-	start_menu_ = new StartMenu();
-	Context::Instance().GetStateManager().ChangeState(start_menu_,MocapGE::SOP_PUSH);
+	//start_menu_ = new StartMenu();
+	//Context::Instance().GetStateManager().ChangeState(start_menu_,MocapGE::SOP_PUSH);
+	gaming_ = new GamingState();
+	Context::Instance().GetStateManager().ChangeState(gaming_, SOP_PUSH);
 
 
 

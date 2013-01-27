@@ -231,8 +231,8 @@ namespace MocapGE
 		{
 			Identity(lhs);
 			lhs[1][1] = Math::Cos(theta);
-			lhs[1][2] = -Math::Sin(theta);
-			lhs[2][1] = Math::Sin(theta);
+			lhs[1][2] = Math::Sin(theta);
+			lhs[2][1] = -Math::Sin(theta);
 			lhs[2][2] = Math::Cos(theta);
 		}
 
@@ -241,8 +241,8 @@ namespace MocapGE
 		{
 			Identity(lhs);
 			lhs[0][0] = Math::Cos(theta);
-			lhs[0][2] = Math::Sin(theta);
-			lhs[2][0] = -Math::Sin(theta);
+			lhs[0][2] = -Math::Sin(theta);
+			lhs[2][0] = Math::Sin(theta);
 			lhs[2][2] = Math::Cos(theta);
 		}
 
@@ -251,8 +251,8 @@ namespace MocapGE
 		{
 			Identity(lhs);
 			lhs[0][0] = Math::Cos(theta);
-			lhs[0][1] = -Math::Sin(theta);
-			lhs[1][0] = Math::Sin(theta);
+			lhs[0][1] = Math::Sin(theta);
+			lhs[1][0] = -Math::Sin(theta);
 			lhs[1][1] = Math::Cos(theta);
 		}
 

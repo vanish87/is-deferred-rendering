@@ -42,7 +42,7 @@ namespace MocapGE
 			//set material
 			shader_object_->SetRawData("gMaterial", materials_[i], sizeof(Material));			
 			float4x4 view_mat = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera()->GetViewMatirx();
-			float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix()* model_matrix_ );
+			float4x4 world_inv_transpose = Math::InverTranspose( meshes_[i]->GetModelMatrix()* model_matrix_);
 			shader_object_->SetMatrixVariable("g_world_inv_transpose", world_inv_transpose);
 			//set mesh's parameter
 			meshes_[i]->SetRenderParameters();

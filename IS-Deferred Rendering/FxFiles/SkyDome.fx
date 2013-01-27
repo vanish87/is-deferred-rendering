@@ -43,7 +43,7 @@ VertexOut VS(VertexIn vin)
 	VertexOut vout;
 	float4x4 world_matrix = mul(g_model_matrix, g_world_matrix);
 	float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
-	vout.pos = mul(float4(vin.pos, 1.0f), mvp_matrix).xyww;
+	vout.pos =   mul(float4(vin.pos, 1.0f), mvp_matrix).xyww;
 
 	//vout.pos =  float4(vin.pos.xyz, 1.0f);
 	vout.posL = vin.pos;

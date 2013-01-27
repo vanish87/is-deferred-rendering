@@ -116,7 +116,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 		world_pos = vPositionPS.xyz/ vPositionPS.www;
 	//}
 	
-	if(0) return float4(world_pos,1.0f);
+	if(0) return float4(depth,depth,depth,1.0f);
 
 	//Get Infor from g-buffer
 	float4 normal_t = normal_tex.Load( samplelndices );
@@ -154,7 +154,7 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float4 world_pos = lighting_tex.Load( samplelndices );
-	return float4(world_pos.www,1.0f);
+	return float4(world_pos.xyz,1.0f);
 	}
 	else
 	{
@@ -164,9 +164,11 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	float4 lighting = lighting_tex.Load( samplelndices );
 	float4 material = diffuse_tex.Load( samplelndices );
 	float3 DiffuseAlbedo = material.rgb;
+
+	if(0) return float4(DiffuseAlbedo,1.0f);
 	//float4 DiffuseAlbedo = gMaterial.Diffuse;
-		float3 diffuse = lighting.xyz * DiffuseAlbedo;
-		float3 specular = lighting.w *  float3(material.w,material.w,material.w);
+	float3 diffuse = lighting.xyz * DiffuseAlbedo;
+	float3 specular = lighting.w *  float3(material.w,material.w,material.w);
 		
 	//cal lighting
 	return float4(diffuse + specular , 1.0f);

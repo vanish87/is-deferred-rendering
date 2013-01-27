@@ -8,6 +8,7 @@
 #include "D3DSkyDome.h"
 
 #include "Picking.h"
+#include "Ship.h"
 
 class GamingState : public MocapGE::GameState
 {
@@ -19,15 +20,16 @@ public:
 
 	virtual void OnKeyDown( WPARAM key_para );
 
+	virtual void OnKeyUp(WPARAM key_para);
+
 	virtual void OnMouseDown( WPARAM mouse_para, int x, int y );
 
 	virtual void OnMouseUp( WPARAM mouse_para, int x, int y );
 
 	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
-
 private:
 	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
-	MocapGE::SceneObject* ship_;
+	MocapGE::SceneObject* scene_ship_;
 
 	MocapGE::D3DSkyDome* sky_;
 
@@ -39,6 +41,8 @@ private:
 	bool picked;
 
 	Picking* picking_;
+	Ship* ship_;
+	bool spacekey_down_, wkey_down_, skey_down_;
 
 };
 

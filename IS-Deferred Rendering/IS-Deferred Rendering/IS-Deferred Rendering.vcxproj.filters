@@ -156,9 +156,6 @@
     <ClCompile Include="MyApp.cpp">
       <Filter>GameDemo\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>GameDemo\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StartMenu.cpp">
       <Filter>GameDemo\Source Files</Filter>
     </ClCompile>
@@ -184,6 +181,9 @@
       <Filter>D3DRenderingLayer\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResemblingSystem.cpp">
+      <Filter>GameDemo\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResembleState.cpp">
       <Filter>GameDemo\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -329,9 +329,6 @@
     <ClInclude Include="MyApp.h">
       <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>GameDemo\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StartMenu.h">
       <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
@@ -363,6 +360,9 @@
       <Filter>D3DRenderingLayer\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResemblingSystem.h">
+      <Filter>GameDemo\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResembleState.h">
       <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,7 +27,10 @@ namespace MocapGE
 		{
 			return std::tan(x);
 		}
-
+		float ArcTan( float x )
+		{
+			return std::atan(x);
+		}
 		float Cot(float x)
 		{
 			return 1.0f / Tan(x);
@@ -247,6 +250,8 @@ namespace MocapGE
 
 			return true;
 		}
+
+
 
 	}
 }

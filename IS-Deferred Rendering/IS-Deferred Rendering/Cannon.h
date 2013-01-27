@@ -6,10 +6,10 @@
 class Cannon
 {
 public:
-	Cannon(void);
+	Cannon(MocapGE::D3DModel* model, MocapGE::D3DModel* bullet);
 	~Cannon(void);
 
-	void Update();
+	void Update(MocapGE::float4x4 parent);
 	void Fire();
 
 private:
@@ -22,6 +22,7 @@ private:
 
 	int hp_;
 	MocapGE::float3 dir_;
+	//relative pos to ship
 	MocapGE::float3 pos_;
 
 };
