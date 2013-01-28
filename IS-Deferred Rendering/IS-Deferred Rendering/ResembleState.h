@@ -37,7 +37,7 @@ private:
 	bool first_flag_;
 	bool left_ctr_down_;
 
-	int cam_speed_deg_;
+	float cam_speed_deg_;
 
 	bool mouse_down_;
 	MocapGE::float2 pre_pos;

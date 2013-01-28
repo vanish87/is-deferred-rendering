@@ -14,7 +14,7 @@ ResembleState::ResembleState(Ship* ship)
 	first_flag_ = true;
 	left_ctr_down_ = false;
 
-	cam_speed_deg_ = Math::PI * 5/180;
+	cam_speed_deg_ = Math::PI /180;
 	mouse_down_ = false;
 	picked_ = false;
 
@@ -108,24 +108,35 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 		Camera* camera = Context::Instance().AppInstance().GetCamera();
 		float3 cam_pos = camera->GetPos();
 		float3 at = camera->GetLookAt();
-		float3 dir =  at - cam_pos;
 		float3 up = camera->GetUp();
-		float3 left = Math::Cross(dir,up);
-		left = Math::Normalize(left);
-		float3 right = float3(-left.x(), -left.y(), -left.z());
-		float3 real_up = Math::Cross(dir, right);
-		real_up = Math::Normalize(real_up);
-		float3 down = float3(-real_up.x(), -real_up.y(), -real_up.z());
+
+		float3 dir =  at - cam_pos;
+		float3 inv_dir =  cam_pos - at;
+		float3 new_dir;
+
+		float4x4 rot_mat;
+		Math::Identity(rot_mat);
 		if(delta.x() > 1)
-			cam_pos = cam_pos + right / 10;
+			Math::YRotation(rot_mat, -cam_speed_deg_);
 		else
 			if(delta.x() < 1)
-				cam_pos = cam_pos + left / 10;
+				Math::YRotation(rot_mat, cam_speed_deg_);
+
+		new_dir = Math::Transform(inv_dir, rot_mat);
+
+		float3 left = Math::Cross(dir,up);
+		left = Math::Normalize(left);
 		if(delta.y() > 1 )
-			cam_pos = cam_pos + down/ 10;
+			Math::RotationAxis(rot_mat, left, -cam_speed_deg_);
 		else
 			if(delta.y() < 1 )
-				cam_pos = cam_pos + real_up/ 10;
+				Math::RotationAxis(rot_mat, left, cam_speed_deg_);
+		new_dir = Math::Transform(new_dir, rot_mat);
+
+		float3 trans_vec = new_dir - inv_dir;
+
+		cam_pos = cam_pos + trans_vec;
+
 		if(delta.x()!=0 && delta.y()!=0)
 			camera->SetView(cam_pos, at, up);
 		//camera->Yaw(Math::PI * delta.x() /180);

@@ -80,22 +80,11 @@ void GamingState::Update()
 	float3 ship_pos = ship_->GetPos();
 	float3 ship_up = ship_->GetUp();
 
-	//std::cout<<"dir= "<<ship_dir.x()<<" "<<ship_dir.y()<<" "<<ship_dir.z()<<" "<<std::endl;
-	float3 cam_tag_pos = ship_pos - ship_dir * 3 + ship_up;
 	Camera* camera = Context::Instance().AppInstance().GetCamera();
-	float3 cam_pos = camera->GetPos();
-	float3 cam_up = camera->GetUp();
 
-	float3 dis = cam_tag_pos - cam_pos;
-	//if(Math::Dot(dis, dis) > 0.0001)
-	//{
-	//	dis = Math::Normalize(dis);
-	//	camera->SetView(cam_pos + dis* 0.005, ship_pos + ship_dir* 2, cam_up);
-	//}
-	//else
-	{
-		camera->SetView(cam_tag_pos, ship_pos + ship_dir* 2, ship_up);
-	}
+	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
+	float3 cam_at = ship_pos + ship_dir * 2;
+	camera->SetView(cam_pos, cam_at, ship_up);
 }
 
 void GamingState::OnKeyDown( WPARAM key_para )
