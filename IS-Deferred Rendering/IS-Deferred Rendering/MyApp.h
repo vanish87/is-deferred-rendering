@@ -1,6 +1,8 @@
 #pragma once
 #include "App.h"
 #include "Vector.h"
+#include "D3DModel.h"
+#include <vector>
 
 
 class StartMenu;
@@ -27,6 +29,7 @@ public:
 
 private:
 
+	typedef std::vector<MocapGE::D3DModel*> PartList;
 
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;

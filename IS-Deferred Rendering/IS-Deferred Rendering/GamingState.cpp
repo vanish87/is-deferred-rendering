@@ -23,14 +23,19 @@ GamingState::GamingState(void)
 	camera->SetView(cam_pos, cam_at, ship_up);
 
 	cannon_1 = new D3DModel();
-	//cannon_1->LoadFile("..\\Media\\gun.dae");
-	//cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	//cannon_1->AddToScene();
+	cannon_1->LoadFile("..\\Media\\gun.dae");
+	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	scene_cannon1_ = new SceneObject(cannon_1);
+	scene_cannon1_->AddToScene();
 
 	cannon_2 = new D3DModel();
-	//cannon_2->LoadFile("..\\Media\\gun.dae");
-	//cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	//cannon_2->AddToScene();
+	cannon_2->LoadFile("..\\Media\\gun.dae");
+	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	scene_cannon2_ = new SceneObject(cannon_2);
+	scene_cannon2_->AddToScene();
+
+	resemble_parts_.push_back(cannon_1);
+	resemble_parts_.push_back(cannon_2);
 
 	sky_= new D3DSkyDome("..\\Media\\universe.dds");
 	sky_->LoadShaderFile("..\\FxFiles\\SkyDome.fxo");
@@ -162,7 +167,6 @@ void GamingState::OnKeyUp(WPARAM key_para)
 	{ 
 	case 'S':
 		{
-			std::cout<<"s key up"<<std::endl;
 			skey_down_ = false;
 			break;
 		}
@@ -193,4 +197,9 @@ void GamingState::OnMouseUp( WPARAM mouse_para, int x, int y )
 void GamingState::OnMouseMove( WPARAM mouse_para, int x, int y )
 {
 	
+}
+
+std::vector<MocapGE::D3DModel*> GamingState::GetParts()
+{
+	return resemble_parts_;
 }

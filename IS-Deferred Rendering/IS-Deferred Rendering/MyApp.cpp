@@ -117,7 +117,8 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				if(Context::Instance().GetStateManager().CurrentState() == gaming_)
 				{
 					std::cout<<"Resemble"<<std::endl;
-					resembling_ = new ResembleState(gaming_->GetShip());
+					PartList parts = gaming_->GetParts();
+					resembling_ = new ResembleState(gaming_->GetShip(), parts);
 					Context::Instance().GetStateManager().ChangeState(resembling_, SOP_PUSH);
 					break;
 				}

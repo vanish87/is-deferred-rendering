@@ -5,6 +5,7 @@
 
 #include "PreDec.h"
 #include "RenderElement.h"
+#include "TypeAndFormat.h"
 
 namespace MocapGE
 {
@@ -14,8 +15,9 @@ namespace MocapGE
 		Mesh(void);
 		~Mesh(void);
 
-		Mesh(std::string name, RenderLayout* render_layout, float4x4 model_matrix)
+		Mesh(std::string name, RenderLayout* render_layout, float4x4 model_matrix, VertexType* vb, uint32_t* ib)
 			:RenderElement(model_matrix), name_(name), render_layout_(render_layout)
+			,vb_(vb), ib_(ib)
 		{};
 
 		//virtual void AddToScene();
@@ -28,11 +30,18 @@ namespace MocapGE
 
 		virtual void EndRender();
 
+		VertexType* GetVertex(){return vb_;};
+		uint32_t* GetIndex(){return ib_;};
+
 
 	protected:
 
 		std::string name_;
 		RenderLayout* render_layout_;
+
+		//stores vertex in cpu for obj management
+		VertexType* vb_;
+		uint32_t* ib_;
 	};
 
 }

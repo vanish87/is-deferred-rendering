@@ -12,7 +12,9 @@ class Picking;
 class ResembleState : public MocapGE::GameState
 {
 public:
-	ResembleState(Ship* ship);
+	typedef std::vector<MocapGE::D3DModel*> PartList;
+
+	ResembleState(Ship* ship, PartList parts);
 	~ResembleState(void);
 	
 	virtual void Update();
@@ -46,4 +48,5 @@ private:
 	Picking* picking_;
 	bool picked_;
 	MocapGE::D3DModel* picked_model_;
+	PartList parts_;
 };

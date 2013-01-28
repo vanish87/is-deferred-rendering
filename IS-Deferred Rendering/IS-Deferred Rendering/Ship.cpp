@@ -53,7 +53,7 @@ void Ship::Deccelerating()
 	if(speed_ > 0)
 		speed_ -= acceleration_*0.3;
 	else
-		speed_ = 0.2;
+		speed_ = 0;
 }
 
 void Ship::TurnLeft()

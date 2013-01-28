@@ -16,7 +16,7 @@ Picking::~Picking(void)
 bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point )
 {
 	if(model == nullptr)return false;
-	if(model_ == nullptr)
+	//if(model_ == nullptr)
 	{
 		model_ = model;
 		std::vector<Mesh*> meshes_ = model_->GetMesh();
@@ -172,7 +172,6 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		if(Math::IntersectRayAABB(ray, aabb))
 		{
 			PRINT("AABB clicked");	
-			return true;
 			for(size_t j =0; j < mesh_vertice.size()/3; j++)
 	 		{
 				if(Math::IntersectRayTriangle(ray, mesh_vertice[j+2]->position, mesh_vertice[j+1]->position, mesh_vertice[j]->position))

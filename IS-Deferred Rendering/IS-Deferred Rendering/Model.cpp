@@ -265,7 +265,7 @@ namespace MocapGE
 			inputlayout.push_back(VU_BINORMAL);
 			render_layout->SetInputLayout(inputlayout);
 			//add renderlayout to model;
-			this->AddMesh(new MocapGE::Mesh(meshes[i]->name_, render_layout, meshes[i]->model_matrix_));
+			this->AddMesh(new MocapGE::Mesh(meshes[i]->name_, render_layout, meshes[i]->model_matrix_, vb, ib));
 			this->AddMaterial(mat);
 		}
 

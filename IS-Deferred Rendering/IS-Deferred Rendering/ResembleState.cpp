@@ -4,8 +4,8 @@
 #include "Picking.h"
 using namespace MocapGE;
 
-ResembleState::ResembleState(Ship* ship)
-	:ship_(ship)
+ResembleState::ResembleState(Ship* ship, PartList parts)
+	:ship_(ship), parts_(parts)
 {
 	ship_dir_ = ship_->GetDir();
 	ship_pos_ = ship_->GetPos();
@@ -87,7 +87,15 @@ void ResembleState::OnMouseDown( WPARAM mouse_para, int x, int y )
 	float3 picked_pos;
 	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	mouse_down_= true;
-	//picked_ = picking_->GetIntersection(picked_model_, viewport, screen_pos, picked_pos);
+	for(size_t i = 0; i < parts_.size(); i++)
+	{
+		picked_ = picking_->GetIntersection(parts_[i], viewport, screen_pos, picked_pos);
+		if(picked_)
+		{
+			picked_model_ = parts_[i];
+			break;
+		}
+	}
 }
 
 void ResembleState::OnMouseUp( WPARAM mouse_para, int x, int y )
