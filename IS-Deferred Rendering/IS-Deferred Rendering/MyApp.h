@@ -36,6 +36,7 @@ private:
 
 	StartMenu* start_menu_;
 	GamingState* gaming_;
+	ResembleState* resembling_;
 	MocapGE::Mesh* aabb_mesh_;
 
 };

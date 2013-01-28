@@ -34,7 +34,7 @@ void Ship::Update()
 	Math::ZRotation(xrotation_mat, phi_);
 	Math::Translate(translate_mat, pos_.x(), pos_.y(), pos_.z());
 
-	ship_mat = yrotation_mat * xrotation_mat * translate_mat;
+	ship_mat =  xrotation_mat * yrotation_mat  * translate_mat;
 	model_->SetModelMatrix(ship_mat);
 	for(size_t i =0; i< cannons_.size(); i++)
 	{
@@ -51,9 +51,9 @@ void Ship::Accelerating()
 void Ship::Deccelerating()
 {
 	if(speed_ > 0)
-		speed_ -= acceleration_*0.03;
+		speed_ -= acceleration_*0.3;
 	else
-		speed_ = 0.1;
+		speed_ = 0.2;
 }
 
 void Ship::TurnLeft()
@@ -68,12 +68,14 @@ void Ship::TurnRight()
 
 void Ship::HeadUp()
 {
-	phi_+= TURNING_DEGREE;
+	if(phi_ < Math::PI/2)
+		phi_+= TURNING_DEGREE;
 }
 
 void Ship::HeadDown()
 {
-	phi_-= TURNING_DEGREE;
+	if(phi_ > -Math::PI/4)
+		phi_-= TURNING_DEGREE;
 }
 
 void Ship::Stabling( bool dir )

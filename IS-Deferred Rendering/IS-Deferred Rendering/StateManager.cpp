@@ -26,8 +26,9 @@ namespace MocapGE
 			game_state->SetParent(current_state_);
 			current_state_ = game_state;
 		}
-		else if (op == SOP_POP)
+		else if (op == SOP_POP && current_state_ == game_state)
 		{
+			assert(current_state_ == game_state);
 			//TODO: memory leak
 			current_state_ = current_state_->GetParent();
 		}

@@ -27,20 +27,14 @@ public:
 	virtual void OnMouseUp( WPARAM mouse_para, int x, int y );
 
 	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
+
+	Ship* GetShip(){ return ship_;};
 private:
 	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
 	MocapGE::SceneObject* scene_ship_;
 
 	MocapGE::D3DSkyDome* sky_;
 
-	MocapGE::float2 pre_pos;
-	MocapGE::float3 ship_pos;
-	int speed_;
-
-	bool mouse_down_;
-	bool picked;
-
-	Picking* picking_;
 	Ship* ship_;
 	bool spacekey_down_, wkey_down_, skey_down_;
 

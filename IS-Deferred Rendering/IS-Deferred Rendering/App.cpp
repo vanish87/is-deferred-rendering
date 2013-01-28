@@ -9,7 +9,7 @@ namespace MocapGE
 	}
 
 	App::App( std::string app_name )
-		:app_name_(app_name)
+		:app_name_(app_name), cursor_locked_(false)
 	{
 		Context::Instance().SetAppInstance(*this);
 
@@ -67,6 +67,12 @@ namespace MocapGE
 				}
 				Context::Instance().GetSceneManager().Flush();
 
+				if(cursor_locked_)
+				{
+					ContextConfig config = Context::Instance().GetConfigure();
+					::SetCursorPos(config.render_setting.width / 2, config.render_setting.height/2);
+				}
+
 			}
 		}
 	}
@@ -79,6 +85,16 @@ namespace MocapGE
 	Camera* App::GetCamera()
 	{
 		return Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetFrameCamera();
+	}
+
+	void App::LockCursor( bool lock )
+	{
+		cursor_locked_ = lock;
+	}
+
+	void App::SetCursor( int x, int y )
+	{
+		::SetCursorPos(x, y);
 	}
 
 }

@@ -8,6 +8,7 @@
 #include "Picking.h"
 
 #include "D3DSkyDome.h"
+#include "ResembleState.h"
 
 using namespace MocapGE;
 MyApp::MyApp(void) : App("The CentBebop Design")
@@ -111,6 +112,26 @@ void MyApp::OnKeyDown( WPARAM key_para )
 			gaming_ = new GamingState();
 			Context::Instance().GetStateManager().ChangeState(gaming_, SOP_PUSH);
 			break;
+		case 'R':
+			{
+				if(Context::Instance().GetStateManager().CurrentState() == gaming_)
+				{
+					std::cout<<"Resemble"<<std::endl;
+					resembling_ = new ResembleState(gaming_->GetShip());
+					Context::Instance().GetStateManager().ChangeState(resembling_, SOP_PUSH);
+					break;
+				}
+				
+				if(Context::Instance().GetStateManager().CurrentState() == resembling_)
+				{
+					std::cout<<"Gaming"<<std::endl;
+					Context::Instance().GetStateManager().ChangeState(resembling_, SOP_POP);
+					delete resembling_;
+					resembling_ = 0;
+					break;
+				}
+				break;
+			}
 		default:
 			break;
 	

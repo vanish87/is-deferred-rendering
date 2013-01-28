@@ -26,11 +26,13 @@ namespace MocapGE
 			return wnd_;
 		}
 
+		int2 GetCenter();
+
 	private:
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 		LRESULT CALLBACK MsgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 		HWND wnd_;
-
+		RECT rect;
 		std::string win_name_;
 	};
 }

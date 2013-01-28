@@ -72,6 +72,9 @@ namespace MocapGE
 		void ZRotation(Matrix<T> & lhs, float theta);
 
 		template <typename T>
+		void RotationAxis(Matrix<T> & lhs, Vec3<T> & axis, float theta);
+
+		template <typename T>
 		void Translate(Matrix<T> & lhs, float x, float y, float z);
 
 		template <typename T>

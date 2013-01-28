@@ -50,4 +50,47 @@ namespace MocapGE
 		return up_;
 	}
 
+	void Camera::Pitch( float angle )
+	{
+		float3 dir =  at_ - eye_;
+		float3 left = Math::Cross(dir,up_);
+		left = Math::Normalize(left);
+
+		float4x4 mat;
+		Math::Identity(mat);
+		Math::RotationAxis(mat, left, angle);
+
+		up_ = Math::Transform(up_, mat);
+		at_ = Math::Transform(at_, mat);
+
+		view_matrix_ = Math::LookAtLH(eye_, at_, up_);
+	}
+
+	void Camera::Yaw( float angle )
+	{
+		float3 dir =  at_ - eye_;
+		float4x4 mat;
+		Math::Identity(mat);
+		Math::RotationAxis(mat, up_, angle);
+
+		dir = Math::Transform(dir, mat);
+		dir = Math::Normalize(dir);
+		at_ = eye_ + dir;
+
+		view_matrix_ = Math::LookAtLH(eye_, at_, up_);
+	}
+
+	void Camera::Roll( float angle )
+	{
+		float3 dir =  at_ - eye_;
+		float4x4 mat;
+		Math::Identity(mat);
+		Math::RotationAxis(mat, dir, angle);
+
+		up_ = Math::Transform(up_, mat);
+
+		view_matrix_ = Math::LookAtLH(eye_, at_, up_);
+	}
+
+
 }

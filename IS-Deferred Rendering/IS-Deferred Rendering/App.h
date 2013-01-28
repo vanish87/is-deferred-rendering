@@ -26,6 +26,8 @@ namespace MocapGE
 		}
 
 		Camera* GetCamera();
+		void LockCursor(bool lock);
+		void SetCursor(int x, int y);
 
 		virtual void OnKeyDown(WPARAM key_para)
 		{
@@ -46,6 +48,7 @@ namespace MocapGE
 	private:
 		std::string app_name_;
 		Window* win_;
+		bool cursor_locked_;
 
 		static const int MAXIMUM_FRAME_RATE = 60;
 		static const int UPDATE_INTERVAL = 1000 / MAXIMUM_FRAME_RATE;

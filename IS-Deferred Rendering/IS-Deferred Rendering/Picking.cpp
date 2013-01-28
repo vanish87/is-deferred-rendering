@@ -15,6 +15,7 @@ Picking::~Picking(void)
 
 bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point )
 {
+	if(model == nullptr)return false;
 	if(model_ == nullptr)
 	{
 		model_ = model;

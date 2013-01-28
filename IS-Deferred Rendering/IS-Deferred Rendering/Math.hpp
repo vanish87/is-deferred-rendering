@@ -257,6 +257,24 @@ namespace MocapGE
 		}
 
 		template <typename T>
+		void RotationAxis(Matrix<T> & lhs, Vec3<T> & axis, float theta)
+		{
+			Identity(lhs);
+			axis = Normalize(axis);
+
+			lhs[0][0] = (1.0f - Cos(theta)) * axis.x() * axis.x() + Cos(theta);
+			lhs[1][0] = (1.0f - Cos(theta)) * axis.x() * axis.y() - Sin(theta) * axis.z();
+			lhs[2][0] = (1.0f - Cos(theta)) * axis.x() * axis.z() + Sin(theta) * axis.y();
+			lhs[0][1] = (1.0f - Cos(theta)) * axis.y() * axis.x() + Sin(theta) * axis.z();
+			lhs[1][1] = (1.0f - Cos(theta)) * axis.y() * axis.y() + Cos(theta);
+			lhs[2][1] = (1.0f - Cos(theta)) * axis.y() * axis.z() - Sin(theta) * axis.x();
+			lhs[0][2] = (1.0f - Cos(theta)) * axis.z() * axis.x() - Sin(theta) * axis.y();
+			lhs[1][2] = (1.0f - Cos(theta)) * axis.z() * axis.y() + Sin(theta) * axis.x();
+			lhs[2][2] = (1.0f - Cos(theta)) * axis.z() * axis.z() + Cos(theta);
+
+		}
+
+		template <typename T>
 		void Translate(Matrix<T> & lhs, float x, float y, float z)
 		{
 			Identity(lhs);

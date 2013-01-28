@@ -27,6 +27,13 @@ namespace MocapGE
 		float3 GetLookAt();
 		float3 GetUp();
 
+		// rotate on right vector
+		void Pitch(float angle);
+		// rotate on up vector
+		void Yaw(float angle);   
+		// rotate on look vector
+		void Roll(float angle);  
+
 	private:
 		Frustum	frustum_;
 
