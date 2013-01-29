@@ -90,4 +90,9 @@ void Ship::Stabling( bool dir )
 	}
 }
 
+D3DModel* Ship::GetModel()
+{
+	return model_;
+}
+
 

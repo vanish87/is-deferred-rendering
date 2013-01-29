@@ -17,8 +17,12 @@ ResembleState::ResembleState(Ship* ship, PartList parts)
 	cam_speed_deg_ = Math::PI /180;
 	mouse_down_ = false;
 	picked_ = false;
+	picked_index_ = -1;
 
-	picking_ = new Picking();
+	for(size_t i =0; i< parts.size(); i ++)
+	{
+		picking_.push_back(new Picking());
+	}
 }
 
 
@@ -87,12 +91,15 @@ void ResembleState::OnMouseDown( WPARAM mouse_para, int x, int y )
 	float3 picked_pos;
 	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	mouse_down_= true;
+	std::cout<<parts_.size()<<std::endl;
+
 	for(size_t i = 0; i < parts_.size(); i++)
 	{
-		picked_ = picking_->GetIntersection(parts_[i], viewport, screen_pos, picked_pos);
+		picked_ = picking_[i]->GetIntersection(parts_[i], viewport, screen_pos, picked_pos);
 		if(picked_)
 		{
 			picked_model_ = parts_[i];
+			picked_index_= i;
 			break;
 		}
 	}
@@ -149,6 +156,9 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 			camera->SetView(cam_pos, at, up);
 		//camera->Yaw(Math::PI * delta.x() /180);
 		//camera->Pitch(Math::PI * delta.y() /180);
+
+		pre_pos = float2(632, 369);
+		return;
 	}
 	else
 	{
@@ -174,26 +184,75 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 				real_up = Math::Normalize(real_up);
 				float3 down = float3(-real_up.x(), -real_up.y(), -real_up.z());
 				if(delta.x() > 0)
-					ship_pos = ship_pos + right / 50;
+					ship_pos_ = ship_pos_ + right / 50;
 				else
 					if(delta.x() < 0)
-						ship_pos = ship_pos + left / 50;
+						ship_pos_ = ship_pos_ + left / 50;
 				if(delta.y() > 0 )
-					ship_pos = ship_pos + down/ 50;
+					ship_pos_ = ship_pos_ + down/ 50;
 				else
 					if(delta.y() < 0 )
-						ship_pos = ship_pos + real_up/ 50;
+						ship_pos_ = ship_pos_ + real_up/ 50;
 
-				ship_pos = ship_pos + float3(delta.x()/320, delta.y()/200, 0) ;
-				std::cout<<ship_pos.x()<<" "<<ship_pos.y()<<std::endl;
-				Math::Translate(model_matrix, ship_pos.x(), ship_pos.y(), ship_pos.z());
+				ship_pos_ = ship_pos_ + float3(delta.x()/320, delta.y()/200, 0) ;
+				std::cout<<ship_pos_.x()<<" "<<ship_pos_.y()<<std::endl;
+				Math::Translate(model_matrix, ship_pos_.x(), ship_pos_.y(), ship_pos_.z());
 				picked_model_->SetModelMatrix(model_matrix);
+
+				//if cannon's pos - ship_pos < threshould
+				//if (picked_index_ !=-1)
+				{
+				//	Cannon* cannon = new Cannon(picked_model_, picked_model_);
+				//	cannon->SetPos(ship_pos_);
+				//	Attach(ship_, cannon);
+				}
 			}
 
 		}
 	}
 	
-	//pre_pos = float2(x,y);
-	int2 center = Context::Instance().AppInstance().GetWindow().GetCenter();
-	pre_pos = float2(632, 369);
+	pre_pos = float2(x,y);
+	//int2 center = Context::Instance().AppInstance().GetWindow().GetCenter();
+}
+
+void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon  )
+{
+	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
+	D3DModel* model = ship_->GetModel();
+	std::vector<Mesh*> meshes_ = model->GetMesh();
+
+	float3 cannon_pos = picked_cannon->GetPos();
+	std::vector<std::vector<MocapGE::VertexType*>> vertice_cpu;
+	for(size_t i =0; i < meshes_.size() ; i++)
+	{
+		float4x4 model_matrix = meshes_[i]->GetModelMatrix();
+		RenderLayout* rl = meshes_[i]->GetRenderLayout();
+		//RenderBuffer* rb = rl->GetBuffer(VBU_VERTEX);
+		VertexType* vertice_gpu = meshes_[i]->GetVertex();
+
+		std::vector<VertexType*> new_mesh;
+		vertice_cpu.push_back(new_mesh);
+		size_t vsize = rl->GetIndexCount();
+
+		Camera* camera = viewport->GetCamera();
+		float4x4 proj_matrix = camera->GetProjMatrix();
+		float4x4 view_matrix = camera->GetViewMatirx();
+
+		float4x4 world_matrix = model->GetModelMatrix();
+		float4x4 wv_matrix =  world_matrix * view_matrix;
+		//pick a point that has the minimum distance to cannon pos
+		//then get the normal of this point, calculate the rotation matrix from cannon's up vector to this normal
+		float3 min_pos = float3(0, 0, 0);
+		for(size_t j =0; j < vsize; j++)
+		{			
+			vertice_cpu[i].push_back(new VertexType());
+			vertice_cpu[i][j]->position = Math::Transform(vertice_gpu[j].position, model_matrix * world_matrix);
+			float dis = Math::Dot(vertice_cpu[i][j]->position,vertice_cpu[i][j]->position);
+			//if()
+			//std::cout<< vertice_gpu[j].position.x()<< " " << vertice_gpu[j].position.y() << " " << vertice_gpu[j].position.z() <<std::endl;
+		}
+	}
+
+
+
 }

@@ -25,3 +25,13 @@ void Cannon::Update(float4x4 parent )
 	model_->SetModelMatrix(cannon_mat);
 	bullet_->SetModelMatrix(cannon_mat);
 }
+
+float3 Cannon::GetPos()
+{
+	return pos_;
+}
+
+void Cannon::SetPos(float3 pos )
+{
+	pos_ = pos;
+}

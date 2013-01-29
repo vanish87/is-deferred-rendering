@@ -15,8 +15,7 @@ Picking::~Picking(void)
 
 bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point )
 {
-	if(model == nullptr)return false;
-	//if(model_ == nullptr)
+	if(model_ == nullptr)
 	{
 		model_ = model;
 		std::vector<Mesh*> meshes_ = model_->GetMesh();
@@ -24,8 +23,8 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		{
 			float4x4 model_matrix = meshes_[i]->GetModelMatrix();
 			RenderLayout* rl = meshes_[i]->GetRenderLayout();
-			RenderBuffer* rb = rl->GetBuffer(VBU_VERTEX);
-			VertexType* vertice_gpu = static_cast<VertexType*>(rb->Map(AT_CPU_WRITE));
+			//RenderBuffer* rb = rl->GetBuffer(VBU_VERTEX);
+			VertexType* vertice_gpu = meshes_[i]->GetVertex();
 
 			std::vector<VertexType*> new_mesh;
 			vertice_cpu_.push_back(new_mesh);
@@ -39,7 +38,8 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 			}
 			AABBox* aabb = new AABBox(vertice_cpu_[i], vsize);
 			aabbs_.push_back(aabb);
-			rb->UnMap();
+			//std::cout<<"aabbs"<<aabbs_.size()<<std::endl;
+			//rb->UnMap();
 		}
 	}
 	//make all points in camera space
@@ -171,7 +171,8 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 
 		if(Math::IntersectRayAABB(ray, aabb))
 		{
-			PRINT("AABB clicked");	
+			PRINT("AABB clicked");
+			return true;
 			for(size_t j =0; j < mesh_vertice.size()/3; j++)
 	 		{
 				if(Math::IntersectRayTriangle(ray, mesh_vertice[j+2]->position, mesh_vertice[j+1]->position, mesh_vertice[j]->position))

@@ -23,13 +23,13 @@ GamingState::GamingState(void)
 	camera->SetView(cam_pos, cam_at, ship_up);
 
 	cannon_1 = new D3DModel();
-	cannon_1->LoadFile("..\\Media\\gun.dae");
+	cannon_1->LoadFile("..\\Media\\gun2.dae");
 	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_cannon1_ = new SceneObject(cannon_1);
 	scene_cannon1_->AddToScene();
 
 	cannon_2 = new D3DModel();
-	cannon_2->LoadFile("..\\Media\\gun.dae");
+	cannon_2->LoadFile("..\\Media\\gun2.dae");
 	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_cannon2_ = new SceneObject(cannon_2);
 	scene_cannon2_->AddToScene();
@@ -60,7 +60,7 @@ GamingState::GamingState(void)
 	Math::Scale(scale_mat, 100);
 	ground->SetModelMatrix(scale_mat);
 	SceneObject* scene_ground = new SceneObject(ground);
-	scene_ground->AddToScene();
+	//scene_ground->AddToScene();
 }
 
 
@@ -135,7 +135,7 @@ void GamingState::OnKeyDown( WPARAM key_para )
 		}
 	case 'S':
 		{
-			std::cout<<"s key down"<<std::endl;
+			//std::cout<<"s key down"<<std::endl;
 			skey_down_ = true;
 			ship_->HeadUp();
 			break;

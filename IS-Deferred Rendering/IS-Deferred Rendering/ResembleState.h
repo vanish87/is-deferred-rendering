@@ -7,6 +7,7 @@
 #include "D3DModel.h"
 
 class Ship;
+class Cannon;
 class Picking;
 
 class ResembleState : public MocapGE::GameState
@@ -28,7 +29,7 @@ public:
 	virtual void OnMouseUp( WPARAM mouse_para, int x, int y );
 
 	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
-
+	void Attach( Ship* ship_, Cannon* picked_cannon);
 private:
 	Ship* ship_;
 
@@ -43,10 +44,10 @@ private:
 
 	bool mouse_down_;
 	MocapGE::float2 pre_pos;
-	MocapGE::float3 ship_pos;
 
-	Picking* picking_;
+	std::vector<Picking*> picking_;
 	bool picked_;
+	size_t picked_index_;
 	MocapGE::D3DModel* picked_model_;
 	PartList parts_;
 };

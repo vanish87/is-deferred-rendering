@@ -11,7 +11,8 @@ public:
 
 	void Update(MocapGE::float4x4 parent);
 	void Fire();
-
+	MocapGE::float3 GetPos();
+	void SetPos( MocapGE::float3 pos );
 private:
 	MocapGE::D3DModel* model_;
 	MocapGE::D3DModel* bullet_;

@@ -25,6 +25,7 @@ public:
 	void HeadUp();
 	void HeadDown();
 	void Stabling(bool dir);
+	MocapGE::D3DModel* GetModel();
 private:
 
 	MocapGE::D3DModel* model_;
