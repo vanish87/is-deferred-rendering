@@ -213,6 +213,7 @@ namespace MocapGE
 				vb[j].tangent = tangent;
 				vb[j].bitangent = bitangent;
 				ib[j] = j;
+				//std::cout<<"index "<<j <<std::endl;
 				//std::cout<<"position "<<j <<std::endl;
 				//std::cout<<vb[j].position.x()<<" "<<vb[j].position.y()<<" "<<vb[j].position.z()<<std::endl;
 

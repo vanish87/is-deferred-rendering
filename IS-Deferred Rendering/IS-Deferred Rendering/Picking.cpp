@@ -3,6 +3,8 @@
 #include "Ray.h"
 #include "AABBox.h"
 
+#include <limits>
+
 using namespace MocapGE;
 Picking::Picking(void)
 	:model_(nullptr)
@@ -168,18 +170,30 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 //  		{			
 //  			std::cout<< vertice[j].position.x()<< " " << vertice[j].position.y() << " " << vertice[j].position.z() <<std::endl;
 //  		}
-
+		float t_min = std::numeric_limits<float>::max();
+		float t = 0;
 		if(Math::IntersectRayAABB(ray, aabb))
 		{
-			PRINT("AABB clicked");
-			return true;
-			for(size_t j =0; j < mesh_vertice.size()/3; j++)
+			//PRINT("AABB clicked");
+			for(size_t j =0; j < mesh_vertice.size() -3; j++)
 	 		{
-				if(Math::IntersectRayTriangle(ray, mesh_vertice[j+2]->position, mesh_vertice[j+1]->position, mesh_vertice[j]->position))
+
+				if(Math::IntersectRayTriangle(ray, mesh_vertice[j]->position, mesh_vertice[j+1]->position, mesh_vertice[j+2]->position, t))
 				{
-					PRINT("clicked");
-					break;
+					if(t < t_min)
+						t_min = t;
+					//PRINT("clicked");
 				}
+			}
+			if(t_min < std::numeric_limits<float>::max())
+			{
+				PRINT("clicked");
+				PRINT(t_min);
+				intersected_point = ray->Origin()+ ray->Direction() * t_min;
+				float4x4 inv_view_mat = Math::Inverse(view_matrix);
+				intersected_point = Math::Transform(intersected_point, inv_view_mat);
+				//std::cout<<intersected_point.x()<<" "<<intersected_point.y()<<" "<<intersected_point.z()<<std::endl;
+				return true;
 			}
 		}
 		return false;

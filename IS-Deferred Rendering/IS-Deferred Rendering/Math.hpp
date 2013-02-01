@@ -10,7 +10,16 @@ namespace MocapGE
 {
 	namespace Math
 	{
-
+		template <typename T>
+		T Min(const T& lhs,const T& rhs)
+		{
+			return std::min(lhs,rhs);
+		}
+		template <typename T>
+		T Max(const T& lhs,const T& rhs)
+		{
+			return std::max(lhs,rhs);
+		}
 		template <typename T>
 		Matrix<T>	Multiply( const Matrix<T> & lhs, const Matrix<T> & rhs )
 		{

@@ -169,7 +169,7 @@ namespace MocapGE
 					return true;				/* ray hits box */
 		}
 
-		bool IntersectRayTriangle( Ray* ray, float3 a, float3 b, float3 c )
+		bool IntersectRayTriangle( Ray* ray, float3 a, float3 b, float3 c , float & t)
 		{
 			/*//http://www.cs.washington.edu/education/courses/cse457/07sp/lectures/triangle_intersection.pdf
 			float3 ab = b-a;
@@ -198,9 +198,11 @@ namespace MocapGE
 			//from http://www.graphics.cornell.edu/pubs/1997/MT97.pdf
 			//http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/raytri/raytri.c
 			float3 edge1, edge2, tvec, pvec, qvec;
-			float t, u, v;
+			float  u, v;
 			float det, inv_det;
 			float EPSILON = 0.000001;
+
+			t =  std::numeric_limits<float>::max();
 
 			edge1 = b-a;
 			edge2 = c-a;
@@ -208,10 +210,10 @@ namespace MocapGE
 			pvec = Math::Cross(ray->Direction(), edge2);
 
 			det = Math::Dot(edge1, pvec);
-/*
+
 			// cull test on
-				//if(det < 0)
-				//return false;
+				if(det < 0)
+					return false;
 				tvec = ray->Origin() - a;
 
 				u = Math::Dot(tvec , pvec);
@@ -228,9 +230,9 @@ namespace MocapGE
 				t*= inv_det;
 				u*= inv_det;
 				v*= inv_det;
-			//end cull test*/
+			//end cull test
 
-			//non-culling
+/*			//non-culling
 			if(det > -EPSILON && det < EPSILON)
 				return false;
 			inv_det = 1.0f / det;
@@ -247,7 +249,7 @@ namespace MocapGE
 				return false;
 
 			t = Math::Dot(edge2, qvec) * inv_det;
-
+			*/
 			return true;
 		}
 

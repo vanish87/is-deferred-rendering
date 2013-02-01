@@ -10,6 +10,7 @@ class ResembleState;
 class GamingState;
 
 class Picking;
+class Cannon;
 
 class MyApp :
 	public MocapGE:: App
@@ -29,7 +30,7 @@ public:
 
 private:
 
-	typedef std::vector<MocapGE::D3DModel*> PartList;
+	typedef std::vector<Cannon*> PartList;
 
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;

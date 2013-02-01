@@ -2,6 +2,12 @@
 #define PREDEC_H_
 
 //#pragma warning(disable:4819 4355) take care
+
+//deal with the 'max' macro in windows.h colliding with 'max' in 'std'
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif // !NOMINMAX
+
 #pragma once
 #include <assert.h>
 #include <boost/smart_ptr.hpp>

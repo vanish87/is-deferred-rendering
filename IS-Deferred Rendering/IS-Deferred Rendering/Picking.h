@@ -8,7 +8,6 @@ class Picking
 {
 public:
 	Picking(void);
-	Picking(MocapGE::D3DModel* model);
 	~Picking(void);
 
 	//make all points in camera space

@@ -13,6 +13,8 @@ public:
 	void Fire();
 	MocapGE::float3 GetPos();
 	void SetPos( MocapGE::float3 pos );
+
+	MocapGE::D3DModel* GetModel() { return model_;};
 private:
 	MocapGE::D3DModel* model_;
 	MocapGE::D3DModel* bullet_;

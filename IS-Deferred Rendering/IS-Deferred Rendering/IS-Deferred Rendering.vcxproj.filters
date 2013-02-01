@@ -180,9 +180,6 @@
     <ClCompile Include="D3DSkyDome.cpp">
       <Filter>D3DRenderingLayer\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ResemblingSystem.cpp">
-      <Filter>GameDemo\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResembleState.cpp">
       <Filter>GameDemo\Source Files</Filter>
     </ClCompile>
@@ -358,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="D3DSkyDome.h">
       <Filter>D3DRenderingLayer\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResemblingSystem.h">
-      <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResembleState.h">
       <Filter>GameDemo\Header Files</Filter>

@@ -141,7 +141,7 @@ namespace MocapGE
 	void D3DSkyDome::BuildGeoSphere(int numSubdivisions, float radius, VertexList& vertices, IndexList& indices)
 	{
 		// 最小的细分数量.
-		numSubdivisions = min(numSubdivisions, 5);
+		numSubdivisions = Math::Min(numSubdivisions, 5);
 
 		const float X = 0.525731f; 
 		const float Z = 0.850651f;

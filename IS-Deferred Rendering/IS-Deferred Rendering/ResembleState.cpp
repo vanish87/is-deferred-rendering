@@ -4,6 +4,9 @@
 #include "Picking.h"
 using namespace MocapGE;
 
+//TODO :make it under some name space
+const float ATTACH_DIS = 10.0f;
+
 ResembleState::ResembleState(Ship* ship, PartList parts)
 	:ship_(ship), parts_(parts)
 {
@@ -23,6 +26,7 @@ ResembleState::ResembleState(Ship* ship, PartList parts)
 	{
 		picking_.push_back(new Picking());
 	}
+	ship_pick_ = new Picking();
 }
 
 
@@ -95,14 +99,15 @@ void ResembleState::OnMouseDown( WPARAM mouse_para, int x, int y )
 
 	for(size_t i = 0; i < parts_.size(); i++)
 	{
-		picked_ = picking_[i]->GetIntersection(parts_[i], viewport, screen_pos, picked_pos);
+		picked_ = picking_[i]->GetIntersection(parts_[i]->GetModel(), viewport, screen_pos, picked_pos);
 		if(picked_)
 		{
-			picked_model_ = parts_[i];
+			picked_model_ = parts_[i]->GetModel();
 			picked_index_= i;
 			break;
 		}
 	}
+
 }
 
 void ResembleState::OnMouseUp( WPARAM mouse_para, int x, int y )
@@ -114,6 +119,7 @@ void ResembleState::OnMouseUp( WPARAM mouse_para, int x, int y )
 void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 {
 	float2 screen_pos(x, y);
+	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	if(left_ctr_down_)
 	{
 		//std::cout<<screen_pos.x()<<"  ss "<<screen_pos.y()<<std::endl;
@@ -169,9 +175,10 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 			float3 picked_pos;
 			if(picked_)
 			{
+				//ship_pos_ = ship_->GetPos();
 				float4x4 model_matrix = picked_model_->GetModelMatrix();
 				float2 delta = screen_pos - pre_pos;
-				std::cout<<delta.x()<<"d "<<delta.y()<<std::endl;
+				//std::cout<<delta.x()<<"d "<<delta.y()<<std::endl;
 				Camera* camera = Context::Instance().AppInstance().GetCamera();
 				float3 pos = camera->GetPos();
 				float3 at = camera->GetLookAt();
@@ -195,16 +202,21 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 						ship_pos_ = ship_pos_ + real_up/ 50;
 
 				ship_pos_ = ship_pos_ + float3(delta.x()/320, delta.y()/200, 0) ;
-				std::cout<<ship_pos_.x()<<" "<<ship_pos_.y()<<std::endl;
+				//std::cout<<ship_pos_.x()<<" "<<ship_pos_.y()<<std::endl;
 				Math::Translate(model_matrix, ship_pos_.x(), ship_pos_.y(), ship_pos_.z());
 				picked_model_->SetModelMatrix(model_matrix);
 
 				//if cannon's pos - ship_pos < threshould
-				//if (picked_index_ !=-1)
+				if (picked_index_ !=-1)
 				{
-				//	Cannon* cannon = new Cannon(picked_model_, picked_model_);
-				//	cannon->SetPos(ship_pos_);
-				//	Attach(ship_, cannon);
+					Cannon* cannon = parts_[picked_index_];
+					cannon->SetPos(ship_pos_);
+					if(ship_pick_->GetIntersection(ship_->GetModel(), viewport ,screen_pos, picked_pos))
+					{
+						PRINT("attach to ship");
+						
+						Attach(ship_, cannon, picked_pos);
+					}
 				}
 			}
 
@@ -215,14 +227,23 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 	//int2 center = Context::Instance().AppInstance().GetWindow().GetCenter();
 }
 
-void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon  )
+void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon ,float3 picked_pos )
 {
-	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
-	D3DModel* model = ship_->GetModel();
-	std::vector<Mesh*> meshes_ = model->GetMesh();
+	float4x4 world_matrix;
+	Math::Translate(world_matrix, picked_pos.x(), picked_pos.y(), picked_pos.z());
+	D3DModel* cannon_model = picked_cannon->GetModel();
+	cannon_model->SetModelMatrix(world_matrix);
+
+	/*Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
+	D3DModel* ship_model = ship_->GetModel();
+	std::vector<Mesh*> meshes_ = ship_model->GetMesh();
+	float4x4 world_matrix = ship_model->GetModelMatrix();
 
 	float3 cannon_pos = picked_cannon->GetPos();
+	D3DModel* cannon_model = picked_cannon->GetModel();
 	std::vector<std::vector<MocapGE::VertexType*>> vertice_cpu;
+	float3 min_pos = float3(0, 0, 0);
+	float min_dis = 1000;
 	for(size_t i =0; i < meshes_.size() ; i++)
 	{
 		float4x4 model_matrix = meshes_[i]->GetModelMatrix();
@@ -238,21 +259,29 @@ void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon  )
 		float4x4 proj_matrix = camera->GetProjMatrix();
 		float4x4 view_matrix = camera->GetViewMatirx();
 
-		float4x4 world_matrix = model->GetModelMatrix();
 		float4x4 wv_matrix =  world_matrix * view_matrix;
+		wv_matrix = model_matrix * wv_matrix;
 		//pick a point that has the minimum distance to cannon pos
 		//then get the normal of this point, calculate the rotation matrix from cannon's up vector to this normal
-		float3 min_pos = float3(0, 0, 0);
 		for(size_t j =0; j < vsize; j++)
 		{			
 			vertice_cpu[i].push_back(new VertexType());
 			vertice_cpu[i][j]->position = Math::Transform(vertice_gpu[j].position, model_matrix * world_matrix);
-			float dis = Math::Dot(vertice_cpu[i][j]->position,vertice_cpu[i][j]->position);
-			//if()
+			//std::cout<< vertice_cpu[i][j]->position.x()<< " " << vertice_cpu[i][j]->position.y() << " " << vertice_cpu[i][j]->position.z() <<std::endl;
+			//std::cout<< cannon_pos.x()<< " " << cannon_pos.y() << " " << cannon_pos.z() <<std::endl;
+			float3 len_vec = vertice_cpu[i][j]->position- cannon_pos;
+			float dis = Math::Sqrt(Math::Dot(len_vec, len_vec));
+			if(dis < min_dis)
+			{
+				min_dis = dis;
+				min_pos = vertice_cpu[i][j]->position;
+			}
 			//std::cout<< vertice_gpu[j].position.x()<< " " << vertice_gpu[j].position.y() << " " << vertice_gpu[j].position.z() <<std::endl;
 		}
-	}
+		//picked_cannon->SetPos(min_pos);
 
-
+	}*/
+	//Math::Translate(world_matrix, min_pos.x(), min_pos.y(), min_pos.z());
+	//cannon_model->SetModelMatrix(world_matrix);
 
 }

@@ -28,6 +28,11 @@ namespace MocapGE
 		float Cot(float x);
 		float InvSqrt(float number);
 
+		template <typename T>
+		T Min(T& lhs, T& rhs);
+		template <typename T>
+		T Max(T& lhs, T& rhs);
+
 		template <typename T> 
 		T Dot(Vec3<T> const & lhs, Vec3<T> const & rhs);
 
@@ -87,7 +92,7 @@ namespace MocapGE
 		Vec3<T> Min(Vec3<T> & lhs, Vec3<T> & rhs);
 
 		bool IntersectRayAABB(Ray* ray, AABBox* aabb);
-		bool IntersectRayTriangle(Ray* ray, float3 a, float3 b, float3 c);
+		bool IntersectRayTriangle(Ray* ray, float3 a, float3 b, float3 c, float & t);
 	}
 
 }

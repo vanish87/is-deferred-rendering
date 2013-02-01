@@ -34,8 +34,11 @@ GamingState::GamingState(void)
 	scene_cannon2_ = new SceneObject(cannon_2);
 	scene_cannon2_->AddToScene();
 
-	resemble_parts_.push_back(cannon_1);
-	resemble_parts_.push_back(cannon_2);
+
+	Cannon* cannon = new Cannon(cannon_1, cannon_1);
+	resemble_parts_.push_back(cannon);
+	cannon = new Cannon(cannon_2, cannon_2);
+	resemble_parts_.push_back(cannon);
 
 	sky_= new D3DSkyDome("..\\Media\\universe.dds");
 	sky_->LoadShaderFile("..\\FxFiles\\SkyDome.fxo");
@@ -199,7 +202,7 @@ void GamingState::OnMouseMove( WPARAM mouse_para, int x, int y )
 	
 }
 
-std::vector<MocapGE::D3DModel*> GamingState::GetParts()
+std::vector<Cannon*> GamingState::GetParts()
 {
 	return resemble_parts_;
 }
