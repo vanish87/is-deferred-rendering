@@ -23,6 +23,7 @@ MocapGE::float3 Ship::GetDir()
 
 void Ship::Update()
 {
+	//update ship and cannons that attached to it
 	float3 ship_dir = GetDir();
 	pos_ = pos_ + ship_dir * speed_;
 	float4x4 ship_mat, yrotation_mat, xrotation_mat, translate_mat;
@@ -97,6 +98,7 @@ D3DModel* Ship::GetModel()
 
 void Ship::AddCannon( Cannon* cannon )
 {
+	//TODO : use <set> for better performence
 	bool exsited = false;
 	for(size_t i =0; i < cannons_.size(); i++)
 	{

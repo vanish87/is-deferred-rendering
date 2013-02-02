@@ -18,6 +18,7 @@ GamingState::GamingState(void)
 
 	Camera* camera = Context::Instance().AppInstance().GetCamera();
 
+	//set init pos of camera, make it from back and upper position of ship
 	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
 	float3 cam_at = ship_pos + ship_dir * 2;
 	camera->SetView(cam_pos, cam_at, ship_up);
@@ -45,25 +46,10 @@ GamingState::GamingState(void)
 	SceneObject* sky_scene = new SceneObject(sky_);
 	sky_scene->AddToScene();
 
-
-	//speed_ = 1;
-	//mouse_down_ = false;
 	spacekey_down_ = false;
 	wkey_down_ = false;
 	skey_down_ = false;
 	ship_pos = float3(0,0,0);
-
-
-	//picking_ = new Picking();
-
-	D3DModel* ground = new D3DModel();
-	ground->LoadFile("..\\Media\\ground.dae");
-	ground->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	float4x4 scale_mat;
-	Math::Scale(scale_mat, 100);
-	ground->SetModelMatrix(scale_mat);
-	SceneObject* scene_ground = new SceneObject(ground);
-	//scene_ground->AddToScene();
 }
 
 
@@ -72,10 +58,12 @@ GamingState::~GamingState(void)
 	delete ship_model;
 	delete cannon_1;
 	delete cannon_2;
+	delete sky_;
 }
 
 void GamingState::Update()
 {
+	//make spaceship return to even position
 	if(!spacekey_down_)
 		ship_->Deccelerating();
  	if(!skey_down_)
@@ -90,6 +78,7 @@ void GamingState::Update()
 
 	Camera* camera = Context::Instance().AppInstance().GetCamera();
 
+	//update third person camera
 	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
 	float3 cam_at = ship_pos + ship_dir * 2;
 	camera->SetView(cam_pos, cam_at, ship_up);
@@ -101,44 +90,16 @@ void GamingState::OnKeyDown( WPARAM key_para )
 	{ 
 	case 'A':
 		{
-			//std::cout<<"A key down"<<std::endl;
 			ship_->TurnLeft();
-// 			Camera* camera = Context::Instance().AppInstance().GetCamera();
-// 			float3 pos = camera->GetPos();
-// 			float3 at = camera->GetLookAt();
-// 			float3 dir =  at - pos;
-// 			float3 up = camera->GetUp();
-// 			float3 left = Math::Cross(dir,up);
-// 			left = Math::Normalize(left);
-// 			left = left * speed_;
-// 			camera->SetView(pos + left, at, up);
-			//float4x4 m = ship_model->GetModelMatrix();
-			//Math::Translate(m, 1,0,0);
-			//ship_model->SetModelMatrix(m);
 			break;
 		}
 	case 'D':
 		{
-			//std::cout<<"D key down"<<std::endl;
 			ship_->TurnRight();
-// 			Camera* camera = Context::Instance().AppInstance().GetCamera();
-// 			float3 pos = camera->GetPos();
-// 			float3 at = camera->GetLookAt();
-// 			float3 dir =  at - pos;
-// 			float3 up = camera->GetUp();
-// 			float3 left = Math::Cross(dir,up);
-// 			left = Math::Normalize(left);
-// 			left = left * speed_;
-// 
-// 			float4x4 m = ship_model->GetModelMatrix();
-// 			Math::Translate(m, -1,0,0);
-// 			//ship_model->SetModelMatrix(m);
-// 			camera->SetView(pos - left, at, up);
 			break;
 		}
 	case 'S':
 		{
-			//std::cout<<"s key down"<<std::endl;
 			skey_down_ = true;
 			ship_->HeadUp();
 			break;
@@ -154,11 +115,6 @@ void GamingState::OnKeyDown( WPARAM key_para )
 		{
 			spacekey_down_ = true;
 			ship_->Accelerating();
-			break;
-		}
-
-	case 'R':
-		{
 			break;
 		}
 	}
@@ -187,8 +143,7 @@ void GamingState::OnKeyUp(WPARAM key_para)
 }
 
 void GamingState::OnMouseDown( WPARAM mouse_para, int x, int y )
-{
-	//std::cout<<"mouse move "<<x<<" "<<y<<std::endl;
+{	
 	
 }
 

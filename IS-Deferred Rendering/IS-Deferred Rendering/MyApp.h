@@ -1,3 +1,8 @@
+// <author>Yuan Li</author>
+// <email>yuan.li@nyu.edu</email>
+// <date>2013-01-10</date>
+// <summary>Picking and Assembling gameplay</summary>
+
 #pragma once
 #include "App.h"
 #include "Vector.h"
@@ -34,14 +39,12 @@ private:
 
 	MocapGE::PointLight* point_light;
 	MocapGE::PointLight* point_light_1;
-	float theta;
 
 	MocapGE::Timer* timer_;
 
 	StartMenu* start_menu_;
 	GamingState* gaming_;
 	ResembleState* resembling_;
-	MocapGE::Mesh* aabb_mesh_;
 
 };
 

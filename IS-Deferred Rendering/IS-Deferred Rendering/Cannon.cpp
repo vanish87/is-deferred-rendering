@@ -9,6 +9,8 @@ Cannon::Cannon(D3DModel* model, D3DModel* bullet)
 
 Cannon::~Cannon(void)
 {
+	delete model_;
+	delete bullet_;
 }
 
 void Cannon::Update(float4x4 parent )
@@ -19,8 +21,6 @@ void Cannon::Update(float4x4 parent )
 	float phi = Math::ArcTan(dir_.y() / dir_.x());
 	Math::YRotation(yrot_mat, theta);
 	Math::XRotation(xrot_mat, phi);
-	float4x4 inv_parent = Math::Inverse(parent);
-	//pos_ = Math::Transform(pos_, inv_parent);
 	Math::Translate(cannon_mat, pos_.x(), pos_.y(), pos_.z());
 
 	cannon_mat = cannon_mat * parent;

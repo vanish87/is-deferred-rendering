@@ -1,4 +1,7 @@
-
+// <author>Yuan Li</author>
+// <email>yuan.li@nyu.edu</email>
+// <date>2013-01-10</date>
+// <summary>Cannon design</summary>
 #pragma once
 #include "PreDec.h"
 #include "D3DModel.h"

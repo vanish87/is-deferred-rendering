@@ -1,4 +1,7 @@
-
+// <author>Yuan Li</author>
+// <email>yuan.li@nyu.edu</email>
+// <date>2013-01-10</date>
+// <summary>Spaceship</summary>
 #pragma once
 
 #include "PreDec.h"

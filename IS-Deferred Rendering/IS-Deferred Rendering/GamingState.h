@@ -1,4 +1,7 @@
-
+// <author>Yuan Li</author>
+// <email>yuan.li@nyu.edu</email>
+// <date>2013-01-10</date>
+// <summary>Main game loop, player can drive his spaceship</summary>
 #pragma once
 
 #include "PreDec.h"
@@ -36,6 +39,7 @@ private:
 	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
 	MocapGE::SceneObject* scene_ship_, *scene_cannon1_, *scene_cannon2_;
 
+	//shy dome for universe background
 	MocapGE::D3DSkyDome* sky_;
 
 	//stores parts that could be attach to ship;
