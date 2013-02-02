@@ -359,6 +359,9 @@
     <ClInclude Include="ResembleState.h">
       <Filter>GameDemo\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\External\DDSTextureLoader.h">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml">
@@ -390,6 +393,15 @@
       <Filter>Media</Filter>
     </None>
     <None Include="..\Media\sky.dds">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\gun2.dae">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\spacecraft_new.dae">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\universe.dds">
       <Filter>Media</Filter>
     </None>
   </ItemGroup>

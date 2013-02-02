@@ -46,6 +46,35 @@ GamingState::GamingState(void)
 	SceneObject* sky_scene = new SceneObject(sky_);
 	sky_scene->AddToScene();
 
+	float4x4 sacle_mat, trans_mat;
+
+	pluto_ = new D3DModel();
+	pluto_->LoadFile("..\\Media\\pluto.dae");
+	pluto_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	Math::Scale(sacle_mat, 20);
+	Math::Translate(trans_mat, 1000, 0, 0);
+	pluto_->SetModelMatrix(sacle_mat* trans_mat);
+	scene_pluto_ = new SceneObject(pluto_);
+	scene_pluto_->AddToScene();
+
+	jupiter_ = new D3DModel();
+	jupiter_->LoadFile("..\\Media\\jupiter.dae");
+	jupiter_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	Math::Scale(sacle_mat, 50);
+	Math::Translate(trans_mat, 1000, 200, 0);
+	jupiter_->SetModelMatrix(sacle_mat* trans_mat);
+	scene_jupiter_ = new SceneObject(jupiter_);
+	scene_jupiter_->AddToScene();
+
+	sun_ = new D3DModel();
+	sun_->LoadFile("..\\Media\\sun.dae");
+	sun_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	Math::Scale(sacle_mat, 100);
+	Math::Translate(trans_mat, 2000, 50, 0);
+	sun_->SetModelMatrix(sacle_mat* trans_mat);
+	scene_sun_ = new SceneObject(sun_);
+	scene_sun_->AddToScene();
+
 	spacekey_down_ = false;
 	wkey_down_ = false;
 	skey_down_ = false;

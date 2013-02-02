@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\External\d3dx11effect.h" />
+    <ClInclude Include="..\External\DDSTextureLoader.h" />
     <ClInclude Include="..\External\rapidxml.hpp" />
     <ClInclude Include="..\External\WICTextureLoader.h" />
     <ClInclude Include="AABBox.h" />
@@ -228,9 +229,12 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc compile for debug: %(FullPath)</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
     </CustomBuild>
+    <None Include="..\Media\gun2.dae" />
     <None Include="..\Media\pumpkin.dae" />
     <None Include="..\Media\sky.dds" />
     <None Include="..\Media\spacecraft.dae" />
+    <None Include="..\Media\spacecraft_new.dae" />
+    <None Include="..\Media\universe.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,9 @@ private:
 	MocapGE::D3DModel* ship_model,*cannon_1, *cannon_2;
 	MocapGE::SceneObject* scene_ship_, *scene_cannon1_, *scene_cannon2_;
 
+	MocapGE::D3DModel *pluto_, *jupiter_, *sun_;
+	MocapGE::SceneObject *scene_pluto_, *scene_jupiter_, *scene_sun_;
+
 	//shy dome for universe background
 	MocapGE::D3DSkyDome* sky_;
 
