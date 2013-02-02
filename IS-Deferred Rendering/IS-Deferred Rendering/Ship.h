@@ -26,6 +26,8 @@ public:
 	void HeadDown();
 	void Stabling(bool dir);
 	MocapGE::D3DModel* GetModel();
+
+	void AddCannon(Cannon* cannon);
 private:
 
 	MocapGE::D3DModel* model_;

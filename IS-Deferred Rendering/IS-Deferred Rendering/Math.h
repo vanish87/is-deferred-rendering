@@ -23,6 +23,7 @@ namespace MocapGE
 		float Sqrt(float x);
 		float Sin(float x);
 		float Cos(float x);
+		float ArcCos( float x );
 		float Tan(float x);
 		float ArcTan( float x );
 		float Cot(float x);

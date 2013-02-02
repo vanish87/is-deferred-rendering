@@ -14,6 +14,11 @@ ResembleState::ResembleState(Ship* ship, PartList parts)
 	ship_pos_ = ship_->GetPos();
 	ship_up_  = ship_->GetUp();
 
+
+	cannon_pos_ = ship_pos_;
+	parts_[0]->SetPos(cannon_pos_);
+	parts_[1]->SetPos(cannon_pos_);
+
 	first_flag_ = true;
 	left_ctr_down_ = false;
 
@@ -95,7 +100,7 @@ void ResembleState::OnMouseDown( WPARAM mouse_para, int x, int y )
 	float3 picked_pos;
 	Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	mouse_down_= true;
-	std::cout<<parts_.size()<<std::endl;
+	//std::cout<<parts_.size()<<std::endl;
 
 	for(size_t i = 0; i < parts_.size(); i++)
 	{
@@ -114,6 +119,7 @@ void ResembleState::OnMouseUp( WPARAM mouse_para, int x, int y )
 {
 	mouse_down_= false;
 	picked_ = false;
+	picked_index_ = -1;
 }
 
 void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
@@ -163,7 +169,9 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 		//camera->Yaw(Math::PI * delta.x() /180);
 		//camera->Pitch(Math::PI * delta.y() /180);
 
-		pre_pos = float2(632, 369);
+		int2 center = Context::Instance().AppInstance().GetWindow().GetCenter();
+		//std::cout<<center.x()<<" "<<center.y()<<std::endl;
+		pre_pos = float2(center.x(), center.y());
 		return;
 	}
 	else
@@ -173,9 +181,12 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 			//std::cout<<screen_pos.x()<<" "<<screen_pos.y()<<std::endl;
 			//std::cout<<pre_pos.x()<<" "<<pre_pos.y()<<std::endl;
 			float3 picked_pos;
+			float3 picked_normal;
 			if(picked_)
 			{
-				//ship_pos_ = ship_->GetPos();
+				cannon_pos_ = parts_[picked_index_]->GetPos();
+				ship_pos_ = ship_->GetPos();
+				cannon_pos_ = ship_pos_ + cannon_pos_;
 				float4x4 model_matrix = picked_model_->GetModelMatrix();
 				float2 delta = screen_pos - pre_pos;
 				//std::cout<<delta.x()<<"d "<<delta.y()<<std::endl;
@@ -191,31 +202,32 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 				real_up = Math::Normalize(real_up);
 				float3 down = float3(-real_up.x(), -real_up.y(), -real_up.z());
 				if(delta.x() > 0)
-					ship_pos_ = ship_pos_ + right / 50;
+					cannon_pos_ = cannon_pos_ + right / 50;
 				else
 					if(delta.x() < 0)
-						ship_pos_ = ship_pos_ + left / 50;
+						cannon_pos_ = cannon_pos_ + left / 50;
 				if(delta.y() > 0 )
-					ship_pos_ = ship_pos_ + down/ 50;
+					cannon_pos_ = cannon_pos_ + down/ 50;
 				else
 					if(delta.y() < 0 )
-						ship_pos_ = ship_pos_ + real_up/ 50;
+						cannon_pos_ = cannon_pos_ + real_up/ 50;
 
-				ship_pos_ = ship_pos_ + float3(delta.x()/320, delta.y()/200, 0) ;
+				cannon_pos_ = cannon_pos_ + float3(delta.x()/320, delta.y()/200, 0) ;
 				//std::cout<<ship_pos_.x()<<" "<<ship_pos_.y()<<std::endl;
-				Math::Translate(model_matrix, ship_pos_.x(), ship_pos_.y(), ship_pos_.z());
-				picked_model_->SetModelMatrix(model_matrix);
+				Math::Translate(model_matrix, cannon_pos_.x(), cannon_pos_.y(), cannon_pos_.z());
+				picked_model_->SetModelMatrix(picked_model_->GetModelMatrix() *model_matrix);
 
 				//if cannon's pos - ship_pos < threshould
 				if (picked_index_ !=-1)
 				{
 					Cannon* cannon = parts_[picked_index_];
-					cannon->SetPos(ship_pos_);
-					if(ship_pick_->GetIntersection(ship_->GetModel(), viewport ,screen_pos, picked_pos))
+					cannon->SetPos(cannon_pos_ - ship_pos_);
+					if(ship_pick_->GetIntersection(ship_->GetModel(), viewport ,screen_pos, picked_pos, picked_normal))
 					{
 						PRINT("attach to ship");
-						
-						Attach(ship_, cannon, picked_pos);
+
+						cannon->SetPos(picked_pos - ship_pos_);
+						Attach(ship_, cannon, picked_pos, picked_normal);
 					}
 				}
 			}
@@ -227,13 +239,18 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 	//int2 center = Context::Instance().AppInstance().GetWindow().GetCenter();
 }
 
-void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon ,float3 picked_pos )
+void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon ,float3 picked_pos, float3 picked_normal )
 {
-	float4x4 world_matrix;
+	float4x4 rot_matrix, world_matrix;
+	float3 cannon_up = float3(0,1,0);
+	float3 axis = Math::Cross(picked_normal, cannon_up);
+	float theta = Math::ArcCos(Math::Dot(picked_normal, cannon_up));
+	Math::RotationAxis(rot_matrix, axis, -theta);
 	Math::Translate(world_matrix, picked_pos.x(), picked_pos.y(), picked_pos.z());
 	D3DModel* cannon_model = picked_cannon->GetModel();
-	cannon_model->SetModelMatrix(world_matrix);
+	cannon_model->SetModelMatrix(rot_matrix * world_matrix);
 
+	ship_->AddCannon(picked_cannon);
 	/*Viewport* viewport = Context::Instance().GetRenderFactory().GetRenderEngine().CurrentFrameBuffer()->GetViewport();
 	D3DModel* ship_model = ship_->GetModel();
 	std::vector<Mesh*> meshes_ = ship_model->GetMesh();

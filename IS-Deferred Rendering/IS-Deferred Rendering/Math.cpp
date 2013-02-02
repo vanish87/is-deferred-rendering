@@ -22,6 +22,10 @@ namespace MocapGE
 			return std::cos(x);
 		}
 
+		float ArcCos( float x )
+		{
+			return std::acos(x);
+		}
 
 		float Tan(float x)
 		{

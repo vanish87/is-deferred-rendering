@@ -70,7 +70,11 @@ namespace MocapGE
 				if(cursor_locked_)
 				{
 					ContextConfig config = Context::Instance().GetConfigure();
-					::SetCursorPos(config.render_setting.width / 2, config.render_setting.height/2);
+					POINT pt; 
+					pt.x = config.render_setting.width / 2;
+					pt.y = config.render_setting.height/ 2;
+					ClientToScreen(win_->GetWnd(), &pt); 
+					::SetCursorPos(pt.x, pt.y);
 				}
 
 			}

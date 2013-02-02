@@ -95,4 +95,19 @@ D3DModel* Ship::GetModel()
 	return model_;
 }
 
+void Ship::AddCannon( Cannon* cannon )
+{
+	bool exsited = false;
+	for(size_t i =0; i < cannons_.size(); i++)
+	{
+		if(cannons_[i] == cannon)
+		{
+			exsited = true;
+			break;
+		}
+	}
+	if(!exsited)
+		cannons_.push_back(cannon);
+}
+
 

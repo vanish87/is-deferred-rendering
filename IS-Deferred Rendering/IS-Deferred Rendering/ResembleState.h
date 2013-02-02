@@ -29,7 +29,7 @@ public:
 	virtual void OnMouseUp( WPARAM mouse_para, int x, int y );
 
 	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
-	void Attach( Ship* ship_, Cannon* picked_cannon, MocapGE::float3 picked_pos);
+	void Attach( Ship* ship_, Cannon* picked_cannon, MocapGE::float3 picked_pos, MocapGE::float3 picked_normal);
 
 
 private:
@@ -38,6 +38,8 @@ private:
 	MocapGE::float3 ship_dir_;
 	MocapGE::float3 ship_pos_;
 	MocapGE::float3 ship_up_ ;
+
+	MocapGE::float3 cannon_pos_;
 
 	bool first_flag_;
 	bool left_ctr_down_;

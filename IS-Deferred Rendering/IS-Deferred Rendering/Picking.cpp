@@ -15,7 +15,7 @@ Picking::~Picking(void)
 {
 }
 
-bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point )
+bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 screen_point, float3& intersected_point, float3& intersected_normal)
 {
 	if(model_ == nullptr)
 	{
@@ -24,6 +24,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		for(size_t i =0; i < meshes_.size() ; i++)
 		{
 			float4x4 model_matrix = meshes_[i]->GetModelMatrix();
+			float4x4 inv_model_mat = Math::InverTranspose(model_matrix);
 			RenderLayout* rl = meshes_[i]->GetRenderLayout();
 			//RenderBuffer* rb = rl->GetBuffer(VBU_VERTEX);
 			VertexType* vertice_gpu = meshes_[i]->GetVertex();
@@ -36,6 +37,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 			{			
 				vertice_cpu_[i].push_back(new VertexType());
 				vertice_cpu_[i][j]->position = Math::Transform(vertice_gpu[j].position, model_matrix);
+				vertice_cpu_[i][j]->normal = Math::Transform(vertice_gpu[j].normal, inv_model_mat);
 				//std::cout<< vertice_gpu[j].position.x()<< " " << vertice_gpu[j].position.y() << " " << vertice_gpu[j].position.z() <<std::endl;
 			}
 			AABBox* aabb = new AABBox(vertice_cpu_[i], vsize);
@@ -50,7 +52,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 	float4x4 view_matrix = camera->GetViewMatirx();
 
 	float4x4 world_matrix = model->GetModelMatrix();
-
+	float4x4 inv_world_mat = Math::InverTranspose(world_matrix);
 	float px = ((( 2.0f * screen_point.x()) / viewport->Width())  - 1.0f) / proj_matrix(0, 0);
 	float py = (((-2.0f * screen_point.y()) / viewport->Height()) + 1.0f) / proj_matrix(1, 1);
 
@@ -80,6 +82,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 		{
 			mesh_vertice.push_back(new VertexType());
 			mesh_vertice[j]->position = Math::Transform(vertice_cpu_[i][j]->position, wv_matrix);
+			mesh_vertice[j]->normal = Math::Transform(vertice_cpu_[i][j]->normal, inv_world_mat);
 		}
 		AABBox* aabb = new AABBox(mesh_vertice, mesh_vertice.size());
 /*
@@ -172,27 +175,34 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 //  		}
 		float t_min = std::numeric_limits<float>::max();
 		float t = 0;
+		float3 min_normal;
 		if(Math::IntersectRayAABB(ray, aabb))
 		{
 			//PRINT("AABB clicked");
-			for(size_t j =0; j < mesh_vertice.size() -3; j++)
+			for(size_t j =0; j < mesh_vertice.size() -3; j+=3)
 	 		{
 
 				if(Math::IntersectRayTriangle(ray, mesh_vertice[j]->position, mesh_vertice[j+1]->position, mesh_vertice[j+2]->position, t))
 				{
 					if(t < t_min)
+					{
 						t_min = t;
+						//normal in world space
+						min_normal = (mesh_vertice[j]->normal + mesh_vertice[j+1]->normal+ mesh_vertice[j+2]->normal) / 3;
+					}
 					//PRINT("clicked");
 				}
 			}
 			if(t_min < std::numeric_limits<float>::max())
 			{
-				PRINT("clicked");
-				PRINT(t_min);
 				intersected_point = ray->Origin()+ ray->Direction() * t_min;
 				float4x4 inv_view_mat = Math::Inverse(view_matrix);
+				float4x4 inv_trans_mat = Math::InverTranspose(view_matrix);
 				intersected_point = Math::Transform(intersected_point, inv_view_mat);
-				//std::cout<<intersected_point.x()<<" "<<intersected_point.y()<<" "<<intersected_point.z()<<std::endl;
+				//intersected_normal = Math::Transform(Math::Normalize(min_normal), inv_trans_mat);
+				intersected_normal =Math::Normalize(min_normal);
+				std::cout<<intersected_point.x()<<" "<<intersected_point.y()<<" "<<intersected_point.z()<<std::endl;
+				std::cout<<intersected_normal.x()<<" "<<intersected_normal.y()<<" "<<intersected_normal.z()<<std::endl;
 				return true;
 			}
 		}

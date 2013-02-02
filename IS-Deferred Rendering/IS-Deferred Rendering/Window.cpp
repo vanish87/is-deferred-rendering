@@ -119,7 +119,7 @@ namespace MocapGE
 
 	int2 Window::GetCenter()
 	{
-		::GetWindowRect(wnd_, &rect);
+		::GetClientRect(wnd_, &rect);
 		int2 ret(rect.left + rect.right /2, rect.top + rect.bottom /2);
 		return ret;
 	}
