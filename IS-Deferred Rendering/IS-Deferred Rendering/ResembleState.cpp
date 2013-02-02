@@ -10,23 +10,11 @@ const float ATTACH_DIS = 10.0f;
 ResembleState::ResembleState(Ship* ship, PartList parts)
 	:ship_(ship), parts_(parts)
 {
-	ship_dir_ = ship_->GetDir();
+
 	ship_pos_ = ship_->GetPos();
-	ship_up_  = ship_->GetUp();
-
-
 	cannon_pos_ = ship_pos_;
 	parts_[0]->SetPos(cannon_pos_);
 	parts_[1]->SetPos(cannon_pos_);
-
-	first_flag_ = true;
-	left_ctr_down_ = false;
-
-	cam_speed_deg_ = Math::PI /180;
-	mouse_down_ = false;
-	picked_ = false;
-	picked_index_ = -1;
-
 	for(size_t i =0; i< parts.size(); i ++)
 	{
 		picking_.push_back(new Picking());
@@ -109,6 +97,7 @@ void ResembleState::OnMouseDown( WPARAM mouse_para, int x, int y )
 		{
 			picked_model_ = parts_[i]->GetModel();
 			picked_index_= i;
+			std::cout<<"picked_index_ "<<picked_index_<<std::endl;
 			break;
 		}
 	}
@@ -131,7 +120,7 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 		//std::cout<<screen_pos.x()<<"  ss "<<screen_pos.y()<<std::endl;
 		//std::cout<<pre_pos.x()<<" "<<pre_pos.y()<<std::endl;
 		float2 delta = screen_pos - pre_pos;
-		std::cout<<delta.x()<<" "<<delta.y()<<std::endl;
+		//std::cout<<delta.x()<<" "<<delta.y()<<std::endl;
 		Camera* camera = Context::Instance().AppInstance().GetCamera();
 		float3 cam_pos = camera->GetPos();
 		float3 at = camera->GetLookAt();
@@ -245,7 +234,7 @@ void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon ,float3 picked_po
 	float3 cannon_up = float3(0,1,0);
 	float3 axis = Math::Cross(picked_normal, cannon_up);
 	float theta = Math::ArcCos(Math::Dot(picked_normal, cannon_up));
-	Math::RotationAxis(rot_matrix, axis, -theta);
+	Math::RotationAxis(rot_matrix, axis, theta);
 	Math::Translate(world_matrix, picked_pos.x(), picked_pos.y(), picked_pos.z());
 	D3DModel* cannon_model = picked_cannon->GetModel();
 	cannon_model->SetModelMatrix(rot_matrix * world_matrix);
@@ -301,4 +290,25 @@ void ResembleState::Attach( Ship* ship_, Cannon* picked_cannon ,float3 picked_po
 	//Math::Translate(world_matrix, min_pos.x(), min_pos.y(), min_pos.z());
 	//cannon_model->SetModelMatrix(world_matrix);
 
+}
+
+
+
+void ResembleState::Init(PartList parts)
+{
+	parts = parts;
+	ship_dir_ = ship_->GetDir();
+	ship_pos_ = ship_->GetPos();
+	ship_up_  = ship_->GetUp();
+
+
+
+
+	first_flag_ = true;
+	left_ctr_down_ = false;
+
+	cam_speed_deg_ = Math::PI /180;
+	mouse_down_ = false;
+	picked_ = false;
+	picked_index_ = -1;
 }

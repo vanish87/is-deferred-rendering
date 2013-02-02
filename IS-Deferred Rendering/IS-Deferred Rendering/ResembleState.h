@@ -30,7 +30,7 @@ public:
 
 	virtual void OnMouseMove( WPARAM mouse_para, int x, int y );
 	void Attach( Ship* ship_, Cannon* picked_cannon, MocapGE::float3 picked_pos, MocapGE::float3 picked_normal);
-
+	void Init(PartList parts);
 
 private:
 	Ship* ship_;

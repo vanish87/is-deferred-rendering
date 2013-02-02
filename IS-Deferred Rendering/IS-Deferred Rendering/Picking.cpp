@@ -201,8 +201,8 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 				intersected_point = Math::Transform(intersected_point, inv_view_mat);
 				//intersected_normal = Math::Transform(Math::Normalize(min_normal), inv_trans_mat);
 				intersected_normal =Math::Normalize(min_normal);
-				std::cout<<intersected_point.x()<<" "<<intersected_point.y()<<" "<<intersected_point.z()<<std::endl;
-				std::cout<<intersected_normal.x()<<" "<<intersected_normal.y()<<" "<<intersected_normal.z()<<std::endl;
+				//std::cout<<intersected_point.x()<<" "<<intersected_point.y()<<" "<<intersected_point.z()<<std::endl;
+				//std::cout<<intersected_normal.x()<<" "<<intersected_normal.y()<<" "<<intersected_normal.z()<<std::endl;
 				return true;
 			}
 		}

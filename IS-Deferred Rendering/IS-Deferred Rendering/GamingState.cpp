@@ -35,10 +35,10 @@ GamingState::GamingState(void)
 	scene_cannon2_->AddToScene();
 
 
-	Cannon* cannon = new Cannon(cannon_1, cannon_1);
-	resemble_parts_.push_back(cannon);
-	cannon = new Cannon(cannon_2, cannon_2);
-	resemble_parts_.push_back(cannon);
+	Cannon* cannon1 = new Cannon(cannon_1, cannon_1);
+	resemble_parts_.push_back(cannon1);
+	Cannon* cannon2 = new Cannon(cannon_2, cannon_2);
+	resemble_parts_.push_back(cannon2);
 
 	sky_= new D3DSkyDome("..\\Media\\universe.dds");
 	sky_->LoadShaderFile("..\\FxFiles\\SkyDome.fxo");

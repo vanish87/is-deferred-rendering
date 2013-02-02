@@ -12,6 +12,7 @@
 
 using namespace MocapGE;
 MyApp::MyApp(void) : App("The CentBebop Design")
+	,start_menu_(nullptr), gaming_(nullptr), resembling_(nullptr)
 {
 
 }
@@ -118,7 +119,9 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				{
 					std::cout<<"Resemble"<<std::endl;
 					PartList parts = gaming_->GetParts();
-					resembling_ = new ResembleState(gaming_->GetShip(), parts);
+					if(resembling_ == nullptr)
+						resembling_ = new ResembleState(gaming_->GetShip(), parts);
+					resembling_->Init(parts);					
 					Context::Instance().GetStateManager().ChangeState(resembling_, SOP_PUSH);
 					break;
 				}
@@ -127,8 +130,8 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				{
 					std::cout<<"Gaming"<<std::endl;
 					Context::Instance().GetStateManager().ChangeState(resembling_, SOP_POP);
-					delete resembling_;
-					resembling_ = 0;
+					//delete resembling_;
+					//resembling_ = 0;
 					break;
 				}
 				break;
