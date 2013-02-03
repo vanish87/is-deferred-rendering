@@ -230,11 +230,19 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
     </CustomBuild>
     <None Include="..\Media\gun2.dae" />
+    <None Include="..\Media\jupiter.dae" />
+    <None Include="..\Media\pluto.dae" />
     <None Include="..\Media\pumpkin.dae" />
     <None Include="..\Media\sky.dds" />
     <None Include="..\Media\spacecraft.dae" />
     <None Include="..\Media\spacecraft_new.dae" />
+    <None Include="..\Media\sun.dae" />
     <None Include="..\Media\universe.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\External\d3dcompiler.lib" />
+    <Library Include="..\External\DirectXTK.lib" />
+    <Library Include="..\External\Effects11.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

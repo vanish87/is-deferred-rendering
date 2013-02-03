@@ -404,5 +404,25 @@
     <None Include="..\Media\universe.dds">
       <Filter>Media</Filter>
     </None>
+    <None Include="..\Media\jupiter.dae">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\pluto.dae">
+      <Filter>Media</Filter>
+    </None>
+    <None Include="..\Media\sun.dae">
+      <Filter>Media</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\External\d3dcompiler.lib">
+      <Filter>External Headers</Filter>
+    </Library>
+    <Library Include="..\External\DirectXTK.lib">
+      <Filter>External Headers</Filter>
+    </Library>
+    <Library Include="..\External\Effects11.lib">
+      <Filter>External Headers</Filter>
+    </Library>
   </ItemGroup>
 </Project>
