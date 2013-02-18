@@ -43,6 +43,9 @@
     <Filter Include="GameDemo\Source Files">
       <UniqueIdentifier>{266a2d6d-fad8-4227-9001-656b9172336d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PostProcessSample">
+      <UniqueIdentifier>{a5979176-a0df-4da5-a595-f4c636f5fc0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -182,6 +185,12 @@
     </ClCompile>
     <ClCompile Include="ResembleState.cpp">
       <Filter>GameDemo\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessApp.cpp">
+      <Filter>PostProcessSample</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +371,12 @@
     <ClInclude Include="..\External\DDSTextureLoader.h">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessApp.h">
+      <Filter>PostProcessSample</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml">
@@ -379,6 +394,9 @@
       <Filter>FxFiles</Filter>
     </CustomBuild>
     <CustomBuild Include="..\FxFiles\SkyDome.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\FxFiles\PostProcess.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
   </ItemGroup>

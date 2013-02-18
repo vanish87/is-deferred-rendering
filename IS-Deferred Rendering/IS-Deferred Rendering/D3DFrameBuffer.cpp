@@ -6,14 +6,76 @@ namespace MocapGE
 		: FrameBuffer(0, 0,1280, 800),
 		  depth_stencil_view_(new D3DDepthStencilRenderView)
 	{
-		depth_texture_=new D3DTexture2D;
+		depth_texture_ = new D3DTexture2D();
+		D3D11_TEXTURE2D_DESC depth_stencil_desc;
+
+		depth_stencil_desc.Width     = render_views_[0]->Width();
+		depth_stencil_desc.Height    = render_views_[0]->Height();
+		depth_stencil_desc.MipLevels = 1;
+		depth_stencil_desc.ArraySize = 1;
+		depth_stencil_desc.Format    = DXGI_FORMAT_R24G8_TYPELESS;
+		depth_stencil_desc.SampleDesc.Count   = 1;
+		depth_stencil_desc.SampleDesc.Quality = 0;
+		depth_stencil_desc.Usage          = D3D11_USAGE_DEFAULT;
+		depth_stencil_desc.BindFlags      = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		depth_stencil_desc.CPUAccessFlags = 0; 
+		depth_stencil_desc.MiscFlags      = 0;
+		ID3D11Texture2D* depth_stencil_buffer;
+		ID3D11DepthStencilView*	depth_stencil_view;
+		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
+		HRESULT result = d3d_re->D3DDevice()->CreateTexture2D(&depth_stencil_desc, 0, &depth_stencil_buffer);
+		if(FAILED(result))
+			PRINT("depth_stencil create Failed!");
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvd.Texture2D.MipSlice = 0;
+		result = d3d_re->D3DDevice()->CreateDepthStencilView(depth_stencil_buffer, &dsvd, &depth_stencil_view);
+		if(FAILED(result))
+			PRINT("depth_stencil_view create Failed!");
+
+		this->depth_stencil_view_->SetD3DDSV(depth_stencil_view);
+		static_cast<D3DTexture2D*>(this->depth_texture_)->SetD3DTexture(depth_stencil_buffer);
+		this->depth_texture_->SetUsage(TU_DEPTH_SR);
 	}
 
 	D3DFrameBuffer::D3DFrameBuffer( RenderSetting& render_setting )
 		: FrameBuffer(render_setting.left, render_setting.top, render_setting.width, render_setting.height),
 		  depth_stencil_view_(new D3DDepthStencilRenderView)		
 	{
-		depth_texture_=new D3DTexture2D;
+		depth_texture_ = new D3DTexture2D();
+		D3D11_TEXTURE2D_DESC depth_stencil_desc;
+
+		depth_stencil_desc.Width     = render_setting.width;
+		depth_stencil_desc.Height    = render_setting.height;
+		depth_stencil_desc.MipLevels = 1;
+		depth_stencil_desc.ArraySize = 1;
+		depth_stencil_desc.Format    = DXGI_FORMAT_R24G8_TYPELESS;
+		depth_stencil_desc.SampleDesc.Count   = 1;
+		depth_stencil_desc.SampleDesc.Quality = 0;
+		depth_stencil_desc.Usage          = D3D11_USAGE_DEFAULT;
+		depth_stencil_desc.BindFlags      = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		depth_stencil_desc.CPUAccessFlags = 0; 
+		depth_stencil_desc.MiscFlags      = 0;
+		ID3D11Texture2D* depth_stencil_buffer;
+		ID3D11DepthStencilView*	depth_stencil_view;
+		D3DRenderEngine* d3d_re = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
+		HRESULT result = d3d_re->D3DDevice()->CreateTexture2D(&depth_stencil_desc, 0, &depth_stencil_buffer);
+		if(FAILED(result))
+			PRINT("depth_stencil create Failed!");
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvd.Texture2D.MipSlice = 0;
+		result = d3d_re->D3DDevice()->CreateDepthStencilView(depth_stencil_buffer, &dsvd, &depth_stencil_view);
+		if(FAILED(result))
+			PRINT("depth_stencil_view create Failed!");
+
+		this->depth_stencil_view_->SetD3DDSV(depth_stencil_view);
+		static_cast<D3DTexture2D*>(this->depth_texture_)->SetD3DTexture(depth_stencil_buffer);
+		this->depth_texture_->SetUsage(TU_DEPTH_SR);
 		//TODO : move it to Base Case
 		viewport_ = new Viewport(0 , 0,render_setting.width,render_setting.height);
 	}

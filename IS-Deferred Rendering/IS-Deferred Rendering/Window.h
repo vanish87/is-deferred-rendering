@@ -14,7 +14,7 @@
 
 namespace MocapGE
 {
-	class MOCAPGE_API Window
+	class Window
 	{
 	public:
 		Window(void);

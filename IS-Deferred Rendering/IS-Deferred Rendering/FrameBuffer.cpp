@@ -26,6 +26,11 @@ namespace MocapGE
 	void FrameBuffer::AddRenderView( RenderView* render_view )
 	{
 		//TODO : Check if the render_view is exist.
+		for (size_t i =0; i< render_views_.size(); i++)
+		{
+			if(render_views_[i]->GetTexture() == render_view->GetTexture())
+				return;
+		}
 		render_views_.push_back(render_view);
 	}
 

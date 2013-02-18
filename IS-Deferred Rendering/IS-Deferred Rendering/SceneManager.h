@@ -25,6 +25,7 @@ namespace MocapGE
 		void Flush();
 		void Update();
 		std::vector<Light*> GetLights();
+		std::vector<RenderElement*> GetRenderList(){return render_list_;};
 	protected:
 		std::vector<RenderElement*> render_list_;
 		std::vector<SceneObject*> scene_object_list;

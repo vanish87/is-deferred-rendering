@@ -3507,13 +3507,28 @@
             concurrency="Sequential"
             isQuery="false" />
           <operation
-            Id="3a02ecc8-6f8b-4021-bd8b-ad1f1dbf5288"
-            name="D3DDSBuffer"
+            Id="d9618e67-4223-40c6-82e4-a6c961c63cee"
+            name="D3DRTViewSize"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false" />
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cc8fbed4-1454-41d2-bf59-86576ac963df"
+                  direction="Return">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                      LastKnownName="Integer"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -4504,6 +4519,53 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation
+            Id="7e30c105-77a2-46e2-a9f9-b4df33f15bfd"
+            name="Render"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="c51a7da7-a637-41d5-9ccd-ea2b8ae29583"
+            name="SetRenderParameters"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="5bf7b724-a07a-445b-92b3-b3e7b7e512ef"
+            name="EndRender"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="1de5e371-b86a-4d15-83bc-932e2ac85338"
+            name="LoadTexture"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f9999b61-a704-481f-8b4a-850433e033e4"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="cd32bc59-ebc3-49fc-a416-d23b8d93bd34"
+                      LastKnownName="Texture"
+                      LastKnownLocation="MocapGE.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -4937,6 +4999,49 @@
             concurrency="Sequential"
             isQuery="false" />
         </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ec6b4592-02ab-41a4-b679-a0a2c3c5aee6"
+        name="D3DShaderResourceView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="f86b7b9b-abdb-4ee8-ad6f-b17e0baefbc5"
+            isSubstitutable="false">
+            <classMoniker
+              Id="8df124f3-d978-403f-822f-c0f50179df24"
+              LastKnownName="RenderBuffer"
+              LastKnownLocation="MocapGE.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="dc6dfac9-2735-4085-a77b-fea9266c9d27"
+            name="d3d_texture_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="ca4562fc-27c8-4ef5-8025-d324a247ab57"
+            name="shader_resource_view_"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
   </packagedElements>

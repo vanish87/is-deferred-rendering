@@ -15,7 +15,7 @@
 
 namespace MocapGE
 {
-	class MOCAPGE_API RenderEngine
+	class RenderEngine
 	{
 	public:
 		RenderEngine(void);
@@ -43,11 +43,14 @@ namespace MocapGE
 		virtual void SetNormalState() = 0;
 		virtual void TrunoffCull() = 0;
 
+/*
 		FrameBuffer* GetGBuffer();
 		std::vector<RenderBuffer*> GetGBufferSRV();
 		FrameBuffer* GetLightingBuffer();
 		RenderBuffer* GetLightingBufferSRV();
-		Mesh* GetFullscreenQuad();
+		Mesh* GetFullscreenQuad();*/
+
+		DeferredRendering* GetDeferredRendering(){return deferred_rendering_;};
 	protected:
 		std::string name_;
 		RenderSetting render_setting_;

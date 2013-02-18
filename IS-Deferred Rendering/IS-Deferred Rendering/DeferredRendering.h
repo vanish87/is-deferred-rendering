@@ -34,6 +34,8 @@ namespace MocapGE
 		FrameBuffer* & GetLighingBuffer(){return lighting_buffer_;};
 		RenderBuffer* & GetLightingBufferSRV(){return lighting_srv_;};
 
+		void Update();
+
 	private:
 		//for Render Target
 		FrameBuffer* gbuffer_;
@@ -42,6 +44,8 @@ namespace MocapGE
 		//for Lighting Buffer
 		FrameBuffer* lighting_buffer_;
 		RenderBuffer* lighting_srv_;
+
+		RenderBuffer* depth_srv_;
 
 
 

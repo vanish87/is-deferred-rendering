@@ -10,7 +10,7 @@
 
 namespace MocapGE
 {
-	class MOCAPGE_API App
+	class App
 	{
 	public:
 		App(void);

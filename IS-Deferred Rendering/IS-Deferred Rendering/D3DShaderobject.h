@@ -38,7 +38,7 @@ namespace MocapGE
 		void SetVariable(std::string name);
 
 		ID3DX11EffectMatrixVariable* GetMatrixVariable(std::string name){return matrix_variable_.find(name)->second;};
-		void SetMatrixVariable(std::string name);
+		virtual void SetMatrixVariable(std::string name);
 		virtual void SetMatrixVariable(std::string name, float4x4 & matrix);
 
 		ID3DX11EffectVectorVariable* GetVectorVariable(std::string name){return vector_variable_.find(name)->second;};

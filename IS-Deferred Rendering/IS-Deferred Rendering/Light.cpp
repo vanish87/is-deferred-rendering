@@ -39,4 +39,28 @@ namespace MocapGE
 		pos_ = pos;
 	}
 
+	SpotLight::SpotLight( void )
+		:Light(LT_SPOT)
+	{
+		pos_ = float3(0, 0, 0);
+		dir_ = float3(0, 0, -1);
+
+		theta_ = 4;
+	}
+
+	SpotLight::~SpotLight( void )
+	{
+
+	}
+
+	void SpotLight::SetPos( float3 pos )
+	{
+		pos_ = pos;
+	}
+
+	void SpotLight::SetDir(float3 dir)
+	{
+		dir_ = dir;
+	}
+
 }

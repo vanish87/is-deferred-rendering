@@ -21,6 +21,11 @@ namespace MocapGE
 	{
 		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
 		uint32_t size = lights.size();
+		if(size == 0)
+		{
+			lights.push_back(new PointLight());
+			size = lights.size();
+		}
 		LightStruct* light = new LightStruct[size];
 		for(size_t i = 0; i < size; i++)
 		{
@@ -38,28 +43,9 @@ namespace MocapGE
 	void RenderEngine::InitDeferredRendering( RenderSetting render_setting )
 	{
 		deferred_rendering_ = new DeferredRendering(render_setting);
-		//According to config file
-		for(size_t i=0; i< render_setting.gbuffer_size; i++)
-		{
-			//create render target
-			Texture* texture_2d = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
-									1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
-			//Add to gbuffer
-			RenderView* render_view = Context::Instance().GetRenderFactory().MakeRenderView(texture_2d, 1, 0);
-			RenderBuffer* shader_resource = Context::Instance().GetRenderFactory().MakeRenderBuffer(texture_2d, AT_GPU_READ, BU_SHADER_RES);
-			deferred_rendering_->AddGBuffer(render_view);
-			deferred_rendering_->AddGBuffer(shader_resource);
-		}
-		//init lighting buffer
-		Texture* texture_2d = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
-			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
-		RenderView* render_view = Context::Instance().GetRenderFactory().MakeRenderView(texture_2d, 1, 0);
-		RenderBuffer* shader_resource = Context::Instance().GetRenderFactory().MakeRenderBuffer(texture_2d, AT_GPU_READ, BU_SHADER_RES);
-		deferred_rendering_->AddLightingBuffer(render_view);
-		deferred_rendering_->AddLightingBuffer(shader_resource);
-
 	}
 
+/*
 	FrameBuffer* RenderEngine::GetGBuffer()
 	{
 		return deferred_rendering_->GetGBuffer();
@@ -82,6 +68,6 @@ namespace MocapGE
 	RenderBuffer* RenderEngine::GetLightingBufferSRV()
 	{
 		return deferred_rendering_->GetLightingBufferSRV();
-	}
+	}*/
 
 }

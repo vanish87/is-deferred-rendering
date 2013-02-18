@@ -10,7 +10,7 @@
 
 namespace MocapGE
 {
-	class MOCAPGE_API RenderFactory
+	class RenderFactory
 	{
 	public:
 		RenderFactory(void);

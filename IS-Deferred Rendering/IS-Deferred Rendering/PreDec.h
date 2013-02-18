@@ -16,7 +16,8 @@
 
 namespace MocapGE
 {
-	#define MOCAPGE_API __declspec(dllexport)
+	//#define MOCAPGE_API __declspec(dllexport)
+	#define MOCAPGE_API  
 	#ifndef int32_t
 	typedef __int32 int32_t;
 	#endif
@@ -63,6 +64,8 @@ namespace MocapGE
 	class Mesh;
 	class Model;
 	class DeferredRendering;
+	class ShaderObject;
+	class PostProcess;
 
 	class SceneObject;
 	class SceneManager;

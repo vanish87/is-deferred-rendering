@@ -42,6 +42,25 @@ namespace MocapGE
 	private:
 		float3 pos_;
 	};
+
+	class SpotLight : public Light
+	{
+	public:
+		SpotLight(void);
+		~SpotLight(void);
+
+		float3 GetPos(){return pos_;};
+		void SetPos(float3 pos);
+
+		float3 GetDir(){return dir_;};
+		void SetDir(float3 dir);
+
+	private:
+		float3 pos_;
+		float3 dir_;
+		
+		float theta_;
+	};
 }
 
 #endif

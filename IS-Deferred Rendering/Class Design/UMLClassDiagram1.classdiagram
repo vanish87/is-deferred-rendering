@@ -1794,8 +1794,18 @@
           <operation Id="da2ed564-48d1-4653-b7d7-859d8e9dcd1c" name="D3DDSView" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="72794d85-0886-412d-be75-e1038df21935" />
           </operation>
-          <operation Id="bffd4c9e-b403-4271-bc70-a466058bd6d8" name="D3DDSBuffer" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="3a02ecc8-6f8b-4021-bd8b-ad1f1dbf5288" />
+          <operation Id="36dd8878-5c66-48de-a9ea-b0fed7e3f353" name="D3DRTViewSize" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="d9618e67-4223-40c6-82e4-a6c961c63cee" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c538fc2a-aa3d-46d1-9eef-af3098eb1f86" direction="Return">
+                  <elementDefinition Id="cc8fbed4-1454-41d2-bf59-86576ac963df" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="0d22712f-0e7d-43f5-af17-6f83f12b808e" LastKnownName="Integer" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -2405,6 +2415,28 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation Id="9849c2b4-41b1-49f3-9474-995672eb3f88" name="Render" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7e30c105-77a2-46e2-a9f9-b4df33f15bfd" />
+          </operation>
+          <operation Id="b4aa3750-dba9-4980-b0a8-2b1a8aa089c0" name="SetRenderParameters" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="c51a7da7-a637-41d5-9ccd-ea2b8ae29583" />
+          </operation>
+          <operation Id="8976d19c-1ec0-43ca-8ab7-26066d867af1" name="EndRender" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="5bf7b724-a07a-445b-92b3-b3e7b7e512ef" />
+          </operation>
+          <operation Id="a9c2eea1-9a65-4c04-af28-ca1b7bc2d9d2" name="LoadTexture" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="1de5e371-b86a-4d15-83bc-932e2ac85338" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="23464f36-7dfa-4e92-80d7-4fdc8a80dcf5" direction="Return">
+                  <elementDefinition Id="f9999b61-a704-481f-8b4a-850433e033e4" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="da8cdb55-7290-4167-8e39-aa274803ed2c" LastKnownName="Texture" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -2623,6 +2655,35 @@
         <ownedAttributesInternal>
           <property Id="34da1a0a-2617-49cd-aeb3-4ce0fa59c469" name="pos_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="ebfbbff0-632e-4610-9043-adcd87b07d62" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="0d22712f-0e7d-43f5-af17-6f83f12b808e" name="Integer" isAbstract="false" isLeaf="false" cachedFullName="Integer">
+        <elementDefinition Id="220a3521-e091-4221-bae9-3ef9018e845c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="da8cdb55-7290-4167-8e39-aa274803ed2c" name="Texture" isAbstract="false" isLeaf="false" cachedFullName="MocapGE::Texture">
+        <elementDefinition Id="cd32bc59-ebc3-49fc-a416-d23b8d93bd34" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="2200f1eb-b0f5-4e2a-9366-db18f269cbf1" name="D3DShaderResourceView" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ec6b4592-02ab-41a4-b679-a0a2c3c5aee6" />
+        <generalsInternal>
+          <generalization Id="e887c21b-c7e6-472c-977c-0e732d420204" isSubstitutable="false">
+            <classMoniker Id="aa3b522d-dd7d-47a6-a8d4-010259acff9c" LastKnownName="RenderBuffer" />
+            <elementDefinition Id="f86b7b9b-abdb-4ee8-ad6f-b17e0baefbc5" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="71ef3d6c-b948-494a-bf29-089080288904" name="d3d_texture_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dc6dfac9-2735-4085-a77b-fea9266c9d27" />
+          </property>
+          <property Id="82bd057a-3bbf-422a-906f-9ac71690a93f" name="shader_resource_view_" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ca4562fc-27c8-4ef5-8025-d324a247ab57" />
           </property>
         </ownedAttributesInternal>
       </class>

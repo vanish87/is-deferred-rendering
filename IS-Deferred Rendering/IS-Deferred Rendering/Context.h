@@ -15,9 +15,10 @@
 
 namespace MocapGE
 {
-	class MOCAPGE_API Context
+	class Context
 	{
 	public:
+		//TODO : make constructor to be protected: because of singleton pattern
 		Context(void);
 		~Context(void);
 

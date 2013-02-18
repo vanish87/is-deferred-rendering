@@ -26,7 +26,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v100</PlatformToolset>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -103,6 +103,8 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GamingState.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="PostProcess.cpp" />
+    <ClCompile Include="PostProcessApp.cpp" />
     <ClCompile Include="ResembleState.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GamingState.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="PostProcess.h" />
+    <ClInclude Include="PostProcessApp.h" />
     <ClInclude Include="ResembleState.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Math.hpp" />
@@ -212,6 +216,12 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\FxFiles\DeferredLighting.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc compile for debug: %(FullPath)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\FxFiles\PostProcess.fx">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc compile for debug: %(FullPath)</Message>

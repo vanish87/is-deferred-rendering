@@ -68,7 +68,8 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	GbufferPSOutput output;
 
 	output.Normal = float4(pin.normal, gMaterial.Shininess);	
-	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb, gMaterial.Specular.x);	
+	//combines Mat with Tex color
+	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb * gMaterial.Diffuse, gMaterial.Specular.x);	
 
 	return output;
 }

@@ -596,10 +596,10 @@ namespace MocapGE
 			if(!diffuse_elem)
 			{
 				daeElement* diffuse_tex = diffuse->getDescendant("texture");
-				if(!diffuse_tex)
-					material_out->diffuse =float4(0.5, 0.5, 0.5, 1);
+				//if(!diffuse_tex)
+					material_out->diffuse =float4(0.8, 0.8, 0.8, 1);
 				//do texture loader
-				else
+				//else
 				{
 					daeElement* tex = diffuse_tex;
 					daeElement* effect = tex->getAncestor("effect");

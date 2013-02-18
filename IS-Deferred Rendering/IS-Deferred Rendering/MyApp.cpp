@@ -100,6 +100,7 @@ void MyApp::OnMouseUp( WPARAM mouse_para, int x, int y )
 {
 }
 
+
 int main()
 {
 	Context::Instance().LoadConfig("E:\\12Fall\\Independent Study\\IS-Deferred Rendering\\IS-Deferred Rendering\\Config.xml");
