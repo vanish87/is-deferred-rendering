@@ -42,6 +42,9 @@ private:
 	MocapGE::D3DModel *pluto_, *jupiter_, *sun_;
 	MocapGE::SceneObject *scene_pluto_, *scene_jupiter_, *scene_sun_;
 
+	MocapGE::D3DModel *plane_;
+	MocapGE::SceneObject *scene_plane_;
+
 	//shy dome for universe background
 	MocapGE::D3DSkyDome* sky_;
 

@@ -29,10 +29,7 @@ namespace MocapGE
 		RenderEngine* render_engine = &Context::Instance().GetRenderFactory().GetRenderEngine();
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{	
-
-			Context::Instance().GetRenderFactory().GetRenderEngine().GetDeferredRendering()->Update();
-			
-
+			Context::Instance().GetRenderFactory().GetRenderEngine().GetDeferredRendering()->Update();		
 		}	
 		else
 		{
@@ -40,7 +37,7 @@ namespace MocapGE
 			//Forward Rendering
 			//=======================================================================================================================
 			//set lights parameters
-			std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
+			/*std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
 			RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
 			LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
 			for (size_t i =0; i< lights.size(); i++)
@@ -61,7 +58,7 @@ namespace MocapGE
 				(*re)->EndRender();
 			}
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameEnd();
-			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();
+			Context::Instance().GetRenderFactory().GetRenderEngine().SwapBuffers();*/
 			//Forward Rendering End
 			//========================================================================================================================
 		}

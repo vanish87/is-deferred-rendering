@@ -45,7 +45,8 @@ namespace MocapGE
 		pos_ = float3(0, 0, 0);
 		dir_ = float3(0, 0, -1);
 
-		theta_ = 4;
+		inner_angle_ = Math::PI / 6;
+		outer_angle_ = Math::PI / 4;
 	}
 
 	SpotLight::~SpotLight( void )
@@ -58,9 +59,21 @@ namespace MocapGE
 		pos_ = pos;
 	}
 
-	void SpotLight::SetDir(float3 dir)
+	void SpotLight::SetDir( float3 dir )
 	{
 		dir_ = dir;
 	}
+
+	void SpotLight::SetOuterAngle( float outer_angle )
+	{
+		outer_angle_ = outer_angle;
+	}
+
+	void SpotLight::SetInnerAngle( float inner_angle )
+	{
+		inner_angle_ = inner_angle;
+	}
+
+
 
 }

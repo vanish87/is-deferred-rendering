@@ -32,8 +32,8 @@ namespace MocapGE
 		//TODO : After write a normal ShaderObject, move these to SceneManager->Flush(), because all Render_elenment shader the same lights.
 		//set light parameter
 		std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
-		D3DRenderBuffer* lights_buffer = static_cast<D3DRenderBuffer*>(Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer());
-		shader_object_->SetReource("gLight", lights_buffer, 0);
+		//D3DRenderBuffer* lights_buffer = static_cast<D3DRenderBuffer*>(Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer());
+		//shader_object_->SetReource("gLight", lights_buffer, 0);
 
 		//for each mesh 
 		for(size_t i =0; i < meshes_.size(); i++)
@@ -92,11 +92,11 @@ namespace MocapGE
 		d3d_shader_object->SetVariable("gMaterial");
 		d3d_shader_object->SetShaderResourceVariable("mesh_diffuse");
 
-		d3d_shader_object->SetVectorVariable("g_light_color");
-		d3d_shader_object->SetVectorVariable("g_light_position");
+		//d3d_shader_object->SetVectorVariable("g_light_color");
+		//d3d_shader_object->SetVectorVariable("g_light_position");
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
 
-		d3d_shader_object->SetShaderResourceVariable("gLight");
+		d3d_shader_object->SetVariable("light");
 		
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{

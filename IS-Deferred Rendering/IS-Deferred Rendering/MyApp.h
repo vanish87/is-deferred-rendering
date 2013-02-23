@@ -37,8 +37,8 @@ private:
 
 	typedef std::vector<Cannon*> PartList;
 
-	MocapGE::PointLight* point_light;
-	MocapGE::PointLight* point_light_1;
+	MocapGE::PointLight* point_light_;
+	MocapGE::SpotLight* spot_light_;
 
 	MocapGE::Timer* timer_;
 

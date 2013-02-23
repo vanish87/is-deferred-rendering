@@ -97,6 +97,8 @@ namespace MocapGE
 	{
 		ID3DX11EffectVariable* var = this->GetVariable(name);
 		HRESULT res = var->SetRawValue(data, 0, size);
+		if(FAILED(res))
+			PRINT("Cannot set RawData");
 	}
 
 	void D3DShaderobject::SetReource( std::string name, RenderBuffer* data, uint32_t type )

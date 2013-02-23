@@ -100,10 +100,16 @@ namespace MocapGE
 		float shininess;
 	};
 
+	//make sure the same order in fx file
+	//because d3d effect packing data in vec4
 	struct LightStruct
 	{
-		float3 position;
+		float3 position;	
+		int type;
+		float3 direction;
+		int dummy;
 		float4 color;
+		float2 inner_outer;
 	};
 
 	//formal struct for loading and vertex buffer 

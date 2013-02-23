@@ -1,4 +1,3 @@
-
 #include "Rendering.fx"
 
 //g-buffer
@@ -69,7 +68,7 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 
 	output.Normal = float4(pin.normal, gMaterial.Shininess);	
 	//combines Mat with Tex color
-	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb * gMaterial.Diffuse, gMaterial.Specular.x);	
+	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb * gMaterial.Diffuse.rgb, gMaterial.Specular.x);	
 
 	return output;
 }
@@ -127,6 +126,8 @@ float4 LightingPS( in LightingVout pin): SV_Target
 		return float4(1,1,1,0);
 	float shininess = normal_t.w;
 
+	//float4 pre_color = lighting_tex.Load( samplelndices );
+
 	//cal lighting
 	return CalPreLighting( normal, world_pos, shininess);
 	}
@@ -180,6 +181,32 @@ float4 FinalPS( in FinalVout pin): SV_Target
 	
 }
 
+BlendState lighing_acc
+{
+	BlendEnable[0] = TRUE;
+	SrcBlend = One;
+	DestBlend = One;
+	BlendOp[0] = ADD;
+	SrcBlendAlpha = One;
+	DestBlendAlpha = Zero;
+	BlendOpAlpha[0] = ADD;
+	RenderTargetWriteMask[0] = 0x0f;
+
+};
+
+BlendState final
+{
+	BlendEnable[0] = TRUE;
+	SrcBlend = One;
+	DestBlend = Zero;
+	BlendOp[0] = ADD;
+	SrcBlendAlpha = One;
+	DestBlendAlpha = Zero;
+	BlendOpAlpha[0] = ADD;
+	RenderTargetWriteMask[0] = 0x0f;
+
+};
+
 
 technique11 GbufferTech
 {
@@ -187,7 +214,8 @@ technique11 GbufferTech
     {
         SetVertexShader( CompileShader( vs_5_0, GbufferVS() ) );
 		SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_5_0, GbufferPS() ) );
+        SetPixelShader( CompileShader( ps_5_0, GbufferPS() ) );		
+		SetBlendState(final, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
     }
 
 	pass P1
@@ -195,12 +223,14 @@ technique11 GbufferTech
 		SetVertexShader( CompileShader( vs_5_0, LightingVS() ) );
 		SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, LightingPS() ) );
+		SetBlendState(lighing_acc, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
 	}
 
 	pass P2
 	{
 		SetVertexShader( CompileShader( vs_5_0, FinalVS() ) );
 		SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_5_0, FinalPS() ) );
+        SetPixelShader( CompileShader( ps_5_0, FinalPS() ) );		
+		SetBlendState(final, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
 	}
 }

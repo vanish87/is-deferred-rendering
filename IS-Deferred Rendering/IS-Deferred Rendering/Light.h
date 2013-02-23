@@ -55,11 +55,17 @@ namespace MocapGE
 		float3 GetDir(){return dir_;};
 		void SetDir(float3 dir);
 
+		float GetOuterAngle(){return outer_angle_;};
+		void SetOuterAngle(float outer_angle);
+
+		float GetInnerAngle(){return inner_angle_;};
+		void SetInnerAngle(float inner_angle);
 	private:
 		float3 pos_;
 		float3 dir_;
 		
-		float theta_;
+		float outer_angle_;
+		float inner_angle_;
 	};
 }
 

@@ -34,7 +34,7 @@ namespace MocapGE
 		virtual void RenderFrameEnd() = 0;
 		virtual void SwapBuffers() = 0;
 		virtual void OnResize() = 0;
-		RenderBuffer* & GetLightsBuufer(){return light_buffer_;};
+		//RenderBuffer* & GetLightsBuufer(){return light_buffer_;};
 		
 		//for Deferred Rendering
 		void InitDeferredRendering( RenderSetting render_setting );
@@ -56,7 +56,7 @@ namespace MocapGE
 		RenderSetting render_setting_;
 
 		FrameBuffer* cur_frame_buffer_;
-		RenderBuffer* light_buffer_;
+		//RenderBuffer* light_buffer_;
 
 		DeferredRendering* deferred_rendering_;
 

@@ -6,16 +6,21 @@ struct Material
 	float  Shininess;
 };
 
-struct PointLight
+struct Light
 {
-    float3 position;
+    float3 position;	
+	int type;
+	float3 direction;
+	int dummy;
     float4 color;
+	float2 inner_outer;
 };
-StructuredBuffer<PointLight> gLight;
+//StructuredBuffer<PointLight> gLight;
 
 cbuffer cbPerFrame
 {
 	float3 g_eye_pos;
+	Light light;
 };
 
 float4 CalLighting( in float3 normal, 
@@ -29,15 +34,18 @@ float4 CalLighting( in float3 normal,
 	// Start with a sum of zero. 
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 litColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	uint lights_size, dummy;
-    gLight.GetDimensions(lights_size, dummy);
+	//uint lights_size, dummy;
+    //gLight.GetDimensions(lights_size, dummy);
 
-	for(uint i = 0; i < lights_size; i++)
+	//for(uint i = 0; i < lights_size; i++)
 	{
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 light_color = gLight[i].color;
-		float3 light_position = gLight[i].position;//world_pos
+		float4 light_color = light.color;
+		float3 light_position = light.position;//world_pos
+
+		float3 light_dir = light.direction;
+		int type = light.type;
 		// The vector from the surface to the light.
 		float3 pos_light = light_position - position;
 		pos_light = normalize(pos_light);
@@ -72,36 +80,94 @@ float4 CalPreLighting(	 in float3 normal,
 	
 	// Start with a sum of zero. 
 	// Default ambeint color = (0.2, 0.2 0.2)
-	float4 litColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
-	uint lights_size, dummy;
-    gLight.GetDimensions(lights_size, dummy);
+	//float4 litColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
 
-	for(uint i = 0; i < lights_size; i++)
+	float4 litColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	//uint lights_size, dummy;
+    //gLight.GetDimensions(lights_size, dummy);
+
+	//for(uint i = 0; i < lights_size; i++)
 	{
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float  spec    = 0.0f;
-		float4 light_color = gLight[i].color;
-		float3 light_position = gLight[i].position;//world_pos
-		// The vector from the surface to the light.
-		float3 pos_light = light_position - position;//Lc
-		pos_light = normalize(pos_light);
+		float4 light_color = light.color;
+		float3 light_position = light.position;//world_pos
 
-		float diffuse_angle = dot(pos_light, normal);//N * Lc (light vector = L)
-		[flatten]
-		if( diffuse_angle > 0.0f )
-		{
-			float3 H = normalize(pos_light + pos_eye);
+		float3 light_dir = light.direction;
+		int type = light.type;
 
-			float spec_factor = pow(max(dot(normal, H), 0.0f), specularPower);
+		//TODO : not good one, use different fx file to handle different light type
+		[branch] 
+		switch(type)
+			{
+				//Point Light
+				case 0:	
+					{
+						// The vector from the surface to the light.
+						float3 pos_light = light_position - position;//Lc
+						pos_light = normalize(pos_light);
+
+						float diffuse_angle = dot(pos_light, normal);//N * Lc (light vector = L)
+						[flatten]
+						if( diffuse_angle > 0.0f )
+						{
+							float3 H = normalize(pos_light + pos_eye);
+
+							float spec_factor = pow(max(dot(normal, H), 0.0f), specularPower);
 			
-			//Clight * (N * Lc)
-			diffuse = light_color * diffuse_angle;
-			//pow(N*H, alpha) * Clight * (N * Lc)
-			spec    = spec_factor * light_color.r * diffuse_angle;//only one value(specular intensity) for spec
-		}
+							//Clight * (N * Lc)
+							diffuse = light_color * diffuse_angle;
+							//pow(N*H, alpha) * Clight * (N * Lc)
+							spec    = spec_factor * light_color.r * diffuse_angle;//only one value(specular intensity) for spec
+						}
 		
-		float4 acc_color = float4(diffuse.rgb , spec);
-		litColor = litColor + acc_color;
+						float4 acc_color = float4(diffuse.rgb , spec);
+						litColor = litColor + acc_color;
+						break;
+					}
+				//Spot Light
+				case 1:
+					{
+						float3 pos_light = light_position - position;//Lc
+						pos_light = normalize(pos_light);
+
+						float diffuse_angle = dot(pos_light, normal);//N * Lc (light vector = L)
+						[flatten]
+						if( diffuse_angle > 0.0f )
+						{
+							float3 H = normalize(pos_light + pos_eye);
+
+							float spec_factor = pow(max(dot(normal, H), 0.0f), specularPower);
+			
+							//Clight * (N * Lc)
+							diffuse = light_color * diffuse_angle;
+							//pow(N*H, alpha) * Clight * (N * Lc)
+							spec    = spec_factor * light_color.r * diffuse_angle;//only one value(specular intensity) for spec
+						}
+
+						float inner = light.inner_outer.x;
+						float outer = light.inner_outer.y;
+  
+						float cosDirection = dot(-pos_light, normalize(light_dir)); 
+
+						float spot = smoothstep(outer, inner, cosDirection);
+						//float d = length(pos_light);
+						//spot/= d*d;
+
+						diffuse = diffuse * spot;
+						spec = spec * spot;
+
+						float4 acc_color = float4(diffuse.rgb , spec);
+						litColor = litColor + acc_color;
+						
+						break;
+					}
+				case 2:
+					return 3; 
+				default:
+					return 6; 
+			}
+		
 	}	
     return litColor;
 }

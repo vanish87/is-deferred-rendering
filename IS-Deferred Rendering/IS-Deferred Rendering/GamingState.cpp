@@ -79,6 +79,14 @@ GamingState::GamingState(void)
 	wkey_down_ = false;
 	skey_down_ = false;
 	ship_pos = float3(0,0,0);
+
+	plane_ = new D3DModel();
+	plane_->LoadFile("..\\Media\\ground.dae");
+	plane_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	Math::Scale(sacle_mat, 100);
+	plane_->SetModelMatrix(sacle_mat* trans_mat);
+	scene_plane_ = new SceneObject(plane_);
+	scene_plane_->AddToScene();
 }
 
 

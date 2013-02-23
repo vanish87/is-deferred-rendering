@@ -26,7 +26,7 @@ namespace MocapGE
 			lights.push_back(new PointLight());
 			size = lights.size();
 		}
-		LightStruct* light = new LightStruct[size];
+		/*LightStruct* light = new LightStruct[size];
 		for(size_t i = 0; i < size; i++)
 		{
 			light[i].color = lights[i]->GetColor();
@@ -36,7 +36,7 @@ namespace MocapGE
 		init_data.data = light;
 		init_data.row_pitch = 0;
 		init_data.slice_pitch = 0;
-		light_buffer_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_CPU_WRITE, BU_SR_SB, size , sizeof(LightStruct));
+		light_buffer_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(init_data, AT_CPU_WRITE, BU_SR_SB, size , sizeof(LightStruct));*/
 	}
 
 	//TODO : move it to DeferredRendering class

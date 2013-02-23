@@ -202,38 +202,74 @@ namespace MocapGE
 			Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
 			//set lights parameters
 			std::vector<Light*> lights = Context::Instance().GetSceneManager().GetLights();
-			RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
+			LightStruct* light_buffer = new LightStruct[lights.size()];
+			/*RenderBuffer* lights_buffer = Context::Instance().GetRenderFactory().GetRenderEngine().GetLightsBuufer();
 			LightStruct* l = static_cast<LightStruct*>(lights_buffer->Map(AT_CPU_WRITE));
 			for (size_t i =0; i< lights.size(); i++)
 			{
 				l[i].color = lights[i]->GetColor();
 				l[i].position = static_cast<PointLight*>(lights[i])->GetPos();
 			}
-			lights_buffer->UnMap();
+			lights_buffer->UnMap();*/
 			//set gbuffer as input textures
+
 			ShaderObject* shader_object = render_list[0]->GetShaderObject();
-			/*
+			for (size_t i =0; i< lights.size(); i++)
+			{
 
-			D3DShaderobject* d3d_shader_obj = new D3DShaderobject();
-			d3d_shader_obj->LoadFxoFile("..\\FxFiles\\PostProcess.fxo");
-			d3d_shader_obj->SetTechnique("PPTech");
-			PostProcess* pp_= new PostProcess();
-			pp_->SetPPShader(d3d_shader_obj);
-			pp_->SetInput(gbuffer->GetDepthTexture(), 0);
-			pp_->SetOutput(gbuffer->GetDepthTexture(), 0);
-			pp_->Apply();*/
+				light_buffer[i].color = lights[i]->GetColor();
 
-			//depth_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer_->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 			
-			shader_object->SetReource("depth_tex", depth_srv_, 1);
-			shader_object->SetReource("normal_tex", gbuffer_srv_[0], 1);
-			//do lighting
-			Mesh* quad = fullscreen_mesh_;
-			//Set Shader file for quad
-			quad->SetShaderObject(shader_object);
-			quad->SetRenderParameters();
-			//quad->GetShaderObject()->Apply(1);
-			quad->Render(1);
-			quad->EndRender();
+				switch (lights[i]->GetType())
+				{
+				case LT_POINT:
+					{
+						light_buffer[i].type = LT_POINT;
+						light_buffer[i].position = static_cast<PointLight*>(lights[i])->GetPos();
+						light_buffer[i].direction = float3(0, 0, 0);
+						light_buffer[i].inner_outer = float2(0, 0);
+						break;
+					}
+				case LT_SPOT:
+					{
+						light_buffer[i].type = LT_SPOT;
+						light_buffer[i].position = static_cast<SpotLight*>(lights[i])->GetPos();
+						light_buffer[i].direction = static_cast<SpotLight*>(lights[i])->GetDir();
+						float outer = static_cast<SpotLight*>(lights[i])->GetOuterAngle();
+						float inner = static_cast<SpotLight*>(lights[i])->GetInnerAngle();
+						light_buffer[i].inner_outer = float2(Math::Cos(inner), Math::Cos(outer));
+						break;
+					}
+				default:
+					break;
+				}
+				//LightStruct* l = &light_buffer[i];
+				shader_object->SetRawData("light", &light_buffer[i], sizeof(LightStruct));
+				/*
+
+				D3DShaderobject* d3d_shader_obj = new D3DShaderobject();
+				d3d_shader_obj->LoadFxoFile("..\\FxFiles\\PostProcess.fxo");
+				d3d_shader_obj->SetTechnique("PPTech");
+				PostProcess* pp_= new PostProcess();
+				pp_->SetPPShader(d3d_shader_obj);
+				pp_->SetInput(gbuffer->GetDepthTexture(), 0);
+				pp_->SetOutput(gbuffer->GetDepthTexture(), 0);
+				pp_->Apply();*/
+
+				//depth_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer_->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 			
+				shader_object->SetReource("depth_tex", depth_srv_, 1);
+				shader_object->SetReource("normal_tex", gbuffer_srv_[0], 1);
+
+				//shader_object->SetReource("lighting_tex", lighting_srv_, 1);
+				//do lighting
+				//Set Shader file for quad
+				fullscreen_mesh_->SetShaderObject(shader_object);
+				fullscreen_mesh_->SetRenderParameters();
+				//quad->GetShaderObject()->Apply(1);
+				fullscreen_mesh_->Render(1);
+				fullscreen_mesh_->EndRender();
+			}
+
+			delete[] light_buffer;
 
 			//pass 2
 			render_engine->BindFrameBuffer(back_buffer);
@@ -241,11 +277,11 @@ namespace MocapGE
 			shader_object->SetReource("lighting_tex", lighting_srv_, 1);
 			shader_object->SetReource("diffuse_tex", gbuffer_srv_[1], 1);
 			//Set Shader file for quad
-			quad->SetShaderObject(shader_object);
-			quad->SetRenderParameters();
+			fullscreen_mesh_->SetShaderObject(shader_object);
+			fullscreen_mesh_->SetRenderParameters();
 			//quad->GetShaderObject()->Apply(1);
-			quad->Render(2);
-			quad->EndRender();
+			fullscreen_mesh_->Render(2);
+			fullscreen_mesh_->EndRender();
 
 
 
