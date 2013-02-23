@@ -127,6 +127,7 @@ namespace MocapGE
 		float4x4 view_mat = d3d_frame_buffer->GetFrameCamera()->GetViewMatirx();
 		float4x4 proj_mat = d3d_frame_buffer->GetFrameCamera()->GetProjMatrix();
 		float3 camera_pos = d3d_frame_buffer->GetFrameCamera()->GetPos();
+		float3 camera_at =  d3d_frame_buffer->GetFrameCamera()->GetLookAt();
 
 		//Make sure every Shader has a constant named view_proj_matrix
 		shader_object->SetMatrixVariable("g_view_proj_matrix", view_mat*proj_mat);
@@ -134,6 +135,7 @@ namespace MocapGE
 		shader_object->SetMatrixVariable("g_inv_proj_matrix", Math::Inverse(proj_mat));
 		shader_object->SetMatrixVariable("g_inv_view_matrix", Math::Inverse(view_mat));
 		shader_object->SetVectorVariable("g_eye_pos", camera_pos);
+		shader_object->SetVectorVariable("g_eye_z", camera_at - camera_pos);
 		
 
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object);

@@ -45,10 +45,12 @@ namespace MocapGE
 
 		template <typename T> 
 		Vec3<T> Transform(const Vec3<T> & lhs, const Matrix<T> & rhs);
-
+		template <typename T>
+		Vec3<T> TransformNormal(const Vec3<T> & lhs, const Matrix<T> & rhs);
 
 		template <typename T>
 		Vec4<T> Transform(const Vec4<T> & lhs, const Matrix<T> & rhs);
+
 
 		template <typename T>
 		Matrix<T> LookAtLH(const Vec3<T> & eye, const Vec3<T> & at, const Vec3<T> & up);

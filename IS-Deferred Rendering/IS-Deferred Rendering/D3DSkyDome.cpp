@@ -104,6 +104,7 @@ namespace MocapGE
 		d3d_shader_object->SetMatrixVariable("g_model_matrix");
 
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
+		d3d_shader_object->SetVectorVariable("g_eye_z");
 
 		sky_mesh_->SetShaderObject(d3d_shader_object);
 	}

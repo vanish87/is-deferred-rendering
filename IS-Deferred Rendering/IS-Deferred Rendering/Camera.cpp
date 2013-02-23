@@ -60,7 +60,7 @@ namespace MocapGE
 		Math::Identity(mat);
 		Math::RotationAxis(mat, left, angle);
 
-		up_ = Math::Transform(up_, mat);
+		up_ = Math::TransformNormal(up_, mat);
 		at_ = Math::Transform(at_, mat);
 
 		view_matrix_ = Math::LookAtLH(eye_, at_, up_);
@@ -73,7 +73,7 @@ namespace MocapGE
 		Math::Identity(mat);
 		Math::RotationAxis(mat, up_, angle);
 
-		dir = Math::Transform(dir, mat);
+		dir = Math::TransformNormal(dir, mat);
 		dir = Math::Normalize(dir);
 		at_ = eye_ + dir;
 
@@ -87,7 +87,7 @@ namespace MocapGE
 		Math::Identity(mat);
 		Math::RotationAxis(mat, dir, angle);
 
-		up_ = Math::Transform(up_, mat);
+		up_ = Math::TransformNormal(up_, mat);
 
 		view_matrix_ = Math::LookAtLH(eye_, at_, up_);
 	}

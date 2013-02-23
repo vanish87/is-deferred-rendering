@@ -37,7 +37,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 				vertice_cpu_[i].push_back(new VertexType());
 				//make point to model space
 				vertice_cpu_[i][j]->position = Math::Transform(vertice_gpu[j].position, model_matrix);
-				vertice_cpu_[i][j]->normal = Math::Transform(vertice_gpu[j].normal, inv_model_mat);
+				vertice_cpu_[i][j]->normal = Math::TransformNormal(vertice_gpu[j].normal, inv_model_mat);
 			}
 			AABBox* aabb = new AABBox(vertice_cpu_[i], vsize);
 			aabbs_.push_back(aabb);
@@ -73,7 +73,7 @@ bool Picking::GetIntersection( D3DModel* model, Viewport* viewport, float2 scree
 			//make vertex to view space
 			mesh_vertice[j]->position = Math::Transform(vertice_cpu_[i][j]->position, wv_matrix);
 			//make normals to world space
-			mesh_vertice[j]->normal = Math::Transform(vertice_cpu_[i][j]->normal, inv_world_mat);
+			mesh_vertice[j]->normal = Math::TransformNormal(vertice_cpu_[i][j]->normal, inv_world_mat);
 		}
 		//recalculate the aabb
 		AABBox* aabb = new AABBox(mesh_vertice, mesh_vertice.size());

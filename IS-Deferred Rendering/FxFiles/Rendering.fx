@@ -20,16 +20,17 @@ struct Light
 cbuffer cbPerFrame
 {
 	float3 g_eye_pos;
+	float3 g_eye_z;
 	Light light;
 };
 
 float4 CalLighting( in float3 normal, 
-					 in float3 position, //world_pos
+					 in float3 position, //view_pos
 					 in float4 diffuseAlbedo,
 					 in float3 specularAlbedo,
 					 in float specularPower )
 {
-	float3 pos_eye = normalize(g_eye_pos - position);
+	float3 pos_eye = normalize(-position);
 	
 	// Start with a sum of zero. 
 	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -42,7 +43,7 @@ float4 CalLighting( in float3 normal,
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 light_color = light.color;
-		float3 light_position = light.position;//world_pos
+		float3 light_position = light.position;//view_pos
 
 		float3 light_dir = light.direction;
 		int type = light.type;
@@ -76,13 +77,13 @@ float4 CalPreLighting(	 in float3 normal,
 						 in float3 position, //world_pos
 						 in float  specularPower )
 {
-	float3 pos_eye = normalize(g_eye_pos - position);//V
+	float3 pos_eye = normalize(-position);//V
 	
 	// Start with a sum of zero. 
 	// Default ambeint color = (0.2, 0.2 0.2)
-	//float4 litColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
+	float4 litColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
 
-	float4 litColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	//float4 litColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	//uint lights_size, dummy;
     //gLight.GetDimensions(lights_size, dummy);
 

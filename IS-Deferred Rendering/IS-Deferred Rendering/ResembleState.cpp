@@ -134,7 +134,7 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 			if(delta.x() < 1)
 				Math::YRotation(rot_mat, cam_speed_deg_);
 
-		new_dir = Math::Transform(inv_dir, rot_mat);
+		new_dir = Math::TransformNormal(inv_dir, rot_mat);
 
 		float3 left = Math::Cross(dir,up);
 		left = Math::Normalize(left);
@@ -143,7 +143,7 @@ void ResembleState::OnMouseMove( WPARAM mouse_para, int x, int y )
 		else
 			if(delta.y() < 1 )
 				Math::RotationAxis(rot_mat, left, cam_speed_deg_);
-		new_dir = Math::Transform(new_dir, rot_mat);
+		new_dir = Math::TransformNormal(new_dir, rot_mat);
 
 		float3 trans_vec = new_dir - inv_dir;
 

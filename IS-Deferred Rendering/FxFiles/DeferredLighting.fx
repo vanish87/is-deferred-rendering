@@ -17,7 +17,6 @@ SamplerState MeshTextureSampler
     AddressV = Wrap;
 };
 
-
 cbuffer cbPerObject
 {
 	float4x4 g_world_matrix;
@@ -105,15 +104,26 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float3 view_ray_vec = normalize(pin.posVS);
 	float depth = depth_tex.Load( samplelndices ).r;
+
+	float zf = 1000.0f;
+	float zn = 1.0f;
+	float q = zf/ (zf-zn);
+	float linear_depth = zn * q / (q - depth);
+
+	//float viewZProj = dot(g_eye_z, view_ray_vec);
+	//float3 positionWS = g_eye_pos + view_ray_vec * (linear_depth / viewZProj);
+	float3 positionVS = view_ray_vec * linear_depth;
 	float3 world_pos;
 	//if(depth==1.0f)world_pos=float3(0,0,0);
 	//else{
-		float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
-		float py = (((-2.0f * pin.pos.y) / 800) + 1.0f);
-		float4 vPositionCS = float4(px, py, depth, 1.0f);
-		float4 vPositionPS = mul(vPositionCS, g_inv_proj_matrix);
-		vPositionPS = mul(vPositionPS, g_inv_view_matrix);
-		world_pos = vPositionPS.xyz/ vPositionPS.www;
+		//float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
+		//float py = (((-2.0f * pin.pos.y) / 800) + 1.0f);
+		//float4 vPositionCS = float4(px, py, 1.0f, 1.0f);
+		//float4 vPositionPS = mul(vPositionCS, g_inv_proj_matrix);
+		//float4 vPositionVS = float4(vPositionPS.xy/ vPositionPS.ww, linear_depth, 1.0f);
+		//vPositionVS = mul(positionVS, g_inv_view_matrix);
+		world_pos = positionVS;
+		//world_pos = positionVS;
 	//}
 	
 	if(0) return float4(depth,depth,depth,1.0f);

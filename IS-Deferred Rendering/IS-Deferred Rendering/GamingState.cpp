@@ -84,6 +84,7 @@ GamingState::GamingState(void)
 	plane_->LoadFile("..\\Media\\ground.dae");
 	plane_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	Math::Scale(sacle_mat, 100);
+	Math::Translate(trans_mat, 2000, 50, 0);
 	plane_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_plane_ = new SceneObject(plane_);
 	scene_plane_->AddToScene();
