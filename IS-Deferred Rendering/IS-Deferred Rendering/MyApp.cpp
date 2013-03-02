@@ -27,11 +27,11 @@ void MyApp::InitObjects()
 	//set up lights
 	point_light_ = new PointLight();
 	point_light_->SetPos(float3(50 ,0, 0));	
-	point_light_->AddToScene();
+	//point_light_->AddToScene();
 
 	spot_light_ = new SpotLight();
-	spot_light_->SetPos(float3(500, 500, 0));
-	spot_light_->SetDir(float3(0,-1,0));
+	spot_light_->SetPos(float3(600, 500, 0));
+	spot_light_->SetDir(float3(-0.5,-1,0));
 	spot_light_->SetInnerAngle(Math::PI / 24);
 	spot_light_->SetOuterAngle(Math::PI / 14);
 	spot_light_->AddToScene();
@@ -59,7 +59,7 @@ void MyApp::Update()
 	//std::cout<<timer_->Time()<<"\r";
 
 	//std::cout<<spot_light_->GetPos().x()<<"\r";
-	//spot_light_->SetDir(float3(0,-1,Math::Cos(timer_->Time()/1000.0f) * Math::PI / 6));
+	spot_light_->SetDir(float3(-0.5,-1,Math::Cos(timer_->Time()/1000.0f) * Math::PI / 6));
 }
 
 void MyApp::OnKeyDown( WPARAM key_para )

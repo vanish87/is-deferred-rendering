@@ -3,6 +3,7 @@
 
 #pragma once
 #include "PreDec.h"
+#include "Camera.h"
 #include "TypeAndFormat.h"
 
 namespace MocapGE
@@ -16,6 +17,7 @@ namespace MocapGE
 			:light_type_(light_type)
 		{
 			light_color_ = float4(1, 1, 1, 1);
+			virtual_camera_ = new Camera(1);
 		}
 
 		void SetType(LightType type);
@@ -23,11 +25,19 @@ namespace MocapGE
 		void SetColor(float4 color);
 		float4 GetColor(){return light_color_;};
 
+		Camera* GetCamera(){return virtual_camera_;};
+		void SetCamera(Camera* camera);
+
 		void AddToScene();
+
+	private:
+		virtual void UpdateCamera() = 0;
 
 	protected:
 		float4 light_color_;
 		LightType light_type_;
+
+		Camera* virtual_camera_;
 	};
 
 	class PointLight : public Light
@@ -38,6 +48,8 @@ namespace MocapGE
 
 		float3 GetPos(){return pos_;};
 		void SetPos(float3 pos);
+
+		virtual void UpdateCamera();
 
 	private:
 		float3 pos_;
@@ -60,12 +72,17 @@ namespace MocapGE
 
 		float GetInnerAngle(){return inner_angle_;};
 		void SetInnerAngle(float inner_angle);
+
+		virtual void UpdateCamera();
+
 	private:
 		float3 pos_;
 		float3 dir_;
 		
 		float outer_angle_;
 		float inner_angle_;
+
+
 	};
 }
 

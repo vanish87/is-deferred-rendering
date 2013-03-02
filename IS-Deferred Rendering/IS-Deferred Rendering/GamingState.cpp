@@ -1,5 +1,6 @@
 #include "GamingState.h"
 #include "D3DSkyDome.h"
+#include "Timer.h"
 
 using namespace MocapGE;
 GamingState::GamingState(void)
@@ -47,12 +48,13 @@ GamingState::GamingState(void)
 	sky_scene->AddToScene();
 
 	float4x4 sacle_mat, trans_mat;
+	Math::Identity(sacle_mat);
+	Math::Identity(trans_mat);
 
 	pluto_ = new D3DModel();
 	pluto_->LoadFile("..\\Media\\pluto.dae");
 	pluto_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	Math::Scale(sacle_mat, 20);
-	Math::Translate(trans_mat, 1000, 0, 0);
+	Math::Scale(sacle_mat, 10);
 	pluto_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_pluto_ = new SceneObject(pluto_);
 	scene_pluto_->AddToScene();
@@ -60,8 +62,8 @@ GamingState::GamingState(void)
 	jupiter_ = new D3DModel();
 	jupiter_->LoadFile("..\\Media\\jupiter.dae");
 	jupiter_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
+	Math::Translate(trans_mat, 400, 50, 0);
 	Math::Scale(sacle_mat, 50);
-	Math::Translate(trans_mat, 1000, 200, 0);
 	jupiter_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_jupiter_ = new SceneObject(jupiter_);
 	scene_jupiter_->AddToScene();
@@ -88,6 +90,9 @@ GamingState::GamingState(void)
 	plane_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_plane_ = new SceneObject(plane_);
 	scene_plane_->AddToScene();
+
+	timer_ = new Timer();
+	timer_->Retart();
 }
 
 
@@ -118,8 +123,15 @@ void GamingState::Update()
 
 	//update third person camera
 	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
+	//std::cout<<cam_pos.x()<<" "<<cam_pos.y()<<" "<<cam_pos.z()<<"\r";
 	float3 cam_at = ship_pos + ship_dir * 2;
 	camera->SetView(cam_pos, cam_at, ship_up);
+
+	float4x4 trans_mat,sacle_mat;
+//	float3 pos = static_cast<SpotLight*>(Context::Instance().GetSceneManager().GetLights()[1])->GetPos();
+	Math::Translate(trans_mat, 400 ,Math::Cos(timer_->Time()/1000)*50, 0);
+	Math::Scale(sacle_mat, 50);
+	//jupiter_->SetModelMatrix(sacle_mat*trans_mat);
 }
 
 void GamingState::OnKeyDown( WPARAM key_para )

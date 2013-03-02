@@ -54,5 +54,7 @@ private:
 	Ship* ship_;
 	bool spacekey_down_, wkey_down_, skey_down_;
 
+	MocapGE::Timer* timer_;
+
 };
 

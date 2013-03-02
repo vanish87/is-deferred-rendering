@@ -75,7 +75,8 @@ float4 CalLighting( in float3 normal,
 
 float4 CalPreLighting(	 in float3 normal, 
 						 in float3 position, //world_pos
-						 in float  specularPower )
+						 in float  specularPower,
+						 in float shadow)
 {
 	float3 pos_eye = normalize(-position);//V
 	
@@ -94,7 +95,7 @@ float4 CalPreLighting(	 in float3 normal,
 		float4 light_color = light.color;
 		float3 light_position = light.position;//world_pos
 
-		float3 light_dir = light.direction;
+		float3 light_dir = light.direction;				
 		int type = light.type;
 
 		//TODO : not good one, use different fx file to handle different light type
@@ -155,8 +156,8 @@ float4 CalPreLighting(	 in float3 normal,
 						//float d = length(pos_light);
 						//spot/= d*d;
 
-						diffuse = diffuse * spot;
-						spec = spec * spot;
+						diffuse = diffuse * spot * shadow;
+						spec = spec * spot * shadow;
 
 						float4 acc_color = float4(diffuse.rgb , spec);
 						litColor = litColor + acc_color;
@@ -164,9 +165,9 @@ float4 CalPreLighting(	 in float3 normal,
 						break;
 					}
 				case 2:
-					return 3; 
+					break; 
 				default:
-					return 6; 
+					break; 
 			}
 		
 	}	

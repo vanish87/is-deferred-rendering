@@ -5,6 +5,9 @@ Texture2D diffuse_tex;
 Texture2D normal_tex;
 Texture2D depth_tex;
 
+//Shadow map
+Texture2D shadow_map_tex;
+
 //for lighting buffer
 Texture2D lighting_tex;
 
@@ -17,6 +20,16 @@ SamplerState MeshTextureSampler
     AddressV = Wrap;
 };
 
+SamplerState ShadowMapSampler
+{
+	Filter   = MIN_MAG_MIP_LINEAR;
+	AddressU = BORDER;
+	AddressV = BORDER;
+	BorderColor = float4(1.0f, 1.0f, 1.0f, 0.0f);
+
+	ComparisonFunc = LESS_Equal;
+};
+
 cbuffer cbPerObject
 {
 	float4x4 g_world_matrix;
@@ -27,7 +40,12 @@ cbuffer cbPerObject
 	float4x4 g_inv_proj_matrix;
 	float4x4 g_inv_view_matrix;
 	Material gMaterial;
+
+	
+	float4x4 g_shadow_transform; 
+	float4x4 g_light_view_proj; 
 };
+
 
 struct VertexIn
 {
@@ -40,7 +58,7 @@ struct VertexOut
 {
 	float4 pos			: SV_POSITION;
     float3 normal		: NORMAL;
-	float2 tex_cood		: TEXCOORD;
+	float2 tex_cood		: TEXCOORD0;
 };
 
 VertexOut GbufferVS(VertexIn vin)
@@ -86,8 +104,13 @@ LightingVout LightingVS(in LightingVin vin)
 {
 	LightingVout vout;
 	vout.pos = vin.Position;
-	vout.posVS = mul(vin.Position, g_inv_proj_matrix).xyz ;
+	float3 pos_vs = mul(vin.Position, g_inv_proj_matrix).xyz ;
+	vout.posVS = float3(pos_vs.xy/pos_vs.z , 1.0f);
 	return vout;
+}
+float linstep(float min, float max, float v)
+{
+	return saturate((v - min) / (max - min));
 }
 
 float4 LightingPS( in LightingVout pin): SV_Target
@@ -108,12 +131,50 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float zf = 1000.0f;
 	float zn = 1.0f;
 	float q = zf/ (zf-zn);
+	//view space Z
 	float linear_depth = zn * q / (q - depth);
 
 	//float viewZProj = dot(g_eye_z, view_ray_vec);
 	//float3 positionWS = g_eye_pos + view_ray_vec * (linear_depth / viewZProj);
 	float3 positionVS = view_ray_vec * linear_depth;
-	float3 world_pos;
+
+	//shadowing
+	float4 world_pos = mul(float4(positionVS, 1.0f) , g_inv_view_matrix);
+	//world_pos /= world_pos.w;
+	float2 shadow_tex_cood = mul(world_pos , g_shadow_transform);
+	float shadow_depth = shadow_map_tex.Sample(ShadowMapSampler, shadow_tex_cood).r;
+	shadow_depth = zn * q / (q - shadow_depth);
+
+	
+	float4 pos_light = mul(world_pos, g_light_view_proj);
+	pos_light /= pos_light.w;
+	pos_light.x = pos_light.x / 2 + 0.5f;
+	pos_light.y = -pos_light.y / 2 + 0.5f;
+	shadow_depth = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).r;
+	shadow_depth = zn * q / (q - shadow_depth);
+	float pos_depth = pos_light.z;
+	pos_depth = zn * q / (q - pos_depth);
+
+	float min_variance = 0.3;
+	float bleeding_reduce = 0.75;
+
+	float2 moments = float2(shadow_depth, shadow_depth*shadow_depth);
+	//float len = length(light.position.xyz - positionVS);
+	float p = (pos_depth < moments.x );
+	// Variance shadow mapping
+	float variance = moments.y - moments.x * moments.x;
+	variance = max(variance, min_variance);
+	float m_d = moments.x - pos_depth;
+	float p_max = variance / (variance + m_d * m_d);
+	p_max = linstep(bleeding_reduce, 1, p_max);
+
+	
+
+
+	float shadow = max(p, p_max);
+	//float shadow =1;
+	//if(light.type == 1 && shadow_depth != zn && shadow_depth < pos_depth - 1   )
+	//	shadow = 0;
 	//if(depth==1.0f)world_pos=float3(0,0,0);
 	//else{
 		//float px = ((( 2.0f * pin.pos.x) / 1280)  - 1.0f);
@@ -122,11 +183,15 @@ float4 LightingPS( in LightingVout pin): SV_Target
 		//float4 vPositionPS = mul(vPositionCS, g_inv_proj_matrix);
 		//float4 vPositionVS = float4(vPositionPS.xy/ vPositionPS.ww, linear_depth, 1.0f);
 		//vPositionVS = mul(positionVS, g_inv_view_matrix);
-		world_pos = positionVS;
+		//world_pos = positionVS;
 		//world_pos = positionVS;
 	//}
 	
-	if(0) return float4(depth,depth,depth,1.0f);
+	if(0)
+	{
+		shadow_depth /=1000.0f;
+		return float4(shadow_depth,shadow_depth,shadow_depth,1.0f);
+	}
 
 	//Get Infor from g-buffer
 	float4 normal_t = normal_tex.Load( samplelndices );
@@ -139,7 +204,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	//float4 pre_color = lighting_tex.Load( samplelndices );
 
 	//cal lighting
-	return CalPreLighting( normal, world_pos, shininess);
+	return CalPreLighting( normal, positionVS, shininess, shadow);
 	}
 }
 
@@ -243,4 +308,34 @@ technique11 GbufferTech
         SetPixelShader( CompileShader( ps_5_0, FinalPS() ) );		
 		SetBlendState(final, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff);
 	}
+};
+
+//shadowing tech
+struct ShadowVSOut
+{
+	float4 position_h : SV_POSITION;
+	float2 tex  : TEXCOORD;
+};
+
+ShadowVSOut ShadowingVS(VertexIn vin)
+{
+	ShadowVSOut vout;
+
+	float4x4 world_matrix = mul(g_model_matrix, g_world_matrix);
+	float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
+	vout.position_h = mul(float4(vin.pos, 1.0f), mvp_matrix);
+	vout.tex  = vin.tex_cood;
+
+	return vout;
 }
+
+technique11 Shadowing
+{
+	pass P0
+    {
+        SetVertexShader( CompileShader( vs_5_0, ShadowingVS() ) );
+		SetGeometryShader( NULL );
+        SetPixelShader(NULL);		
+    }
+};
+

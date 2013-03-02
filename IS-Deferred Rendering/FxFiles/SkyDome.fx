@@ -83,3 +83,33 @@ technique11 SkyDomeTech
 		SetDepthStencilState(LessEqualDSS, 0);
     }
 }
+//verbose tech for shadowing
+technique11 GbufferTech
+{
+    pass P0
+    {
+        SetVertexShader( CompileShader( vs_5_0, VS() ) );
+		SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_5_0, PS() ) );
+
+		SetRasterizerState(NoCull);
+		SetDepthStencilState(LessEqualDSS, 0);
+    }
+}
+VertexOut ShadowingVS(VertexIn vin)
+{
+	VertexOut vout;
+	vout.pos =   float4(0,0,0,0);
+	vout.posL =  float3(0,0,0);
+    
+    return vout;
+}
+technique11 Shadowing
+{
+	pass P0
+    {
+        SetVertexShader(  CompileShader( vs_5_0, ShadowingVS() ) );
+		SetGeometryShader( NULL );
+        SetPixelShader(NULL);		
+    }
+};

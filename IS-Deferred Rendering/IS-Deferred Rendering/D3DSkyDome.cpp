@@ -103,6 +103,9 @@ namespace MocapGE
 		d3d_shader_object->SetMatrixVariable("g_inv_view_matrix");
 		d3d_shader_object->SetMatrixVariable("g_model_matrix");
 
+		d3d_shader_object->SetMatrixVariable("g_shadow_transform");
+		d3d_shader_object->SetMatrixVariable("g_light_view_proj");
+
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
 		d3d_shader_object->SetVectorVariable("g_eye_z");
 

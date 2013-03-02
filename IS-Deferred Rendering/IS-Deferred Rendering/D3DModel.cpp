@@ -98,6 +98,8 @@ namespace MocapGE
 		d3d_shader_object->SetVectorVariable("g_eye_z");
 
 		d3d_shader_object->SetVariable("light");
+		d3d_shader_object->SetMatrixVariable("g_shadow_transform");
+		d3d_shader_object->SetMatrixVariable("g_light_view_proj");
 		
 		if(render_engine->GetRenderSetting().deferred_rendering)
 		{
@@ -105,6 +107,7 @@ namespace MocapGE
 			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
 			d3d_shader_object->SetShaderResourceVariable("depth_tex");
 			d3d_shader_object->SetShaderResourceVariable("normal_tex");
+			d3d_shader_object->SetShaderResourceVariable("shadow_map_tex");
 
 			//lighting buffer
 			d3d_shader_object->SetShaderResourceVariable("lighting_tex");

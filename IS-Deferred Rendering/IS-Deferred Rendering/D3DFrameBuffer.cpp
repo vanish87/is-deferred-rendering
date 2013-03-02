@@ -127,7 +127,13 @@ namespace MocapGE
 			this->depth_texture_->SetUsage(TU_DEPTH_SR);
 		}
 		dsv = this->depth_stencil_view_->D3DDSV();
-		render_engine->D3DDeviceImmContext()->OMSetRenderTargets(rtvs.size(), &rtvs.front() , dsv);
+		//only draw depth
+		if(rtvs.size() == 0)
+		{
+			render_engine->D3DDeviceImmContext()->OMSetRenderTargets(0, NULL, dsv);
+		}
+		else
+			render_engine->D3DDeviceImmContext()->OMSetRenderTargets(rtvs.size(), &rtvs.front() , dsv);
 
 		D3D11_VIEWPORT d3d_viewport;
 		d3d_viewport.TopLeftX = viewport_->Top();

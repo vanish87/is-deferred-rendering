@@ -45,6 +45,17 @@ namespace MocapGE
 		FrameBuffer* lighting_buffer_;
 		RenderBuffer* lighting_srv_;
 
+		//for shadowing
+		FrameBuffer* shadowing_buffer_;
+		RenderBuffer* shadowing_srv_;
+		Texture* shadowing_tex_;
+
+		FrameBuffer* shadow_blur_buffer_;
+		Texture* shadow_depth_tex_;
+		RenderBuffer* shadow_depth_srv_;
+		Texture* shadow_blur_;
+
+
 		RenderBuffer* depth_srv_;
 
 

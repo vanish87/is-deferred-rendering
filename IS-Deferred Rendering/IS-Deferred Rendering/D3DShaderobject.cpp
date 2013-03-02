@@ -83,7 +83,9 @@ namespace MocapGE
 	size_t D3DShaderobject::GetPass()
 	{
 		D3DX11_TECHNIQUE_DESC tech_desc;
-		tech_->GetDesc( &tech_desc );
+		HRESULT res = tech_->GetDesc( &tech_desc );
+		if(FAILED(res))
+			PRINT("Cannot get pass");
 		return tech_desc.Passes;
 	}
 
@@ -91,6 +93,8 @@ namespace MocapGE
 	{
 		D3DRenderEngine* d3d_render_engine = static_cast<D3DRenderEngine*>(&Context::Instance().GetRenderFactory().GetRenderEngine());
 		HRESULT res = tech_->GetPassByIndex(pass_index)->Apply(0, d3d_render_engine->D3DDeviceImmContext());
+		if(FAILED(res))
+			PRINT("Cannot apply pass");
 	}
 
 	void D3DShaderobject::SetRawData( std::string name, void* data, uint32_t size )

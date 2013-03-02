@@ -32,7 +32,7 @@ namespace MocapGE
 		void LoadFxoFile(std::string file_name);
 
 		ID3DX11EffectTechnique* GetTechnique(){return tech_;};
-		void SetTechnique(std::string name);
+		virtual void SetTechnique(std::string name);
 
 		ID3DX11EffectVariable* GetVariable(std::string name){return effect_variable_.find(name)->second;};
 		void SetVariable(std::string name);
