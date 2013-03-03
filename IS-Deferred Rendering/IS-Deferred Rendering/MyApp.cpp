@@ -30,7 +30,7 @@ void MyApp::InitObjects()
 	//point_light_->AddToScene();
 
 	spot_light_ = new SpotLight();
-	spot_light_->SetPos(float3(600, 500, 0));
+	spot_light_->SetPos(float3(700, 500, 0));
 	spot_light_->SetDir(float3(-0.5,-1,0));
 	spot_light_->SetInnerAngle(Math::PI / 24);
 	spot_light_->SetOuterAngle(Math::PI / 14);
@@ -49,7 +49,7 @@ void MyApp::ReleaseObjects()
 	delete point_light_;
 	delete spot_light_;
 	delete timer_;
-	//delete start_menu_;
+	//delete start_menu_; 
 	delete gaming_;
 	delete resembling_;
 }
@@ -59,7 +59,7 @@ void MyApp::Update()
 	//std::cout<<timer_->Time()<<"\r";
 
 	//std::cout<<spot_light_->GetPos().x()<<"\r";
-	spot_light_->SetDir(float3(-0.5,-1,Math::Cos(timer_->Time()/1000.0f) * Math::PI / 6));
+	//spot_light_->SetDir(float3(-0.5,-1,Math::Cos(timer_->Time()/1000.0f) * Math::PI / 6));
 }
 
 void MyApp::OnKeyDown( WPARAM key_para )

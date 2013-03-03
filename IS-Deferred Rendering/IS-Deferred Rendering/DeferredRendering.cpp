@@ -275,14 +275,14 @@ namespace MocapGE
 				}
 				//LightStruct* l = &light_buffer[i];
 				shader_object->SetRawData("light", &light_buffer[i], sizeof(LightStruct));
-
+				Camera* sm_camera = lights[i]->GetCamera();
+				float4x4 view_proj_mat = sm_camera->GetViewMatirx() * sm_camera->GetProjMatrix();
 				//Shadowing spot
 				if(type == LT_SPOT)
 				{
 
-					std::cout<<static_cast<SpotLight*>(lights[i])->GetPos().x()<<" "<<static_cast<SpotLight*>(lights[i])->GetPos().y()<<" "<<static_cast<SpotLight*>(lights[i])->GetPos().z()<<"\r";
-					Camera* sm_camera = lights[i]->GetCamera();
-					float4x4 view_proj_mat = sm_camera->GetViewMatirx() * sm_camera->GetProjMatrix();
+					//std::cout<<static_cast<SpotLight*>(lights[i])->GetDir().x()<<" "<<static_cast<SpotLight*>(lights[i])->GetDir().y()<<" "<<static_cast<SpotLight*>(lights[i])->GetDir().z()<<"\r";
+					
 					shadow_blur_buffer_->SetFrameCamera(sm_camera);
 					render_engine->BindFrameBuffer(shadow_blur_buffer_);
 					render_engine->SetNormalState();
@@ -318,13 +318,16 @@ namespace MocapGE
 				//shader_object->SetReource("lighting_tex", lighting_srv_, 1);
 				//do lighting
 				//Set Shader file for quad
-				light_view_proj = lights[i]->GetCamera()->GetViewMatirx() * lights[i]->GetCamera()->GetProjMatrix();
-				shadow_trans_mat =  light_view_proj* TEXCOOD_TRANS;
+				//std::cout<<lights[i]->GetCamera()->GetPos().x()<<" "<<lights[i]->GetCamera()->GetPos().y()<<" "<<lights[i]->GetCamera()->GetPos().z()<<"\r";
+/*
+				std::cout<<view_proj_mat[0][0]<<" "<<view_proj_mat[0][1]<<" "<<view_proj_mat[0][2]<<"\n";
+				std::cout<<view_proj_mat[1][0]<<" "<<view_proj_mat[1][1]<<" "<<view_proj_mat[1][2]<<"\n";
+				std::cout<<view_proj_mat[2][0]<<" "<<view_proj_mat[2][1]<<" "<<view_proj_mat[2][2]<<"\n\n";*/
 				lighting_buffer_->SetFrameCamera(back_frame_camera);
 				render_engine->BindFrameBuffer(lighting_buffer_);
 				render_engine->SetDeferredRenderingState();
 				shader_object->SetMatrixVariable("g_shadow_transform", shadow_trans_mat);
-				shader_object->SetMatrixVariable("g_light_view_proj", light_view_proj);
+				shader_object->SetMatrixVariable("g_light_view_proj", view_proj_mat);
 				fullscreen_mesh_->SetShaderObject(shader_object);
 				fullscreen_mesh_->SetRenderParameters();
 				//quad->GetShaderObject()->Apply(1);

@@ -129,9 +129,9 @@ void GamingState::Update()
 
 	float4x4 trans_mat,sacle_mat;
 //	float3 pos = static_cast<SpotLight*>(Context::Instance().GetSceneManager().GetLights()[1])->GetPos();
-	Math::Translate(trans_mat, 400 ,Math::Cos(timer_->Time()/1000)*50, 0);
+	Math::Translate(trans_mat, 400 ,-50, 0);
 	Math::Scale(sacle_mat, 50);
-	//jupiter_->SetModelMatrix(sacle_mat*trans_mat);
+	jupiter_->SetModelMatrix(sacle_mat*trans_mat);
 }
 
 void GamingState::OnKeyDown( WPARAM key_para )

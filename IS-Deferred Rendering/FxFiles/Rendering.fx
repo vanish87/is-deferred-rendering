@@ -74,7 +74,7 @@ float4 CalLighting( in float3 normal,
 }
 
 float4 CalPreLighting(	 in float3 normal, 
-						 in float3 position, //world_pos
+						 in float3 position, //view pos
 						 in float  specularPower,
 						 in float shadow)
 {

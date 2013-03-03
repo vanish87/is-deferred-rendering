@@ -22,12 +22,9 @@ SamplerState MeshTextureSampler
 
 SamplerState ShadowMapSampler
 {
-	Filter   = MIN_MAG_MIP_LINEAR;
-	AddressU = BORDER;
-	AddressV = BORDER;
-	BorderColor = float4(1.0f, 1.0f, 1.0f, 0.0f);
-
-	ComparisonFunc = LESS_Equal;
+	Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
 };
 
 cbuffer cbPerObject
@@ -97,15 +94,17 @@ struct LightingVin
 struct LightingVout
 {
 	float4 pos		: SV_POSITION;
-	float3 posVS    : POSITION;
+	float3 view_ray    : VIEWRAY;
 };
 
 LightingVout LightingVS(in LightingVin vin)
 {
 	LightingVout vout;
 	vout.pos = vin.Position;
-	float3 pos_vs = mul(vin.Position, g_inv_proj_matrix).xyz ;
-	vout.posVS = float3(pos_vs.xy/pos_vs.z , 1.0f);
+	float4 pos = mul(vin.Position, g_inv_proj_matrix);
+
+	float3 positionVS = mul( vin.Position, g_inv_proj_matrix ).xyz;
+	vout.view_ray = float3( positionVS.xy / positionVS.z, 1.0f );
 	return vout;
 }
 float linstep(float min, float max, float v)
@@ -125,7 +124,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 		
 	
 	int3 samplelndices = int3( pin.pos.xy, 0 );
-	float3 view_ray_vec = normalize(pin.posVS);
+	float3 view_ray_vec = pin.view_ray;
 	float depth = depth_tex.Load( samplelndices ).r;
 
 	float zf = 1000.0f;
@@ -141,19 +140,22 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	//shadowing
 	float4 world_pos = mul(float4(positionVS, 1.0f) , g_inv_view_matrix);
 	//world_pos /= world_pos.w;
-	float2 shadow_tex_cood = mul(world_pos , g_shadow_transform);
-	float shadow_depth = shadow_map_tex.Sample(ShadowMapSampler, shadow_tex_cood).r;
-	shadow_depth = zn * q / (q - shadow_depth);
+	//float2 shadow_tex_cood = mul(world_pos , g_shadow_transform);
+	//float shadow_depth = shadow_map_tex.Sample(ShadowMapSampler, shadow_tex_cood).r;
+	//shadow_depth = zn * q / (q - shadow_depth);
 
 	
 	float4 pos_light = mul(world_pos, g_light_view_proj);
 	pos_light /= pos_light.w;
 	pos_light.x = pos_light.x / 2 + 0.5f;
 	pos_light.y = -pos_light.y / 2 + 0.5f;
-	shadow_depth = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).r;
+	//float shadow_depth = shadow_map_tex.Load( samplelndices ).r;
+	float shadow_depth  = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).r;
 	shadow_depth = zn * q / (q - shadow_depth);
 	float pos_depth = pos_light.z;
 	pos_depth = zn * q / (q - pos_depth);
+
+	//pos_depth = length(mul(light.position.xyz,g_inv_view_matrix)  - world_pos);
 
 	float min_variance = 0.3;
 	float bleeding_reduce = 0.75;
