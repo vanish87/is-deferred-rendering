@@ -9,9 +9,12 @@ cbuffer cbPerObject
 	float4x4 g_inv_view_matrix;
 };
 
+Texture2D input_tex;
+
 cbuffer cbPerFrame
 {
 	float3 g_eye_pos;
+	float3 g_eye_z;
 };
 
 struct VertexIn
@@ -22,23 +25,39 @@ struct VertexIn
 struct VertexOut
 {
 	float4 pos			: SV_POSITION;
+	float2 tex			: TEXCOORD;
 };
 struct PSOutput
 {
 	float4 color		: SV_Target0;
 };
 
+SamplerState ShadowMapSampler
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
+
 VertexOut VS(VertexIn vin)
 {
 	VertexOut vout;
     vout.pos = float4(vin.pos.xyz, 1.0f);
+	vout.tex = float2(vin.pos.x * 0.5 + 0.5, -vin.pos.y * 0.5 + 0.5);
     return vout;
 }
 
 PSOutput PS(VertexOut pin) 
 {
+	float zf = 1000.0f;
+	float zn = 1.0f;
+	float q = zf/ (zf-zn);
 	PSOutput output;
-	output.color = float4(1.0f,0,0,1.0f);	
+	float dis = input_tex.Sample(ShadowMapSampler,pin.tex).x;
+	dis = zn * q / (q - dis);
+	float2 dxdy = float2(ddx(dis), ddy(dis));
+	// G chanel for vsm
+	output.color = float4(dis, dis * dis + 0.25f * dot(dxdy, dxdy), 0, 1);
 	return output;
 }
 

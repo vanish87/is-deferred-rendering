@@ -396,7 +396,13 @@
     <CustomBuild Include="..\FxFiles\SkyDome.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\FxFiles\PostProcess.fx">
+    <CustomBuild Include="..\FxFiles\LinearizeDepthPostProcess.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\FxFiles\GaussianBlurXFilterPostProcess.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\FxFiles\GaussianBlurYFilterPostProcess.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
   </ItemGroup>

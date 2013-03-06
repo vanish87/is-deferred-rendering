@@ -46,16 +46,20 @@ cbuffer cbPerObject
 
 struct VertexIn
 {
-	float3 pos  : POSITION;
-    float3 normal : NORMAL;	
-	float2 tex_cood		: TEXCOORD;
+	float3 pos				: POSITION;
+    float3 normal			: NORMAL;	
+	float2 tex_cood			: TEXCOORD;	
+	float3 tangent_cood		: TANGENT;
+	float4 binormal			: BINORMAL;
 };
 
 struct VertexOut
 {
-	float4 pos			: SV_POSITION;
-    float3 normal		: NORMAL;
-	float2 tex_cood		: TEXCOORD0;
+	float4 pos				: SV_POSITION;
+    float3 normal			: NORMAL;
+	float2 tex_cood			: TEXCOORD0;
+	float3 tangent_cood		: TANGENT;
+	float4 binormal			: BINORMAL;
 };
 
 VertexOut GbufferVS(VertexIn vin)
@@ -67,6 +71,8 @@ VertexOut GbufferVS(VertexIn vin)
 	vout.pos = mul(float4(vin.pos, 1.0f), mvp_matrix);
 	vout.normal = normalize(mul(vin.normal, (float3x3)g_world_inv_transpose));
 	vout.tex_cood = vin.tex_cood;    
+	vout.tangent_cood = float3(0,0,0);
+	vout.binormal = float4(0,0,0,0);
     return vout;
 }
 
@@ -94,7 +100,7 @@ struct LightingVin
 struct LightingVout
 {
 	float4 pos		: SV_POSITION;
-	float3 view_ray    : VIEWRAY;
+	float3 view_ray    : TEXCOORD;
 };
 
 LightingVout LightingVS(in LightingVin vin)
@@ -150,8 +156,8 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	pos_light.x = pos_light.x / 2 + 0.5f;
 	pos_light.y = -pos_light.y / 2 + 0.5f;
 	//float shadow_depth = shadow_map_tex.Load( samplelndices ).r;
-	float shadow_depth  = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).r;
-	shadow_depth = zn * q / (q - shadow_depth);
+	//float shadow_depth  = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).r;
+	//shadow_depth = zn * q / (q - shadow_depth);
 	float pos_depth = pos_light.z;
 	pos_depth = zn * q / (q - pos_depth);
 
@@ -160,9 +166,10 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float min_variance = 0.3;
 	float bleeding_reduce = 0.75;
 
-	float2 moments = float2(shadow_depth, shadow_depth*shadow_depth);
+	//float2 moments = float2(shadow_depth, shadow_depth*shadow_depth);
+	float2 moments = shadow_map_tex.Sample(ShadowMapSampler, pos_light.xy).rg;
 	//float len = length(light.position.xyz - positionVS);
-	float p = (pos_depth < moments.x );
+	float p = (pos_depth <= moments.x );
 	// Variance shadow mapping
 	float variance = moments.y - moments.x * moments.x;
 	variance = max(variance, min_variance);
@@ -191,8 +198,9 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	
 	if(0)
 	{
-		shadow_depth /=1000.0f;
-		return float4(shadow_depth,shadow_depth,shadow_depth,1.0f);
+		//shadow_depth /=1000.0f;
+		return float4(shadow_map_tex.Load( samplelndices ).rrr/1000.0f, 1.0f);
+		//return float4(shadow_depth,shadow_depth,shadow_depth,1.0f);
 	}
 
 	//Get Infor from g-buffer

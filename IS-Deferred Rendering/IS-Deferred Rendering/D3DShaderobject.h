@@ -52,7 +52,7 @@ namespace MocapGE
 		virtual void SetRawData( std::string name, void* data, uint32_t size );
 
 		ID3DX11EffectShaderResourceVariable* GetShaderRourceVariable(std::string name){return shader_resource_variable_.find(name)->second;};
-		void SetShaderResourceVariable(std::string name);
+		virtual void SetShaderResourceVariable(std::string name);
 		//type: 0 for RenderBuffer; 1 for ShaderResource
 		virtual void SetReource( std::string name, RenderBuffer* data, uint32_t type );
 

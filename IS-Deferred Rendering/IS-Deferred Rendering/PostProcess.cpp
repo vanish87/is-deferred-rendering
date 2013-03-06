@@ -71,7 +71,7 @@ namespace MocapGE
 		RenderBuffer* shader_resource = Context::Instance().GetRenderFactory().MakeRenderBuffer(tex, AT_GPU_READ, BU_SHADER_RES);
 		if(index >= input_srv_.size())
 		{
-			//Add to gbuffer
+			//Add to input
 			input_srv_.push_back(shader_resource);
 		}
 		else
@@ -89,10 +89,14 @@ namespace MocapGE
 	void PostProcess::Apply()
 	{
 		RenderEngine* re = &Context::Instance().GetRenderFactory().GetRenderEngine();
+		re->SetDeferredRenderingState();
 		re->BindFrameBuffer(output_buffer_);
+		ShaderObject* shander_object = fullscreen_mesh_->GetShaderObject();
+		shander_object->SetReource("input_tex", input_srv_[0], 1);
 		fullscreen_mesh_->SetRenderParameters();
 		fullscreen_mesh_->Render(0);
 		fullscreen_mesh_->EndRender();
+		re->SetNormalState();
 	}
 
 	void PostProcess::SetPPShader( ShaderObject* shander_object )
@@ -106,6 +110,9 @@ namespace MocapGE
 		shander_object->SetMatrixVariable("g_inv_view_matrix");
 		shander_object->SetMatrixVariable("g_model_matrix");
 		shander_object->SetVectorVariable("g_eye_pos");
+		shander_object->SetVectorVariable("g_eye_z");
+
+		shander_object->SetShaderResourceVariable("input_tex");
 		//shander_object->SetVariable("gMaterial");
 		//shander_object->SetShaderResourceVariable("mesh_diffuse");
 		fullscreen_mesh_->SetShaderObject(shander_object);

@@ -18,6 +18,7 @@ namespace MocapGE
 		virtual void SetMatrixVariable(std::string name) = 0;
 		virtual void SetMatrixVariable(std::string name, float4x4 & matrix) = 0;
 		virtual void SetRawData(std::string name, void* data, uint32_t size) = 0;
+		virtual void SetShaderResourceVariable(std::string name) = 0;
 		virtual void SetReource(std::string name, RenderBuffer* data, uint32_t size) = 0;
 
 		virtual void SetTechnique(std::string name) = 0;

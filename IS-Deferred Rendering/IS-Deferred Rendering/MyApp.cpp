@@ -30,7 +30,7 @@ void MyApp::InitObjects()
 	//point_light_->AddToScene();
 
 	spot_light_ = new SpotLight();
-	spot_light_->SetPos(float3(700, 500, 0));
+	spot_light_->SetPos(float3(600, 500, 0));
 	spot_light_->SetDir(float3(-0.5,-1,0));
 	spot_light_->SetInnerAngle(Math::PI / 24);
 	spot_light_->SetOuterAngle(Math::PI / 14);

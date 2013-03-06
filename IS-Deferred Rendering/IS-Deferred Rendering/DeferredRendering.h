@@ -11,8 +11,12 @@
 #include "RenderLayout.h"
 #include "Mesh.h"
 
+
 namespace MocapGE
 {
+	//temp solution for pp
+	class D3DShaderobject;
+
 	class DeferredRendering
 	{
 	public:
@@ -50,11 +54,24 @@ namespace MocapGE
 		RenderBuffer* shadowing_srv_;
 		Texture* shadowing_tex_;
 
-		FrameBuffer* shadow_blur_buffer_;
-		Texture* shadow_depth_tex_;
-		RenderBuffer* shadow_depth_srv_;
+
 		Texture* shadow_blur_;
 
+		//TODO: create own shader object
+		D3DShaderobject* shadow_map_blur_so_;
+		PostProcess* shadow_map_xblur_pp_;
+		PostProcess* shadow_map_yblur_pp_;
+		Texture* shadow_blur_X_;
+		Texture* shadow_blur_Y_;
+
+		D3DShaderobject* linearize_shadow_map_so_;
+		PostProcess* linearize_shadow_map_pp_;
+		FrameBuffer* shadow_map_buffer_;
+		Texture* shadow_depth_;
+		Texture* shadow_linear_depth_;
+
+		//final blur texture
+		RenderBuffer* shadow_blur_srv_;
 
 		RenderBuffer* depth_srv_;
 

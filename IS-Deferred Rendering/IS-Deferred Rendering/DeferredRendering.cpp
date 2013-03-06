@@ -1,4 +1,6 @@
 #include "DeferredRendering.h"
+#include "PostProcess.h"
+#include "D3DShaderobject.h"
 
 namespace MocapGE
 {
@@ -73,17 +75,53 @@ namespace MocapGE
 		}
 
 		//init shadow blur buffer
-		shadow_blur_buffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting);
+		shadow_map_buffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting);
+		shadow_depth_ = shadow_map_buffer_->GetDepthTexture();
+		shadow_linear_depth_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+
+
+		linearize_shadow_map_so_ = new D3DShaderobject();
+		linearize_shadow_map_so_->LoadFxoFile("..\\FxFiles\\LinearizeDepthPostProcess.fxo");
+		linearize_shadow_map_so_->SetTechnique("PPTech");
+
+		linearize_shadow_map_pp_ = new PostProcess();
+		linearize_shadow_map_pp_->SetPPShader(linearize_shadow_map_so_);
+		linearize_shadow_map_pp_->SetInput(shadow_depth_, 0);
+		linearize_shadow_map_pp_->SetOutput(shadow_linear_depth_, 0);
+
+		shadow_blur_X_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+		shadow_blur_Y_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+
+		shadow_map_blur_so_ = new D3DShaderobject();
+		shadow_map_blur_so_->LoadFxoFile("..\\FxFiles\\GaussianBlurXFilterPostProcess.fxo");
+		shadow_map_blur_so_->SetTechnique("PPTech");
+
+		shadow_map_xblur_pp_ = new PostProcess();
+		shadow_map_xblur_pp_->SetPPShader(shadow_map_blur_so_);
+		shadow_map_xblur_pp_->SetInput(shadow_linear_depth_, 0);
+		shadow_map_xblur_pp_->SetOutput(shadow_blur_X_, 0);
+
+		shadow_map_blur_so_->LoadFxoFile("..\\FxFiles\\GaussianBlurYFilterPostProcess.fxo");
+		shadow_map_blur_so_->SetTechnique("PPTech");
+
+		shadow_map_yblur_pp_ = new PostProcess();
+		shadow_map_yblur_pp_->SetPPShader(shadow_map_blur_so_);
+		shadow_map_yblur_pp_->SetInput(shadow_blur_X_, 0);
+		shadow_map_yblur_pp_->SetOutput(shadow_blur_Y_, 0);
+
+		shadow_blur_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(shadow_blur_Y_, AT_GPU_READ, BU_SHADER_RES);
+
+
 		shadow_blur_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, 512, 512,
 			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
 		//shadow_blur_buffer_->AddRenderView(Context::Instance().GetRenderFactory().MakeRenderView(shadow_blur_, 1, 0));
-		shadow_depth_tex_ = shadow_blur_buffer_->GetDepthTexture();
-		shadow_depth_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(shadow_depth_tex_, AT_GPU_READ, BU_SHADER_RES);
-
 
 		//inti shadowing buffer
 		shadowing_buffer_ = Context::Instance().GetRenderFactory().MakeFrameBuffer(render_setting);
-		Texture* shadowing_texture_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width/2, render_setting.height/2,
+		Texture* shadowing_texture_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
 			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
 		RenderView* render_view = Context::Instance().GetRenderFactory().MakeRenderView(shadowing_texture_, 1, 0);
 		shadowing_buffer_->AddRenderView(render_view);
@@ -283,8 +321,8 @@ namespace MocapGE
 
 					//std::cout<<static_cast<SpotLight*>(lights[i])->GetDir().x()<<" "<<static_cast<SpotLight*>(lights[i])->GetDir().y()<<" "<<static_cast<SpotLight*>(lights[i])->GetDir().z()<<"\r";
 					
-					shadow_blur_buffer_->SetFrameCamera(sm_camera);
-					render_engine->BindFrameBuffer(shadow_blur_buffer_);
+					shadow_map_buffer_->SetFrameCamera(sm_camera);
+					render_engine->BindFrameBuffer(shadow_map_buffer_);
 					render_engine->SetNormalState();
 					Context::Instance().GetRenderFactory().GetRenderEngine().RenderFrameBegin();
 					std::vector<RenderElement*>::iterator re;
@@ -300,20 +338,17 @@ namespace MocapGE
 					}
 
 				}
-				/*
-				D3DShaderobject* d3d_shader_obj = new D3DShaderobject();
-				d3d_shader_obj->LoadFxoFile("..\\FxFiles\\PostProcess.fxo");
-				d3d_shader_obj->SetTechnique("PPTech");
-				PostProcess* pp_= new PostProcess();
-				pp_->SetPPShader(d3d_shader_obj);
-				pp_->SetInput(gbuffer->GetDepthTexture(), 0);
-				pp_->SetOutput(gbuffer->GetDepthTexture(), 0);
-				pp_->Apply();*/
+
+				
+				
+				linearize_shadow_map_pp_->Apply();
+				shadow_map_xblur_pp_->Apply();
+				shadow_map_yblur_pp_->Apply();
 
 				//depth_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer_->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 			
 				shader_object->SetReource("depth_tex", depth_srv_, 1);
 				shader_object->SetReource("normal_tex", gbuffer_srv_[0], 1);
-				shader_object->SetReource("shadow_map_tex", shadow_depth_srv_, 1);
+				shader_object->SetReource("shadow_map_tex", shadow_blur_srv_, 1);
 
 				//shader_object->SetReource("lighting_tex", lighting_srv_, 1);
 				//do lighting
