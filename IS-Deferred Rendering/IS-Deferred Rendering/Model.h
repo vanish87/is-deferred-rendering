@@ -73,6 +73,9 @@ namespace MocapGE
 
 		virtual Texture* LoadTexture(std::string file_name) = 0;
 
+		void POM(bool enable);
+		virtual void LoadPomTexture(std::string file_name_) = 0;
+
 		std::vector<Mesh*> GetMesh(){return meshes_;};
 		
 
@@ -80,6 +83,9 @@ namespace MocapGE
 		std::vector<Mesh*> meshes_;
 		std::vector<Material*> materials_;
 		std::vector<Texture*> textures_;
+
+		bool pom_enabled_;
+		Texture* pom_texture_;
 
 		float4x4 processMatrix(daeElement* node);
 		void processSource( DaeMesh* mesh, daeElement* sources );

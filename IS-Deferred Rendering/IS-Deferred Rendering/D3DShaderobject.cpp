@@ -41,6 +41,18 @@ namespace MocapGE
 		matrix_variable_[name] = fx_->GetVariableByName(name.c_str())->AsMatrix();
 	}
 
+	void D3DShaderobject::SetBool( std::string name)
+	{
+		scale_variable_[name] = fx_->GetVariableByName(name.c_str())->AsScalar();
+	}
+
+	void D3DShaderobject::SetBool( std::string name, bool value )
+	{
+		ID3DX11EffectScalarVariable* bool_var = this->GetBoolVariable(name);
+		HRESULT res = bool_var->SetBool(value);
+		if(FAILED(res))
+			PRINT("Cannot SetBool");
+	}
 	void D3DShaderobject::SetMatrixVariable( std::string name, float4x4 & matrix )
 	{
 		//TODO: write a better solution for cast float4x4 to float*
@@ -65,6 +77,8 @@ namespace MocapGE
 		ID3DX11EffectVectorVariable* vec3_var = GetVectorVariable(name);
 		float data[3] = {vec3[0], vec3[1], vec3[2]};
 		HRESULT res = vec3_var->SetFloatVector(data);
+		if(FAILED(res))
+			PRINT("Cannot SetFloatVector");
 	}
 
 	void D3DShaderobject::SetVectorVariable( std::string name, float4 & vec4 )
@@ -142,6 +156,8 @@ namespace MocapGE
 			PRINT("Cannot find Variables");
 		shader_resource_variable_[name] = fx_->GetVariableByName(name.c_str())->AsShaderResource();
 	}
+
+
 
 
 }

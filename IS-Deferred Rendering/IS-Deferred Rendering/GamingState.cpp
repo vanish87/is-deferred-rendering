@@ -7,11 +7,13 @@ GamingState::GamingState(void)
 {
 	ship_model = new D3DModel();
 	ship_model->LoadFile("..\\Media\\spacecraft_new.dae");
+	ship_model->LoadPomTexture("..\\Media\\pom1.jpg");
 	ship_model->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_ship_ = new SceneObject(ship_model);
 	scene_ship_->AddToScene();
 
 	ship_ = new Ship(ship_model);
+	ship_->SetPos(float3(594, -49, 0));
 
 	float3 ship_dir = ship_->GetDir();
 	float3 ship_pos = ship_->GetPos();

@@ -30,7 +30,7 @@ void MyApp::InitObjects()
 	//point_light_->AddToScene();
 
 	spot_light_ = new SpotLight();
-	spot_light_->SetPos(float3(600, 500, 0));
+	spot_light_->SetPos(float3(600, -40, 0));
 	spot_light_->SetDir(float3(-0.5,-1,0));
 	spot_light_->SetInnerAngle(Math::PI / 24);
 	spot_light_->SetOuterAngle(Math::PI / 14);
@@ -64,6 +64,8 @@ void MyApp::Update()
 
 void MyApp::OnKeyDown( WPARAM key_para )
 {
+
+	float3 pos = spot_light_->GetPos();
 	switch (key_para) 
 	{ 
 		//entering assembling mode
@@ -88,6 +90,15 @@ void MyApp::OnKeyDown( WPARAM key_para )
 				}
 				break;
 			}
+
+		case 'O':
+			pos.y()--;
+			spot_light_->SetPos(pos);
+			break;
+		case 'P':
+			pos.y()++;
+			spot_light_->SetPos(pos);
+			break;
 		default:
 			break;
 	

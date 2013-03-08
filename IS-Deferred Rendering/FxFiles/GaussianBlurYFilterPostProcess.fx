@@ -35,8 +35,8 @@ struct PSOutput
 SamplerState ShadowMapSampler
 {
 	Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = CLAMP;
-    AddressV = CLAMP;
+    AddressU = Clamp;
+    AddressV = Clamp;
 };
 
 VertexOut VS(VertexIn vin)
@@ -47,23 +47,87 @@ VertexOut VS(VertexIn vin)
     return vout;
 }
 
+float BoxFilterStart( float fWidth )  //Assumes filter is odd
+{
+    return ( ( fWidth - 1.0f ) / 2.0f );
+}
+
 PSOutput PS(VertexOut pin) 
 {
-	float blurSize = 1.0f/1024.0f;
+	float blurSize = 1.0f/800.0f;
 	PSOutput output;	
 	float4 sum =0.0;
- 
+	bool box = true;
+
+	if(box)
+	{
+		//====================================
+	float fFilterWidth = 7;
+	bool bVertical = true;
+	float fStepSize = 1.0f;
+	float fTextureWidth = 800.0f;
+	
+	//float box_filter[7] = {0.006,0.061,0.242,0.383,0.242,0.061,0.006};
+	float box_filter[7] = {1,1,1,1,1,1,1};
+	float box_w = 7;
+	
+	float fStartOffset = BoxFilterStart( fFilterWidth );
+	float2 fTexelOffset = float2( bVertical * ( fStepSize / fTextureWidth ), !bVertical * ( fStepSize / fTextureWidth ) );
+
+    
+    float2 fTexStart = pin.tex - ( fStartOffset * fTexelOffset );
+    
+    for( int i = 0; i < fFilterWidth; ++i )
+        sum += input_tex.Sample( ShadowMapSampler, float2( fTexStart + fTexelOffset * i) ) * box_filter[i];
+    
+    output.color =  sum / box_w;
+	return output;
+	}
+
+	//pin.tex = float2(pin.pos.x * 0.5 + 0.5, -pin.pos.y * 0.5 + 0.5);
     // blur in y (vertical)
     // take nine samples, with the distance blurSize between them
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 4.0*blurSize)) * 0.05;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 3.0*blurSize)) * 0.09;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.12;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.15;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.16;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.15;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.12;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.09;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 4.0*blurSize)) * 0.05;
+	sum =0.0;
+   // sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 3.0*blurSize)) * 0.0545;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.0545;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.2442;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.4026;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.2442;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.0545;
+   // sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.0545;
+		
+// 	   sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 3.0*blurSize)) * 0.015625;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.09375;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.234375;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.3125;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.234375;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.09375;
+// 		sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.015625;
+
+// 	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 3.0*blurSize)) * 0.00038771;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.01330373;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.11098164;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.22508352;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.11098164;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.01330373;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.00038771;
+
+	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 4.0*blurSize)) * 0.0162162162 ;
+	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 3.0*blurSize)) * 0.0540540541;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.1216216216;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.1945945946;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.2270270270;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.1945945946;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.1216216216;
+    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.0540540541;
+	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 3.0*blurSize)) * 0.0162162162;
+
+// 	
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - 2.0*blurSize)) * 0.0097576615;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y - blurSize)) * 0.2058489191;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.5687868388;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + blurSize)) * 0.2058489191;
+//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y + 2.0*blurSize)) * 0.0097576615;
 	
 	output.color = sum;
 	return output;

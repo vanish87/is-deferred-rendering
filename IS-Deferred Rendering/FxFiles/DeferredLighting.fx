@@ -8,6 +8,9 @@ Texture2D depth_tex;
 //Shadow map
 Texture2D shadow_map_tex;
 
+//POM
+Texture2D normal_map_tex;
+
 //for lighting buffer
 Texture2D lighting_tex;
 
@@ -41,6 +44,8 @@ cbuffer cbPerObject
 	
 	float4x4 g_shadow_transform; 
 	float4x4 g_light_view_proj; 
+
+	bool g_pom_enable;
 };
 
 
@@ -163,7 +168,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 
 	//pos_depth = length(mul(light.position.xyz,g_inv_view_matrix)  - world_pos);
 
-	float min_variance = 0.3;
+	float min_variance = 0.6;
 	float bleeding_reduce = 0.75;
 
 	//float2 moments = float2(shadow_depth, shadow_depth*shadow_depth);

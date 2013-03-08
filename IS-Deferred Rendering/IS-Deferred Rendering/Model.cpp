@@ -4,6 +4,7 @@
 namespace MocapGE
 {
 	Model::Model(void)
+		:pom_enabled_(false), pom_texture_(nullptr)
 	{
 	}
 
@@ -681,5 +682,10 @@ namespace MocapGE
 	{
 
 	}	
+
+	void Model::POM( bool enable )
+	{
+		pom_enabled_ = enable;
+	}
 
 }

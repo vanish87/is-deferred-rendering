@@ -36,7 +36,8 @@ namespace MocapGE
 
 		virtual Texture* LoadTexture( std::string file_name );
 
-		float theta;
+		virtual void LoadPomTexture( std::string file_name_ );
+
 	};
 
 }

@@ -4,7 +4,6 @@ namespace MocapGE
 {
 	D3DModel::D3DModel(void)
 	{
-		theta = 0;
 	} 
 
 
@@ -93,10 +92,14 @@ namespace MocapGE
 		d3d_shader_object->SetVariable("gMaterial");
 		d3d_shader_object->SetShaderResourceVariable("mesh_diffuse");
 
+
+		d3d_shader_object->SetBool("g_pom_enable");
+		d3d_shader_object->SetBool("g_pom_enable", pom_enabled_);
+		d3d_shader_object->SetShaderResourceVariable("normal_map_tex");
+
 		//d3d_shader_object->SetVectorVariable("g_light_color");
 		//d3d_shader_object->SetVectorVariable("g_light_position");
 		d3d_shader_object->SetVectorVariable("g_eye_pos");
-		d3d_shader_object->SetVectorVariable("g_eye_z");
 
 		d3d_shader_object->SetVariable("light");
 		d3d_shader_object->SetMatrixVariable("g_shadow_transform");
@@ -137,6 +140,12 @@ namespace MocapGE
 		
 		return d3d_tex;
 		
+	}
+
+	void D3DModel::LoadPomTexture( std::string file_name )
+	{
+		pom_enabled_ = true;
+		pom_texture_ = LoadTexture(file_name);
 	}
 
 

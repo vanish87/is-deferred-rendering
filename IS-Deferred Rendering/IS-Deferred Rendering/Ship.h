@@ -20,6 +20,7 @@ public:
 	float GetPHI(){return phi_;};
 	float GetTheta(){return theta_;};
 	MocapGE::float3 GetPos(){return pos_;};
+	void SetPos(MocapGE::float3 pos){pos_ = pos;};
 	MocapGE::float3 GetUp(){return up_;};
 	void Accelerating();
 	void Deccelerating();

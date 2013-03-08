@@ -17,6 +17,7 @@ namespace MocapGE
 		//make a full screen qua for lighting pass
 		VertexType* vb = new VertexType[6];
 		uint32_t* ib = new uint32_t[6];
+		//clock wise
 		vb[0].position = float3(-1, +1, 1);
 		vb[1].position = float3(+1, +1, 1);
 		vb[2].position = float3(-1, -1, 1);

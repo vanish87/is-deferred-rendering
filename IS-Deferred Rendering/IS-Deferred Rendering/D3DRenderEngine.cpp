@@ -135,7 +135,6 @@ namespace MocapGE
 		shader_object->SetMatrixVariable("g_inv_proj_matrix", Math::Inverse(proj_mat));
 		shader_object->SetMatrixVariable("g_inv_view_matrix", Math::Inverse(view_mat));
 		shader_object->SetVectorVariable("g_eye_pos", camera_pos);
-		shader_object->SetVectorVariable("g_eye_z", camera_at - camera_pos);
 		
 
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object);

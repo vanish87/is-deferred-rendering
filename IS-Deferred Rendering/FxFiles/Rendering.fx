@@ -20,7 +20,6 @@ struct Light
 cbuffer cbPerFrame
 {
 	float3 g_eye_pos;
-	float3 g_eye_z;
 	Light light;
 };
 

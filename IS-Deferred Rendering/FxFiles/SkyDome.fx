@@ -1,6 +1,3 @@
-
-
-
 TextureCube  background_tex;
 cbuffer cbPerObject
 {

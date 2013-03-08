@@ -33,6 +33,10 @@ namespace MocapGE
 		typedef std::vector<int> IndexList;
 		void BuildGeoSphere( int numSubdivisions, float radius, VertexList& vertices, IndexList& indices);
 		void Subdivide(VertexList& vertices, IndexList& indices);
+
+		//no pom for sky dome
+		virtual void LoadPomTexture( std::string file_name_ ){};
+
 	private:
 		Texture* cube_texture_;
 		Mesh* sky_mesh_;

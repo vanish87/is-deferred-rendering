@@ -35,16 +35,20 @@ namespace MocapGE
 		virtual void SetTechnique(std::string name);
 
 		ID3DX11EffectVariable* GetVariable(std::string name){return effect_variable_.find(name)->second;};
-		void SetVariable(std::string name);
+		virtual void SetVariable(std::string name);
 
 		ID3DX11EffectMatrixVariable* GetMatrixVariable(std::string name){return matrix_variable_.find(name)->second;};
 		virtual void SetMatrixVariable(std::string name);
 		virtual void SetMatrixVariable(std::string name, float4x4 & matrix);
 
 		ID3DX11EffectVectorVariable* GetVectorVariable(std::string name){return vector_variable_.find(name)->second;};
-		void SetVectorVariable(std::string name);
+		virtual void SetVectorVariable(std::string name);
 		virtual void SetVectorVariable( std::string name, float3 & vec3 );
 		virtual void SetVectorVariable( std::string name, float4 & vec4 );
+
+		ID3DX11EffectScalarVariable* GetBoolVariable(std::string name){return scale_variable_.find(name)->second;};
+		virtual void SetBool( std::string name);
+		virtual void SetBool( std::string name, bool value );
 
 		virtual size_t GetPass();
 		virtual void Apply(size_t pass_index);
@@ -59,6 +63,7 @@ namespace MocapGE
 
 
 
+
 	private:
 
 		ID3DX11Effect* fx_;
@@ -67,6 +72,7 @@ namespace MocapGE
 		std::map<std::string, ID3DX11EffectShaderResourceVariable*> shader_resource_variable_;
 		std::map<std::string, ID3DX11EffectMatrixVariable*> matrix_variable_;
 		std::map<std::string, ID3DX11EffectVectorVariable*> vector_variable_;
+		std::map<std::string, ID3DX11EffectScalarVariable*> scale_variable_;
 		std::map<std::string, ID3DX11EffectVariable*>		effect_variable_;
 	};
 

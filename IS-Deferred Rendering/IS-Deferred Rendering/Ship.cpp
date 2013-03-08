@@ -27,6 +27,10 @@ void Ship::Update()
 	float3 ship_dir = GetDir();
 	pos_ = pos_ + ship_dir * speed_;
 	float4x4 ship_mat, yrotation_mat, xrotation_mat, translate_mat;
+
+
+	float4x4 scale_mat;
+	Math::Scale(scale_mat, 0.3);
 	Math::Identity(ship_mat);
 	Math::Identity(yrotation_mat);
 	Math::Identity(xrotation_mat);
@@ -35,7 +39,7 @@ void Ship::Update()
 	Math::ZRotation(xrotation_mat, phi_);
 	Math::Translate(translate_mat, pos_.x(), pos_.y(), pos_.z());
 
-	ship_mat =  xrotation_mat * yrotation_mat  * translate_mat;
+	ship_mat =  scale_mat*xrotation_mat * yrotation_mat  * translate_mat;
 	model_->SetModelMatrix(ship_mat);
 	for(size_t i =0; i< cannons_.size(); i++)
 	{
