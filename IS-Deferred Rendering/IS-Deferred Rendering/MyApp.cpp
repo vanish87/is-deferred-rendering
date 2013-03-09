@@ -30,8 +30,8 @@ void MyApp::InitObjects()
 	//point_light_->AddToScene();
 
 	spot_light_ = new SpotLight();
-	spot_light_->SetPos(float3(600, -40, 0));
-	spot_light_->SetDir(float3(-0.5,-1,0));
+	spot_light_->SetPos(float3(50, 10, 0));
+	spot_light_->SetDir(float3(0,0,0)-spot_light_->GetPos());
 	spot_light_->SetInnerAngle(Math::PI / 24);
 	spot_light_->SetOuterAngle(Math::PI / 14);
 	spot_light_->AddToScene();
@@ -94,10 +94,12 @@ void MyApp::OnKeyDown( WPARAM key_para )
 		case 'O':
 			pos.y()--;
 			spot_light_->SetPos(pos);
+			spot_light_->SetDir(float3(0,0,0)-spot_light_->GetPos());
 			break;
 		case 'P':
 			pos.y()++;
 			spot_light_->SetPos(pos);
+			spot_light_->SetDir(float3(0,0,0)-spot_light_->GetPos());
 			break;
 		default:
 			break;

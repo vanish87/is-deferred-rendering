@@ -212,6 +212,7 @@ namespace MocapGE
 				//Convert opengl texture coord to Dx coord
 				vb[j].uv = float2(uv.x(),1-uv.y());
 				vb[j].tangent = tangent;
+				bitangent.z()= -bitangent.z();
 				vb[j].bitangent = bitangent;
 				ib[j] = j;
 				//std::cout<<"index "<<j <<std::endl;

@@ -55,29 +55,52 @@ struct VertexIn
     float3 normal			: NORMAL;	
 	float2 tex_cood			: TEXCOORD;	
 	float3 tangent_cood		: TANGENT;
-	float4 binormal			: BINORMAL;
+	float3 binormal			: BINORMAL;
 };
 
 struct VertexOut
 {
-	float4 pos				: SV_POSITION;
-    float3 normal			: NORMAL;
-	float2 tex_cood			: TEXCOORD0;
-	float3 tangent_cood		: TANGENT;
-	float4 binormal			: BINORMAL;
+	float4 pos				 : SV_POSITION;
+   // float3 normalVS			 : NORMAL;     //view space
+	float2 tex_cood			 : TEXCOORD0;
+
+	float3 normalWS			 : NORMAL;
+	float3 tangentWS		 : TANGENT;
+
+    float3 vViewTS           : TEXCOORD1;   // view vector in tangent space, denormalized
+    float3 vNormalTS         : TEXCOORD2;   // Normal vector in world space
+
 };
 
 VertexOut GbufferVS(VertexIn vin)
 {
+	float g_fHeightMapScale = 1.0f;
 	VertexOut vout;
 	
 	float4x4 world_matrix = mul(g_model_matrix, g_world_matrix);
 	float4x4 mvp_matrix = mul(world_matrix ,g_view_proj_matrix);
 	vout.pos = mul(float4(vin.pos, 1.0f), mvp_matrix);
-	vout.normal = normalize(mul(vin.normal, (float3x3)g_world_inv_transpose));
+// 	vout.normalVS = normalize(mul(vin.normal, (float3x3)g_world_inv_transpose));
+// 	vout.tangentVS = normalize(mul(vin.tangent_cood, (float3x3)g_world_inv_transpose));
+// 	//trust model input come with orthorch
+// 	vout.binormalVS = normalize(mul(vin.binormal, (float3x3)g_world_inv_transpose));
 	vout.tex_cood = vin.tex_cood;    
-	vout.tangent_cood = float3(0,0,0);
-	vout.binormal = float4(0,0,0,0);
+
+	float3 normalWS = mul(vin.normal, (float3x3)world_matrix);
+	float3 tangentWS = mul(vin.tangent_cood, (float3x3)world_matrix);
+	float3 binormalWS =  mul(vin.binormal, (float3x3)world_matrix);
+
+	float4 positionWS =  mul(float4(vin.pos, 1.0f), world_matrix);
+	float3 viewWS = g_eye_pos - positionWS.xyz;
+
+	float3x3 mTtoW = float3x3( tangentWS, binormalWS, normalWS );
+	vout.vViewTS  = mul(mTtoW, viewWS);//== vViewWS * invese(mTtoW) == vViewWS * mWtoT
+	vout.vNormalTS = mul(mTtoW, vin.normal);
+
+	vout.normalWS = normalWS;
+	vout.tangentWS = tangentWS;
+	
+
     return vout;
 }
 
@@ -91,9 +114,73 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 {
 	GbufferPSOutput output;
 
-	output.Normal = float4(pin.normal, gMaterial.Shininess);	
+	int g_nMaxSamples = 60;
+	int g_nMinSamples = 8;
+	float fHeightMapScale = 0.02;
+	float fParallaxLimit = length((pin.vViewTS.xy) / pin.vViewTS.z);
+	fParallaxLimit *= fHeightMapScale;
+
+	float2 vOffset = normalize( -pin.vViewTS.xy );
+	vOffset = vOffset * fParallaxLimit;
+
+	int nNumSamples = (int) lerp( g_nMinSamples, g_nMaxSamples,dot(  pin.vViewTS,  pin.vNormalTS ));
+	float fStepSize = 1.0f / nNumSamples;
+
+	float2 dx, dy;
+	dx = ddx( pin.tex_cood );
+	dy = ddy( pin.tex_cood );
+
+	float2 vOffsetStep = fStepSize * vOffset;
+	float2 vCurrOffset = 0.0f;
+	float2 vLastOffset = 0.0f;
+	float2 vFinalOffset = 0.0f;
+
+	float4 vCurrSample;
+	float4  vLastSample;
+
+	float stepHeight = 1.0;
+	int nCurrSample = 0;
+
+	while( nCurrSample < nNumSamples )
+	{
+		vCurrSample = normal_map_tex.SampleGrad( MeshTextureSampler, pin.tex_cood + vCurrOffset, dx, dy );
+
+		if ( vCurrSample.a > stepHeight )
+	   {
+		  float Ua = (vLastSample.a - (stepHeight+fStepSize))  / ( fStepSize + (vCurrSample.a - vLastSample.a));
+		  vFinalOffset = vLastOffset + Ua * vOffsetStep;
+
+		  vCurrSample = normal_map_tex.SampleGrad( MeshTextureSampler, pin.tex_cood  + vFinalOffset, dx, dy );
+		  nCurrSample = nNumSamples + 1;
+	   }
+		else
+	   {
+		  nCurrSample++;
+		  stepHeight -= fStepSize;
+		  vLastOffset = vCurrOffset;
+		  vCurrOffset += vOffsetStep;
+		  vLastSample = vCurrSample;
+	   }
+	}
+
+	
+	//normal map
+	
+	float3 N = normalize(pin.normalWS);
+	float3 T = normalize(pin.tangentWS - dot(pin.tangentWS, N) * N);
+	float3 B = cross(N,T);
+	float3x3 TtoW = float3x3(T, B, N);
+	//TS normal + height
+	//float3 normalTS = normal_map_tex.Sample( MeshTextureSampler, pin.tex_cood).rgb;
+	float3 normalTS = vCurrSample.rgb;
+	normalTS = normalize( normalTS * 2.0f - 1.0f );
+	float3 normalWS = mul( normalTS, TtoW );
+	float3 normalVS = mul(normalWS, g_view_matrix);
+
+
+	output.Normal = float4(normalVS, gMaterial.Shininess);	
 	//combines Mat with Tex color
-	output.Diffuse = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood).rgb * gMaterial.Diffuse.rgb, gMaterial.Specular.x);	
+	output.Diffuse  = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood  + vFinalOffset).rgb * gMaterial.Diffuse.rgb, gMaterial.Specular.x);	
 
 	return output;
 }

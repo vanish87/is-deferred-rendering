@@ -21,6 +21,9 @@ namespace MocapGE
 		D3DShaderobject* d3d_shader_object = static_cast<D3DShaderobject*>(shader_object_);
 		d3d_shader_object->SetMatrixVariable("g_world_matrix", model_matrix_);
 
+		//TODO : use texture array to store every pom texture of mesh
+		if(pom_enabled_)
+			d3d_shader_object->SetReource("normal_map_tex", pom_srv_, 1);
 		//if(deferred_rendering)
 			//set parameter here
 			//
@@ -146,6 +149,7 @@ namespace MocapGE
 	{
 		pom_enabled_ = true;
 		pom_texture_ = LoadTexture(file_name);
+		pom_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(pom_texture_, AT_GPU_READ,BU_SHADER_RES);
 	}
 
 

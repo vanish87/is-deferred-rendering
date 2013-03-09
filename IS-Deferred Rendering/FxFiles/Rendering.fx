@@ -92,7 +92,7 @@ float4 CalPreLighting(	 in float3 normal,
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float  spec    = 0.0f;
 		float4 light_color = light.color;
-		float3 light_position = light.position;//world_pos
+		float3 light_position = light.position;//view_pos
 
 		float3 light_dir = light.direction;				
 		int type = light.type;

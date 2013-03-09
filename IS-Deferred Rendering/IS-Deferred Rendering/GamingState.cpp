@@ -7,13 +7,13 @@ GamingState::GamingState(void)
 {
 	ship_model = new D3DModel();
 	ship_model->LoadFile("..\\Media\\spacecraft_new.dae");
-	ship_model->LoadPomTexture("..\\Media\\pom1.jpg");
+	ship_model->LoadPomTexture("..\\Media\\pom.jpg");
 	ship_model->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_ship_ = new SceneObject(ship_model);
 	scene_ship_->AddToScene();
 
 	ship_ = new Ship(ship_model);
-	ship_->SetPos(float3(594, -49, 0));
+	ship_->SetPos(float3(-50, 20, 0));
 
 	float3 ship_dir = ship_->GetDir();
 	float3 ship_pos = ship_->GetPos();
@@ -30,13 +30,13 @@ GamingState::GamingState(void)
 	cannon_1->LoadFile("..\\Media\\gun2.dae");
 	cannon_1->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_cannon1_ = new SceneObject(cannon_1);
-	scene_cannon1_->AddToScene();
+	//scene_cannon1_->AddToScene();
 
 	cannon_2 = new D3DModel();
 	cannon_2->LoadFile("..\\Media\\gun2.dae");
 	cannon_2->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_cannon2_ = new SceneObject(cannon_2);
-	scene_cannon2_->AddToScene();
+	//scene_cannon2_->AddToScene();
 
 
 	Cannon* cannon1 = new Cannon(cannon_1, cannon_1);
@@ -47,7 +47,7 @@ GamingState::GamingState(void)
 	sky_= new D3DSkyDome("..\\Media\\universe.dds");
 	sky_->LoadShaderFile("..\\FxFiles\\SkyDome.fxo");
 	SceneObject* sky_scene = new SceneObject(sky_);
-	sky_scene->AddToScene();
+	//sky_scene->AddToScene();
 
 	float4x4 sacle_mat, trans_mat;
 	Math::Identity(sacle_mat);
@@ -59,7 +59,7 @@ GamingState::GamingState(void)
 	Math::Scale(sacle_mat, 10);
 	pluto_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_pluto_ = new SceneObject(pluto_);
-	scene_pluto_->AddToScene();
+	//scene_pluto_->AddToScene();
 
 	jupiter_ = new D3DModel();
 	jupiter_->LoadFile("..\\Media\\jupiter.dae");
@@ -68,7 +68,7 @@ GamingState::GamingState(void)
 	Math::Scale(sacle_mat, 50);
 	jupiter_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_jupiter_ = new SceneObject(jupiter_);
-	scene_jupiter_->AddToScene();
+	//scene_jupiter_->AddToScene();
 
 	sun_ = new D3DModel();
 	sun_->LoadFile("..\\Media\\sun.dae");
@@ -77,7 +77,7 @@ GamingState::GamingState(void)
 	Math::Translate(trans_mat, 2000, 50, 0);
 	sun_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_sun_ = new SceneObject(sun_);
-	scene_sun_->AddToScene();
+	//scene_sun_->AddToScene();
 
 	spacekey_down_ = false;
 	wkey_down_ = false;
@@ -86,9 +86,10 @@ GamingState::GamingState(void)
 
 	plane_ = new D3DModel();
 	plane_->LoadFile("..\\Media\\ground.dae");
+	plane_->LoadPomTexture("..\\Media\\pom.jpg");
 	plane_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	Math::Scale(sacle_mat, 100);
-	Math::Translate(trans_mat, 2000, 50, 0);
+	Math::Scale(sacle_mat, 1);
+	Math::Translate(trans_mat, 0, 0, 0);
 	plane_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_plane_ = new SceneObject(plane_);
 	scene_plane_->AddToScene();

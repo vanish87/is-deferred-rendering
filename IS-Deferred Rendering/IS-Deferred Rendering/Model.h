@@ -86,6 +86,7 @@ namespace MocapGE
 
 		bool pom_enabled_;
 		Texture* pom_texture_;
+		RenderBuffer* pom_srv_;
 
 		float4x4 processMatrix(daeElement* node);
 		void processSource( DaeMesh* mesh, daeElement* sources );
