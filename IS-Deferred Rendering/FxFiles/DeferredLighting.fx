@@ -114,13 +114,13 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 {
 	GbufferPSOutput output;
 
-	int g_nMaxSamples = 60;
-	int g_nMinSamples = 8;
-	float fHeightMapScale = 0.02;
+	int g_nMaxSamples = 100;
+	int g_nMinSamples = 12;
+	float fHeightMapScale = 0.08;
 	float fParallaxLimit = length((pin.vViewTS.xy) / pin.vViewTS.z);
 	fParallaxLimit *= fHeightMapScale;
 
-	float2 vOffset = normalize( -pin.vViewTS.xy );
+	float2 vOffset = normalize( pin.vViewTS.xy );
 	vOffset = vOffset * fParallaxLimit;
 
 	int nNumSamples = (int) lerp( g_nMinSamples, g_nMaxSamples,dot(  pin.vViewTS,  pin.vNormalTS ));
@@ -175,7 +175,7 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	float3 normalTS = vCurrSample.rgb;
 	normalTS = normalize( normalTS * 2.0f - 1.0f );
 	float3 normalWS = mul( normalTS, TtoW );
-	float3 normalVS = mul(normalWS, g_view_matrix);
+	float3 normalVS = mul(normalWS, (float3x3)g_view_matrix);
 
 
 	output.Normal = float4(normalVS, gMaterial.Shininess);	

@@ -56,5 +56,7 @@ private:
 
 	MocapGE::Timer* timer_;
 
+	float angle_;
+
 };
 

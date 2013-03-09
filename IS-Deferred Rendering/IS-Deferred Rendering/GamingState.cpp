@@ -13,7 +13,7 @@ GamingState::GamingState(void)
 	scene_ship_->AddToScene();
 
 	ship_ = new Ship(ship_model);
-	ship_->SetPos(float3(-50, 20, 0));
+	ship_->SetPos(float3(-3, 1, 0));
 
 	float3 ship_dir = ship_->GetDir();
 	float3 ship_pos = ship_->GetPos();
@@ -85,14 +85,15 @@ GamingState::GamingState(void)
 	ship_pos = float3(0,0,0);
 
 	plane_ = new D3DModel();
-	plane_->LoadFile("..\\Media\\ground.dae");
-	plane_->LoadPomTexture("..\\Media\\pom.jpg");
+	plane_->LoadFile("..\\Media\\plane.dae");
+	plane_->LoadPomTexture("..\\Media\\pom.png");
 	plane_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	Math::Scale(sacle_mat, 1);
 	Math::Translate(trans_mat, 0, 0, 0);
 	plane_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_plane_ = new SceneObject(plane_);
 	scene_plane_->AddToScene();
+	angle_ = 0;
 
 	timer_ = new Timer();
 	timer_->Retart();
@@ -161,6 +162,20 @@ void GamingState::OnKeyDown( WPARAM key_para )
 		{
 			spacekey_down_ = true;
 			ship_->HeadDown();
+			break;
+		}
+	case 'U':
+		{
+			float4x4 rotation_mat;
+			Math::YRotation(rotation_mat, angle_+=0.1);
+			plane_->SetModelMatrix(rotation_mat);
+			break;
+		}
+	case 'I':
+		{
+			float4x4 rotation_mat;
+			Math::YRotation(rotation_mat, angle_-=0.1);
+			plane_->SetModelMatrix(rotation_mat);
 			break;
 		}
 

@@ -98,7 +98,7 @@
   </library_effects>
   <library_images>
     <image id="phong1SG1F" name="phong1SG1F">
-      <init_from>file:///E:/Game%20Jam%202013/sunmap.jpg</init_from>
+      <init_from>sunmap.jpg</init_from>
       <extra>
         <technique profile="OpenCOLLADAMaya">
           <dgnode_type>kFile</dgnode_type>
