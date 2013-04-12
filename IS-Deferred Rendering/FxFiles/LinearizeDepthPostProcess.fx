@@ -9,7 +9,9 @@ cbuffer cbPerObject
 	float4x4 g_inv_view_matrix;
 };
 
-Texture2D input_tex;
+Texture2D input_tex_0;
+Texture2D input_tex_1;
+Texture2D input_tex_2;
 
 cbuffer cbPerFrame
 {
@@ -53,7 +55,7 @@ PSOutput PS(VertexOut pin)
 	float zn = 1.0f;
 	float q = zf/ (zf-zn);
 	PSOutput output;
-	float dis = input_tex.Sample(ShadowMapSampler,pin.tex).x;
+	float dis = input_tex_0.Sample(ShadowMapSampler,pin.tex).x;
 	dis = zn * q / (q - dis);
 	float2 dxdy = float2(ddx(dis), ddy(dis));
 	// G chanel for vsm

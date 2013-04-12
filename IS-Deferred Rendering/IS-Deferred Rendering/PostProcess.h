@@ -1,5 +1,5 @@
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef POSTPROCESS_H_
+#define POSTPROCESS_H_
 
 #pragma once
 
@@ -19,6 +19,7 @@ namespace MocapGE
 		void SetPPShader(ShaderObject* shander_object);
 		void SetInput(Texture* tex, size_t index);
 		void SetOutput(Texture* tex, size_t index);
+		void SetCamera(Camera* camera);
 		void Apply();
 
 	private:

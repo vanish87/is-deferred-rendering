@@ -75,7 +75,8 @@ float4 CalLighting( in float3 normal,
 float4 CalPreLighting(	 in float3 normal, 
 						 in float3 position, //view pos
 						 in float  specularPower,
-						 in float shadow)
+						 in float shadow,
+						 in float4 occlusion)
 {
 	float3 pos_eye = normalize(-position);//V
 	
@@ -151,14 +152,18 @@ float4 CalPreLighting(	 in float3 normal,
   
 						float cosDirection = dot(-pos_light, normalize(light_dir)); 
 
+						//Hermite interpolation
 						float spot = smoothstep(outer, inner, cosDirection);
 						//float d = length(pos_light);
 						//spot/= d*d;
 
+						
+						float light_occlusion = 1-saturate(dot(float4(-normalize(pos_eye),1), occlusion));
+
 						diffuse = diffuse * spot * shadow;
 						spec = spec * spot * shadow;
 
-						float4 acc_color = float4(diffuse.rgb , spec);
+						float4 acc_color = float4(diffuse.rgb , spec)* light_occlusion;
 						litColor = litColor + acc_color;
 						
 						break;

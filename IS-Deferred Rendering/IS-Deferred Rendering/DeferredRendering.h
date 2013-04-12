@@ -11,11 +11,14 @@
 #include "RenderLayout.h"
 #include "Mesh.h"
 
+#include "PostProcess.h"
 
 namespace MocapGE
 {
 	//temp solution for pp
 	class D3DShaderobject;
+	class Model;
+	class D3DModel;
 
 	class DeferredRendering
 	{
@@ -45,6 +48,7 @@ namespace MocapGE
 		FrameBuffer* gbuffer_;
 		//for Shader Resource
 		std::vector<RenderBuffer*> gbuffer_srv_;
+		std::vector<Texture*> gbuffer_tex_;
 		//for Lighting Buffer
 		FrameBuffer* lighting_buffer_;
 		RenderBuffer* lighting_srv_;
@@ -75,7 +79,16 @@ namespace MocapGE
 
 		RenderBuffer* depth_srv_;
 
-
+		D3DShaderobject* ssdo_so_;
+		PostProcess* ssdo_pp_;
+		D3DShaderobject* occlusion_blur_so_;
+		PostProcess* occlusion_xblur_pp_;
+		PostProcess* occlusion_yblur_pp_;
+ 		Texture* occlusion_tex_;
+		Texture* occlusion_blur_X_;
+ 		Texture* occlusion_blur_tex_;
+		Texture* noise_tex_;
+		RenderBuffer* occlusion_blur_srv_;
 
 
 		Mesh* fullscreen_mesh_;

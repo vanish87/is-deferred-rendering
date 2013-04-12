@@ -73,6 +73,7 @@ namespace MocapGE
 		{
 			//Add to input
 			input_srv_.push_back(shader_resource);
+			fullscreen_mesh_->GetShaderObject()->SetShaderResourceVariable("input_tex_" + std::to_string(static_cast<long long>(input_srv_.size() - 1)));
 		}
 		else
 		{
@@ -92,7 +93,11 @@ namespace MocapGE
 		re->SetDeferredRenderingState();
 		re->BindFrameBuffer(output_buffer_);
 		ShaderObject* shander_object = fullscreen_mesh_->GetShaderObject();
-		shander_object->SetReource("input_tex", input_srv_[0], 1);
+		for(size_t i = 0; i < input_srv_.size(); ++i)
+		{
+			//TODO: temp solution
+			shander_object->SetReource("input_tex_" + std::to_string(static_cast<long long>(i)), input_srv_[i], 1);
+		}
 		fullscreen_mesh_->SetRenderParameters();
 		fullscreen_mesh_->Render(0);
 		fullscreen_mesh_->EndRender();
@@ -112,11 +117,18 @@ namespace MocapGE
 		shander_object->SetVectorVariable("g_eye_pos");
 		shander_object->SetVectorVariable("g_eye_z");
 
-		shander_object->SetShaderResourceVariable("input_tex");
+		shander_object->SetShaderResourceVariable("input_tex_0");
+		shander_object->SetShaderResourceVariable("input_tex_1");
+		shander_object->SetShaderResourceVariable("input_tex_2");
 		//shander_object->SetVariable("gMaterial");
 		//shander_object->SetShaderResourceVariable("mesh_diffuse");
 		fullscreen_mesh_->SetShaderObject(shander_object);
 
+	}
+
+	void PostProcess::SetCamera( Camera* camera )
+	{
+		output_buffer_->SetFrameCamera(camera);
 	}
 
 }

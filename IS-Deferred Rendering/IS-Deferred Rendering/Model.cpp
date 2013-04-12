@@ -118,8 +118,8 @@ namespace MocapGE
 		for(unsigned int i = 0; i < meshes.size(); i++)
 		{
 			Material* mat = ProcessMaterial(meshes[i], meshes[i]->material);
-			if(i>textures_.size()-1)
-				PRINT("here");
+			//if(i>textures_.size()-1)
+			//	PRINT("here");
 			//Get the <mesh> node
 			daeElement* mesh = meshes[i]->geometry->getDescendant("mesh");
 			//Get the <source> nodes
@@ -625,7 +625,7 @@ namespace MocapGE
 																		if (domImage::domInit_from* initFrom = daeSafeCast<domImage::domInit_from>(image->getChild("init_from")))
 																			imageFile = cdom::uriToNativePath(initFrom->getValue().str());
 					textures_.push_back(LoadTexture(imageFile));
-
+					tex_srvs_.push_back(Context::Instance().GetRenderFactory().MakeRenderBuffer(textures_.back(),AT_GPU_READ,BU_SHADER_RES));
 
 
 				}

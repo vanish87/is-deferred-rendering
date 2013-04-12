@@ -123,6 +123,7 @@ void MyApp::OnMouseUp( WPARAM mouse_para, int x, int y )
 
 int main()
 {
+	 _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	Context::Instance().LoadConfig("E:\\12Fall\\Independent Study\\IS-Deferred Rendering\\IS-Deferred Rendering\\Config.xml");
 	ContextConfig cfg = Context::Instance().GetConfigure();
 	Context::Instance().Configure(cfg);
@@ -131,6 +132,7 @@ int main()
 	app.Initialize();
 	app.Run();
 
+	_CrtDumpMemoryLeaks();
 	return 0;
 }
 

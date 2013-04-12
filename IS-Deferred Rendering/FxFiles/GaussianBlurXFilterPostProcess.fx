@@ -9,7 +9,9 @@ cbuffer cbPerObject
 	float4x4 g_inv_view_matrix;
 };
 
-Texture2D input_tex;
+Texture2D input_tex_0;
+Texture2D input_tex_1;
+Texture2D input_tex_2;
 
 cbuffer cbPerFrame
 {
@@ -78,7 +80,7 @@ PSOutput PS(VertexOut pin)
     float2 fTexStart = pin.tex - ( fStartOffset * fTexelOffset );
     
     for( int i = 0; i < fFilterWidth; ++i )
-        sum += input_tex.Sample( ShadowMapSampler, float2( fTexStart + fTexelOffset * i) ) * box_filter[i];
+        sum += input_tex_0.Sample( ShadowMapSampler, float2( fTexStart + fTexelOffset * i) ) * box_filter[i];
     
     output.color =  sum / box_w;
 	return output;
@@ -86,48 +88,48 @@ PSOutput PS(VertexOut pin)
 	//pin.tex = float2(pin.pos.x * 0.5 + 0.5, -pin.pos.y * 0.5 + 0.5);
 	//make weight become true gaussian 
 		sum =0.0;
-   // sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.0284324;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.0545;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.2442;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.4026;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.2442;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.0545;
-  //  sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.0284324;
+   // sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.0284324;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.0545;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.2442;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.4026;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.2442;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.0545;
+  //  sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.0284324;
 
-// 	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.00038771;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.01330373;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.11098164;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.22508352;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.11098164;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.01330373;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.00038771;
+// 	sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.00038771;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.01330373;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.11098164;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.22508352;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.11098164;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.01330373;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.00038771;
 
-	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 4.0*blurSize, pin.tex.y)) * 0.0162162162;
-	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.0540540541;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.1216216216;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.1945945946;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.2270270270;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.1945945946;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.1216216216;
-    sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.0540540541;
-	sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 4.0*blurSize, pin.tex.y)) * 0.0162162162;
+	sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 4.0*blurSize, pin.tex.y)) * 0.0162162162;
+	sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 3.0*blurSize, pin.tex.y)) * 0.0540540541;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.1216216216;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.1945945946;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.2270270270;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.1945945946;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.1216216216;
+    sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 3.0*blurSize, pin.tex.y)) * 0.0540540541;
+	sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 4.0*blurSize, pin.tex.y)) * 0.0162162162;
 
 	//5 sample
-// 	   sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.0097576615;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.2058489191;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.5687868388;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.2058489191;
-//     sum += input_tex.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.0097576615;
+// 	   sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - 2.0*blurSize, pin.tex.y)) * 0.0097576615;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x - blurSize, pin.tex.y)) * 0.2058489191;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x, pin.tex.y)) * 0.5687868388;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + blurSize, pin.tex.y)) * 0.2058489191;
+//     sum += input_tex_0.Sample(ShadowMapSampler, float2(pin.tex.x + 2.0*blurSize, pin.tex.y)) * 0.0097576615;
 
 	
 /*  //two demension sample 
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( -3.0*ScaleU.x, -3.0*ScaleU.y ) ) * 0.015625;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( -2.0*ScaleU.x, -2.0*ScaleU.y ) )*0.09375;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( -1.0*ScaleU.x, -1.0*ScaleU.y ) )*0.234375;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( 0.0 , 0.0) )*0.3125;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( 1.0*ScaleU.x,  1.0*ScaleU.y ) )*0.234375;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( 2.0*ScaleU.x,  2.0*ScaleU.y ) )*0.09375;
-	sum += input_tex.Sample( ShadowMapSampler, pin.tex + float2( 3.0*ScaleU.x, -3.0*ScaleU.y ) ) * 0.015625;*/
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( -3.0*ScaleU.x, -3.0*ScaleU.y ) ) * 0.015625;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( -2.0*ScaleU.x, -2.0*ScaleU.y ) )*0.09375;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( -1.0*ScaleU.x, -1.0*ScaleU.y ) )*0.234375;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( 0.0 , 0.0) )*0.3125;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( 1.0*ScaleU.x,  1.0*ScaleU.y ) )*0.234375;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( 2.0*ScaleU.x,  2.0*ScaleU.y ) )*0.09375;
+	sum += input_tex_0.Sample( ShadowMapSampler, pin.tex + float2( 3.0*ScaleU.x, -3.0*ScaleU.y ) ) * 0.015625;*/
  
  
     output.color = sum;

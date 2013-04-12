@@ -51,9 +51,8 @@ namespace MocapGE
 			meshes_[i]->SetRenderParameters();
 			//set mesh's texture
 			if(textures_.size()>i)
-			{
-				RenderBuffer* tex_srv = Context::Instance().GetRenderFactory().MakeRenderBuffer(textures_[i],AT_GPU_READ,BU_SHADER_RES);
-				shader_object_->SetReource("mesh_diffuse",tex_srv, 1);
+			{				
+				shader_object_->SetReource("mesh_diffuse",tex_srvs_[i], 1);
 			}
 			//render
 			meshes_[i]->Render(pass_index);
@@ -114,7 +113,11 @@ namespace MocapGE
 			d3d_shader_object->SetShaderResourceVariable("diffuse_tex");
 			d3d_shader_object->SetShaderResourceVariable("depth_tex");
 			d3d_shader_object->SetShaderResourceVariable("normal_tex");
+			d3d_shader_object->SetShaderResourceVariable("position_tex");
 			d3d_shader_object->SetShaderResourceVariable("shadow_map_tex");
+
+			//SSDO
+			d3d_shader_object->SetShaderResourceVariable("blur_occlusion_tex");
 
 			//lighting buffer
 			d3d_shader_object->SetShaderResourceVariable("lighting_tex");

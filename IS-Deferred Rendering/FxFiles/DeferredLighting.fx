@@ -11,6 +11,9 @@ Texture2D shadow_map_tex;
 //POM
 Texture2D normal_map_tex;
 
+//SSDO
+Texture2D blur_occlusion_tex;
+
 //for lighting buffer
 Texture2D lighting_tex;
 
@@ -62,6 +65,7 @@ struct VertexOut
 {
 	float4 pos				 : SV_POSITION;
    // float3 normalVS			 : NORMAL;     //view space
+	float3 posWS             : Position;
 	float2 tex_cood			 : TEXCOORD0;
 
 	float3 normalWS			 : NORMAL;
@@ -100,6 +104,7 @@ VertexOut GbufferVS(VertexIn vin)
 	vout.normalWS = normalWS;
 	vout.tangentWS = tangentWS;
 	
+	vout.posWS = positionWS.xyz;
 
     return vout;
 }
@@ -107,8 +112,10 @@ VertexOut GbufferVS(VertexIn vin)
 
 struct GbufferPSOutput
 {
+	
 	float4 Normal			: SV_Target0;
 	float4 Diffuse			: SV_Target1;
+	float4 PositionWS       : SV_Target2;
 };
 GbufferPSOutput GbufferPS(VertexOut pin)
 {
@@ -120,7 +127,7 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	float fParallaxLimit = length((pin.vViewTS.xy) / pin.vViewTS.z);
 	fParallaxLimit *= fHeightMapScale;
 
-	float2 vOffset = normalize( pin.vViewTS.xy );
+	float2 vOffset = normalize( float2(-pin.vViewTS.x, pin.vViewTS.y) );
 	vOffset = vOffset * fParallaxLimit;
 
 	int nNumSamples = (int) lerp( g_nMinSamples, g_nMaxSamples,dot(  pin.vViewTS,  pin.vNormalTS ));
@@ -172,15 +179,19 @@ GbufferPSOutput GbufferPS(VertexOut pin)
 	float3x3 TtoW = float3x3(T, B, N);
 	//TS normal + height
 	//float3 normalTS = normal_map_tex.Sample( MeshTextureSampler, pin.tex_cood).rgb;
-	float3 normalTS = vCurrSample.rgb;
-	normalTS = normalize( normalTS * 2.0f - 1.0f );
+	//if(pom)
+	//	float3 normalTS = vCurrSample.rgb;
+	//else
+		float3 normalTS = pin.vNormalTS;
+	//normalTS = normalize( normalTS * 2.0f - 1.0f );
 	float3 normalWS = mul( normalTS, TtoW );
 	float3 normalVS = mul(normalWS, (float3x3)g_view_matrix);
 
-
-	output.Normal = float4(normalVS, gMaterial.Shininess);	
+	output.Normal = float4(normalWS, gMaterial.Shininess);	
 	//combines Mat with Tex color
 	output.Diffuse  = float4(mesh_diffuse.Sample(MeshTextureSampler, pin.tex_cood  + vFinalOffset).rgb * gMaterial.Diffuse.rgb, gMaterial.Specular.x);	
+
+	output.PositionWS = float4(pin.posWS,1.0f);
 
 	return output;
 }
@@ -192,7 +203,7 @@ struct LightingVin
 struct LightingVout
 {
 	float4 pos		: SV_POSITION;
-	float3 view_ray    : TEXCOORD;
+	float3 view_ray    : VIEWRAY;
 };
 
 LightingVout LightingVS(in LightingVin vin)
@@ -214,6 +225,7 @@ float4 LightingPS( in LightingVout pin): SV_Target
 {
 	if(0)//for debugging
 	{
+
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float3 world_pos = normal_tex.Load( samplelndices ).xyz;
 	return float4(world_pos.xyz,1.0f);
@@ -229,11 +241,11 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	float zn = 1.0f;
 	float q = zf/ (zf-zn);
 	//view space Z
-	float linear_depth = zn * q / (q - depth);
+	//float linear_depth = zn * q / (q - depth);
 
 	//float viewZProj = dot(g_eye_z, view_ray_vec);
 	//float3 positionWS = g_eye_pos + view_ray_vec * (linear_depth / viewZProj);
-	float3 positionVS = view_ray_vec * linear_depth;
+	float3 positionVS = view_ray_vec * depth;
 
 	//shadowing
 	float4 world_pos = mul(float4(positionVS, 1.0f) , g_inv_view_matrix);
@@ -291,7 +303,8 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	if(0)
 	{
 		//shadow_depth /=1000.0f;
-		return float4(shadow_map_tex.Load( samplelndices ).rrr/1000.0f, 1.0f);
+		return world_pos;
+		//return float4(shadow_map_tex.Load( samplelndices ).rrr/1000.0f, 1.0f);
 		//return float4(shadow_depth,shadow_depth,shadow_depth,1.0f);
 	}
 
@@ -301,12 +314,17 @@ float4 LightingPS( in LightingVout pin): SV_Target
 	//set for those mesh that do not want to do lighting
 	if(normal.x ==0 && normal.y ==0&& normal.z ==0)
 		return float4(1,1,1,0);
+
+	normal = mul(normal, (float3x3)g_view_matrix);
 	float shininess = normal_t.w;
 
+	float4 occlusion = blur_occlusion_tex.Load( samplelndices );
+	if(0)
+		return occlusion;
 	//float4 pre_color = lighting_tex.Load( samplelndices );
 
 	//cal lighting
-	return CalPreLighting( normal, positionVS, shininess, shadow);
+	return CalPreLighting( normal, positionVS, shininess, shadow, occlusion);
 	}
 }
 
@@ -329,7 +347,7 @@ FinalVout FinalVS(in FinalVin vin)
 
 float4 FinalPS( in FinalVout pin): SV_Target
 {
-	if(0)//for debugging
+	if(1)//for debugging
 	{
 	int3 samplelndices = int3( pin.pos.xy, 0 );
 	float4 world_pos = lighting_tex.Load( samplelndices );

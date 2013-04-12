@@ -194,6 +194,8 @@ namespace MocapGE
 			pass_desc.IAInputSignatureSize, &input_layout);
 		if(FAILED(result))PRINT("Cannot Create Input Layout");
 		d3d_imm_context_->IASetInputLayout(input_layout);
+		input_layout->Release();
+		delete[] input_layout_desc;
 
 		//IASetPrimitiveTopology
 		PrimitiveType pri_type = d3d_rl->GetPrimitive();
@@ -377,6 +379,7 @@ namespace MocapGE
 		wireframeDesc.CullMode = D3D11_CULL_BACK;
 		wireframeDesc.FrontCounterClockwise = false;
 		wireframeDesc.DepthClipEnable = true;
+		//wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
 
 		wire_frame_ = new D3DRenderState(wireframeDesc);
 

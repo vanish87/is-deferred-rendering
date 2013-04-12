@@ -38,6 +38,7 @@ namespace MocapGE
 
 		virtual void LoadPomTexture( std::string file_name_ );
 
+
 	};
 
 }

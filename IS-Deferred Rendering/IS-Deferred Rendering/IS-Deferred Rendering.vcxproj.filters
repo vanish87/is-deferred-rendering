@@ -405,6 +405,9 @@
     <CustomBuild Include="..\FxFiles\GaussianBlurYFilterPostProcess.fx">
       <Filter>FxFiles</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\FxFiles\SSDO.fx">
+      <Filter>FxFiles</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FxFiles\Rendering.fx">

@@ -6,14 +6,14 @@ using namespace MocapGE;
 GamingState::GamingState(void)
 {
 	ship_model = new D3DModel();
-	ship_model->LoadFile("..\\Media\\spacecraft_new.dae");
-	ship_model->LoadPomTexture("..\\Media\\pom.jpg");
+	ship_model->LoadFile("..\\Media\\plane_ssdo.dae");
+	//ship_model->LoadPomTexture("..\\Media\\pom.png");
 	ship_model->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
 	scene_ship_ = new SceneObject(ship_model);
 	scene_ship_->AddToScene();
 
 	ship_ = new Ship(ship_model);
-	ship_->SetPos(float3(-3, 1, 0));
+	ship_->SetPos(float3(0, 0, 0));
 
 	float3 ship_dir = ship_->GetDir();
 	float3 ship_pos = ship_->GetPos();
@@ -24,7 +24,8 @@ GamingState::GamingState(void)
 	//set init pos of camera, make it from back and upper position of ship
 	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
 	float3 cam_at = ship_pos + ship_dir * 2;
-	camera->SetView(cam_pos, cam_at, ship_up);
+	//camera->SetView(cam_pos, cam_at, ship_up);
+	camera->SetView(float3(-5,0,0), float3(0,0,0), float3(0,1,0));
 
 	cannon_1 = new D3DModel();
 	cannon_1->LoadFile("..\\Media\\gun2.dae");
@@ -85,14 +86,14 @@ GamingState::GamingState(void)
 	ship_pos = float3(0,0,0);
 
 	plane_ = new D3DModel();
-	plane_->LoadFile("..\\Media\\plane.dae");
-	plane_->LoadPomTexture("..\\Media\\pom.png");
+	//plane_->LoadFile("..\\Media\\test.dae");
+	//plane_->LoadPomTexture("..\\Media\\pom.png");
 	plane_->LoadShaderFile("..\\FxFiles\\DeferredLighting.fxo");
-	Math::Scale(sacle_mat, 1);
+	Math::Scale(sacle_mat, 5);
 	Math::Translate(trans_mat, 0, 0, 0);
 	plane_->SetModelMatrix(sacle_mat* trans_mat);
 	scene_plane_ = new SceneObject(plane_);
-	scene_plane_->AddToScene();
+	//scene_plane_->AddToScene();
 	angle_ = 0;
 
 	timer_ = new Timer();
@@ -118,18 +119,20 @@ void GamingState::Update()
  	if(!wkey_down_)
  		ship_->Stabling(true);
 
-	ship_->Update();
+	//ship_->Update();
 	float3 ship_dir = ship_->GetDir();
 	float3 ship_pos = ship_->GetPos();
 	float3 ship_up = ship_->GetUp();
 
 	Camera* camera = Context::Instance().AppInstance().GetCamera();
 
+
+
 	//update third person camera
-	float3 cam_pos = ship_pos - ship_dir * 3 + ship_up;
+	float3 cam_pos = ship_pos - ship_dir  + ship_up;
 	//std::cout<<cam_pos.x()<<" "<<cam_pos.y()<<" "<<cam_pos.z()<<"\r";
-	float3 cam_at = ship_pos + ship_dir * 2;
-	camera->SetView(cam_pos, cam_at, ship_up);
+	float3 cam_at = ship_pos;
+	//camera->SetView(cam_pos, cam_at, ship_up);
 
 	float4x4 trans_mat,sacle_mat;
 //	float3 pos = static_cast<SpotLight*>(Context::Instance().GetSceneManager().GetLights()[1])->GetPos();
@@ -144,24 +147,24 @@ void GamingState::OnKeyDown( WPARAM key_para )
 	{ 
 	case 'A':
 		{
-			ship_->TurnLeft();
+			//ship_->TurnLeft();
 			break;
 		}
 	case 'D':
 		{
-			ship_->TurnRight();
+			//ship_->TurnRight();
 			break;
 		}
 	case 'S':
 		{
-			skey_down_ = true;
-			ship_->HeadUp();
+			//skey_down_ = true;
+			//ship_->HeadUp();
 			break;
 		}
 	case 'W':
 		{
-			spacekey_down_ = true;
-			ship_->HeadDown();
+			//spacekey_down_ = true;
+			//ship_->HeadDown();
 			break;
 		}
 	case 'U':

@@ -1,6 +1,6 @@
 #include "DeferredRendering.h"
-#include "PostProcess.h"
-#include "D3DShaderobject.h"
+#include "D3DModel.h"
+
 
 namespace MocapGE
 {
@@ -68,6 +68,7 @@ namespace MocapGE
 			//create render target
 			Texture* texture_2d = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
 				1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+			gbuffer_tex_.push_back(texture_2d);
 			//Add to gbuffer
 			RenderView* render_view = Context::Instance().GetRenderFactory().MakeRenderView(texture_2d, 1, 0);
 			RenderBuffer* shader_resource = Context::Instance().GetRenderFactory().MakeRenderBuffer(texture_2d, AT_GPU_READ, BU_SHADER_RES);
@@ -128,7 +129,50 @@ namespace MocapGE
 		shadowing_buffer_->AddRenderView(render_view);
 		shadowing_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(shadowing_texture_, AT_GPU_READ, BU_SHADER_RES);
 
+		//init SSDO
+		ssdo_so_ = new D3DShaderobject();;
+		ssdo_so_->LoadFxoFile("..\\FxFiles\\SSDO.fxo");
+		ssdo_so_->SetTechnique("PPTech");
 
+		D3DModel *random_tex_dummy = new D3DModel();
+		noise_tex_ = random_tex_dummy->LoadTexture("..\\Media\\noise.png");
+
+		occlusion_tex_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+		occlusion_blur_tex_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+		occlusion_blur_X_ = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
+			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
+		occlusion_blur_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(occlusion_blur_tex_, AT_GPU_READ, BU_SHADER_RES);
+
+		ssdo_pp_ = new PostProcess();
+		ssdo_pp_->SetPPShader(ssdo_so_);
+		//position
+		ssdo_pp_->SetInput(gbuffer_tex_[2], 0);
+		//normal
+		ssdo_pp_->SetInput(gbuffer_tex_[0], 1);
+		ssdo_pp_->SetInput(noise_tex_, 2 );
+		ssdo_pp_->SetOutput(occlusion_tex_, 0);
+
+		occlusion_blur_so_ = new D3DShaderobject();
+		occlusion_blur_so_->LoadFxoFile("..\\FxFiles\\GaussianBlurXFilterPostProcess.fxo");
+		occlusion_blur_so_->SetTechnique("PPTech");
+
+		occlusion_xblur_pp_ = new PostProcess();
+		occlusion_xblur_pp_->SetPPShader(occlusion_blur_so_);
+		occlusion_xblur_pp_->SetInput(occlusion_tex_, 0);
+		occlusion_xblur_pp_->SetOutput(occlusion_blur_X_, 0);
+
+		occlusion_blur_so_->LoadFxoFile("..\\FxFiles\\GaussianBlurYFilterPostProcess.fxo");
+		occlusion_blur_so_->SetTechnique("PPTech");
+
+		occlusion_yblur_pp_ = new PostProcess();
+		occlusion_yblur_pp_->SetPPShader(occlusion_blur_so_);
+		occlusion_yblur_pp_->SetInput(occlusion_blur_X_, 0);
+		occlusion_yblur_pp_->SetOutput(occlusion_blur_tex_, 0);
+
+		
+		
 		//init lighting buffer
 		Texture* texture_2d = Context::Instance().GetRenderFactory().MakeTexture2D(nullptr, render_setting.width, render_setting.height,
 			1, 1, R32G32B32A32_F, render_setting.msaa4x ==1 ? 4 : 1, 0, AT_GPU_WRITE, TU_SR_RT);
@@ -261,6 +305,8 @@ namespace MocapGE
 				(*re)->EndRender();
 			}
 
+
+
 			//pass 1
 			//bind lighting buffer
 			lighting_buffer_->SetFrameCamera(back_frame_camera);
@@ -316,6 +362,7 @@ namespace MocapGE
 				shader_object->SetRawData("light", &light_buffer[i], sizeof(LightStruct));
 				Camera* sm_camera = lights[i]->GetCamera();
 				float4x4 view_proj_mat = sm_camera->GetViewMatirx() * sm_camera->GetProjMatrix();
+				//TODO : handle point light
 				//Shadowing spot
 				if(type == LT_SPOT)
 				{
@@ -346,10 +393,16 @@ namespace MocapGE
 				shadow_map_xblur_pp_->Apply();
 				shadow_map_yblur_pp_->Apply();
 
+				ssdo_pp_->SetCamera(back_frame_camera);
+				ssdo_pp_->Apply();
+				occlusion_xblur_pp_->Apply();
+ 				occlusion_yblur_pp_->Apply();
+
 				//depth_srv_ = Context::Instance().GetRenderFactory().MakeRenderBuffer(gbuffer_->GetDepthTexture(), AT_GPU_READ, BU_SHADER_RES); 			
 				shader_object->SetReource("depth_tex", depth_srv_, 1);
 				shader_object->SetReource("normal_tex", gbuffer_srv_[0], 1);
 				shader_object->SetReource("shadow_map_tex", shadow_blur_srv_, 1);
+				shader_object->SetReource("blur_occlusion_tex", occlusion_blur_srv_, 1);
 
 				//shader_object->SetReource("lighting_tex", lighting_srv_, 1);
 				//do lighting
